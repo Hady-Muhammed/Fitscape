@@ -1,70 +1,41 @@
-# Getting Started with Create React App
+# Fitscape 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## A fitness application which you can use to track your workouts in the gym!
 
-## Available Scripts
+I enjoyed building this project so much because fitness is kinda my passion , so i created this
+to help me evaluate the training volume and track my training sessions. **it's basically built with** : <br/><br/>
+[![My Skills](https://skills.thijs.gg/icons?i=react,tailwind,js,mongodb,nodejs)](https://skills.thijs.gg)
 
-In the project directory, you can run:
 
-### `npm start`
+## Features 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* Exciting user interface 
+* Implentation of Route animations
+* Light/dark mode supported in the admin module
+* Arabic lang supported in the admin module
+### User authorities
+  * liking the app in the footer 
+  * evaluting trainig volume
+  * tracking your workouts
+  * viewing top exercises to build muscle and learning how to perform them by watch their tutorials
+  * sending support emails to the admin
+  * going to the account section where you can edit your account , seeing how many workouts you've done so far , etc...
+  * checking the best of all time champions
+### Admin authorites
+  * viewing how many users registered , the total likes of the app and recent emails
+  * Add/update/delete Champions in the main app which will be visible to users
+  * Add/update/delete Exercises in the main app which will be visible to users
+  * Deleting of users' accounts
+  * filtering accounts
 
-### `npm test`
+## Other information
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+\- All the user interfaces and project designs are completely taken from my head or inspired from other websites/apps <br/>
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+\- I did my best to follow along the best practices
+for building a good software
+like
+ * Elminating redudancy
+ * SOLID principles
+ * DRY 

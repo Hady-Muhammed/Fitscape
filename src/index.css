@@ -1,13 +1,777 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+/* Global Rules */
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Roboto", sans-serif;
+  overflow-x: hidden;
+}
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer components {
+  .main-color {
+    @apply bg-[#221713];
+  }
+}
+
+li:hover,
+.eval:hover,
+.create-new:hover {
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff,
+    2px 2px 2px rgba(206, 89, 55, 0);
+}
+main {
+  background: url(./assets/landing.webp) fixed;
+  height: 100vh;
+}
+.champs {
+  background: url(./assets/landing2.webp) fixed;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+.volume {
+  background: url(./assets/workoutx.webp) fixed;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+.workout {
+  background: url(./assets/workout.webp) fixed;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+.contact {
+  background: url(./assets/contact.webp) fixed;
+  background-size: cover;
+  background-position: top;
+  height: 100vh;
+}
+.animate-bounce {
+  animation: bounce 3s infinite !important;
+}
+.signin {
+  background: url(./assets/x.webp) fixed;
+  background-size: cover;
+  background-position: top;
+  height: 100vh;
+}
+.dashboard {
+  background: url(./assets/dashboard.webp) fixed;
+  background-size: cover;
+  background-position: top;
+  height: 100vh;
+}
+.acc {
+  background: url(./assets/acc.jpeg) fixed;
+  background-size: cover;
+  background-position: top;
+  height: 100vh;
+}
+._404 {
+  background: url(./assets/404.jpg) fixed;
+  background-size: cover;
+  background-position: center 20%;
+  height: 100vh;
+}
+/* checkbox */
+.checkbox {
+  display: flex;
+  align-items: center;
+  transform: scale(1);
+}
+
+#remember {
+  height: 1rem;
+  width: 1rem;
+  margin: 5px;
+  display: inline-block;
+  appearance: none;
+  position: relative;
+  background-color: #f2ecff;
+  border-radius: 15%;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+#remember::after {
+  content: "";
+  display: block;
+  height: 0.9rem;
+  width: 0.4rem;
+  border-bottom: 0.31rem solid #a0ffe7;
+  border-right: 0.31rem solid #a0ffe7;
+  opacity: 0;
+  transform: rotate(45deg) translate(-50%, -50%);
+  position: absolute;
+  top: 45%;
+  left: 20%;
+  transition: 0.25s ease;
+}
+
+#remember::before {
+  content: "";
+  display: block;
+  height: 0;
+  width: 0;
+  background-color: blue;
+  border-radius: 35%;
+  opacity: 0.5;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transition: 0.3s ease;
+}
+
+#remember:checked::before {
+  height: 130%;
+  width: 130%;
+  opacity: 100%;
+}
+
+#remember:checked::after {
+  opacity: 100%;
+}
+
+.checkbox_span {
+  font-size: 2rem;
+}
+/* checkbox */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* button */
+.btn {
+  position: relative;
+  color: white;
+  transition: all 0.3s;
+}
+.btn span {
+  transition: all 0.3s;
+  transform: scale(1, 1);
+}
+
+.btn::before,
+.btn::after {
+  content: "";
+  position: absolute;
+  transition: all 0.3s;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.btn-one::before {
+  left: 4px;
+  z-index: 1;
+  opacity: 0;
+  background: rgb(37 99 235 / 0.7);
+  transform: scale(0.1, 1);
+}
+
+.btn-one:hover::before {
+  opacity: 1;
+  transform: scale(1, 1);
+}
+
+.btn-one::after {
+  transition: all 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-one:hover::after {
+  transform: scale(1, 0.1);
+  opacity: 0;
+}
+
+.button-89 {
+  --b: 3px; /* border thickness */
+  --s: 0.45em; /* size of the corner */
+  --color: white;
+
+  padding: calc(0.5em + var(--s)) calc(0.9em + var(--s));
+  color: var(--color);
+  --_p: var(--s);
+  background: conic-gradient(
+      from 90deg at var(--b) var(--b),
+      #0000 90deg,
+      var(--color) 0
+    )
+    var(--_p) var(--_p) / calc(100% - var(--b) - 2 * var(--_p))
+    calc(100% - var(--b) - 2 * var(--_p));
+  transition: 0.3s linear, color 0s, background-color 0s;
+  outline: var(--b) solid #0000;
+  outline-offset: 0.6em;
+  font-size: 16px;
+
+  border: 0;
+
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-89:hover,
+.button-89:focus-visible {
+  --_p: 0px;
+  outline-color: var(--color);
+  outline-offset: 0.05em;
+}
+
+.button-89:active {
+  background: var(--color);
+  color: #fff;
+}
+.contt {
+  box-shadow: 0 0 20px 10px #795548;
+}
+
+.send {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 225%);
+  text-decoration: none;
+  display: inline-block;
+  font-family: Montserrat;
+  padding: 0.5em 2em;
+  transition: 0.02s 0.2s cubic-bezier(0.1, 0, 0.1, 1);
+}
+.font-mont {
+  font-family: Montserrat;
+}
+.send::before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 100%;
+  bottom: 0;
+  background: white;
+  transition: 0.3s 0.2s cubic-bezier(0.1, 0, 0.1, 1),
+    left 0.3s cubic-bezier(0.1, 0, 0.1, 1);
+  z-index: -1;
+}
+.send::after {
+  content: "";
+  display: inline-block;
+  background-image: url("https://cdn-icons-png.flaticon.com/128/109/109617.png");
+  position: absolute;
+  top: 0;
+  left: calc(100% - 3em);
+  right: 3em;
+  bottom: 0;
+  background-size: 1.5em;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: right 0.3s cubic-bezier(0.1, 0, 0.1, 1);
+}
+.send:hover {
+  padding: 0.5em 3.5em 0.5em 0.5em;
+}
+.send:hover::before {
+  left: calc(100% - 3em);
+  right: 0;
+  border: 1px solid black;
+  transition: 0.3s cubic-bezier(0.1, 0, 0.1, 1),
+    left 0.3s 0.2s cubic-bezier(0.1, 0, 0.1, 1);
+}
+.send:hover::after {
+  right: 0;
+  transition: right 0.3s 0.2s cubic-bezier(0.1, 0, 0.1, 1);
+}
+
+/* Like */
+
+#heart-svg {
+  cursor: pointer;
+  overflow: visible;
+  width: 50px;
+}
+#heart-svg #heart {
+  transform-origin: center;
+  animation: animateHeartOut 0.3s linear forwards;
+}
+#heart-svg #main-circ {
+  transform-origin: 29.5px 29.5px;
+}
+
+#checkbox {
+  display: none;
+}
+
+#checkbox:checked + label svg #heart {
+  transform: scale(0.2);
+  fill: #e2264d;
+  animation: animateHeart 0.3s linear forwards 0.25s;
+}
+#checkbox:checked + label svg #main-circ {
+  transition: all 2s;
+  animation: animateCircle 0.3s linear forwards;
+  opacity: 1;
+}
+#checkbox:checked + label svg #grp1 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+#checkbox:checked + label svg #grp1 #oval1 {
+  transform: scale(0) translate(0, -30px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp1 #oval2 {
+  transform: scale(0) translate(10px, -50px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp2 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+#checkbox:checked + label svg #grp2 #oval1 {
+  transform: scale(0) translate(30px, -15px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp2 #oval2 {
+  transform: scale(0) translate(60px, -15px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp3 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+#checkbox:checked + label svg #grp3 #oval1 {
+  transform: scale(0) translate(30px, 0px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp3 #oval2 {
+  transform: scale(0) translate(60px, 10px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp4 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+#checkbox:checked + label svg #grp4 #oval1 {
+  transform: scale(0) translate(30px, 15px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp4 #oval2 {
+  transform: scale(0) translate(40px, 50px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp5 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+#checkbox:checked + label svg #grp5 #oval1 {
+  transform: scale(0) translate(-10px, 20px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp5 #oval2 {
+  transform: scale(0) translate(-60px, 30px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp6 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+#checkbox:checked + label svg #grp6 #oval1 {
+  transform: scale(0) translate(-30px, 0px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp6 #oval2 {
+  transform: scale(0) translate(-60px, -5px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp7 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+#checkbox:checked + label svg #grp7 #oval1 {
+  transform: scale(0) translate(-30px, -15px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp7 #oval2 {
+  transform: scale(0) translate(-55px, -30px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+#checkbox:checked + label svg #grp2 {
+  opacity: 1;
+  transition: 0.1s opacity 0.3s;
+}
+#checkbox:checked + label svg #grp3 {
+  opacity: 1;
+  transition: 0.1s opacity 0.3s;
+}
+#checkbox:checked + label svg #grp4 {
+  opacity: 1;
+  transition: 0.1s opacity 0.3s;
+}
+#checkbox:checked + label svg #grp5 {
+  opacity: 1;
+  transition: 0.1s opacity 0.3s;
+}
+#checkbox:checked + label svg #grp6 {
+  opacity: 1;
+  transition: 0.1s opacity 0.3s;
+}
+#checkbox:checked + label svg #grp7 {
+  opacity: 1;
+  transition: 0.1s opacity 0.3s;
+}
+
+@keyframes animateCircle {
+  40% {
+    transform: scale(10);
+    opacity: 1;
+    fill: #dd4688;
+  }
+  55% {
+    transform: scale(11);
+    opacity: 1;
+    fill: #d46abf;
+  }
+  65% {
+    transform: scale(12);
+    opacity: 1;
+    fill: #cc8ef5;
+  }
+  75% {
+    transform: scale(13);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.5;
+  }
+  85% {
+    transform: scale(17);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.2;
+  }
+  95% {
+    transform: scale(18);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.1;
+  }
+  100% {
+    transform: scale(19);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0;
+  }
+}
+@keyframes animateHeart {
+  0% {
+    transform: scale(0.2);
+  }
+  40% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes animateHeartOut {
+  0% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* dark mode button */
+
+:root {
+  /** sunny side **/
+  --blue-background: #c2e9f6;
+  --blue-border: #72cce3;
+  --blue-color: #96dcee;
+  --yellow-background: #fffaa8;
+  --yellow-border: #f5eb71; /** dark side **/
+  --indigo-background: #808fc7;
+  --indigo-border: #5d6baa;
+  --indigo-color: #6b7abb;
+  --gray-border: #e8e8ea;
+  --gray-dots: #e8e8ea; /** general **/
+  --white: #fff;
+}
+.toggle--checkbox {
+  display: none;
+}
+.toggle--checkbox:checked {
+  /** This will all flip from sun to moon **/ /** Change the label color **/
+}
+.toggle--checkbox:checked + .toggle--label {
+  background: var(--indigo-color);
+  border-color: var(
+    --indigo-border
+  ); /** Change the cloud to stars **/ /** Change the sun into the moon **/ /** Show the dimples on the moon **/
+}
+.toggle--checkbox:checked + .toggle--label .toggle--label-background {
+  left: 60px;
+  width: 5px;
+}
+.toggle--checkbox:checked + .toggle--label .toggle--label-background:before {
+  width: 5px;
+  height: 5px;
+  top: -25px;
+}
+.toggle--checkbox:checked + .toggle--label .toggle--label-background:after {
+  width: 5px;
+  height: 5px;
+  left: -30px;
+  top: 20px;
+}
+.toggle--checkbox:checked + .toggle--label:before {
+  background: var(--white);
+  border-color: var(--gray-border);
+  animation-name: switch;
+  animation-duration: 350ms;
+  animation-fill-mode: forwards;
+}
+.toggle--checkbox:checked + .toggle--label:after {
+  transition-delay: 350ms;
+  opacity: 1;
+}
+.toggle--label {
+  /** Placeholder element, starting at blue **/
+  width: 200px;
+  height: 100px;
+  background: var(--blue-color);
+  border-radius: 100px;
+  border: 5px solid var(--blue-border);
+  display: flex;
+  position: relative;
+  transition: all 350ms ease-in; /** The sun cloud and moon stars **/ /** Sun/Moon element **/ /** Gray dots on the moon **/
+}
+.toggle--label-background {
+  width: 10px;
+  height: 5px;
+  border-radius: 5px;
+  position: relative;
+  background: var(--white);
+  left: 135px;
+  top: 45px;
+  transition: all 150ms ease-in;
+}
+.toggle--label-background:before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  width: 40px;
+  height: 5px;
+  border-radius: 5px;
+  background: var(--white);
+  left: -20px;
+  transition: all 150ms ease-in;
+}
+.toggle--label-background:after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  width: 40px;
+  height: 5px;
+  border-radius: 5px;
+  background: var(--white);
+  left: -10px;
+  transition: all 150ms ease-in;
+}
+.toggle--label:before {
+  animation-name: reverse;
+  animation-duration: 350ms;
+  animation-fill-mode: forwards;
+  transition: all 350ms ease-in;
+  content: "";
+  width: 82px;
+  height: 82px;
+  border: 5px solid var(--yellow-border);
+  top: 4px;
+  left: 4px;
+  position: absolute;
+  border-radius: 82px;
+  background: var(--yellow-background);
+}
+.toggle--label:after {
+  transition-delay: 0ms;
+  transition: all 250ms ease-in;
+  position: absolute;
+  content: "";
+  box-shadow: var(--gray-dots) -13px 0 0 2px, var(--gray-dots) -24px 14px 0 -2px;
+  left: 143px;
+  top: 23px;
+  width: 10px;
+  height: 10px;
+  background: transparent;
+  border-radius: 50%;
+  opacity: 0;
+}
+@keyframes switch {
+  0% {
+    left: 4px;
+  }
+  60% {
+    left: 4px;
+    width: 112px;
+  }
+  100% {
+    left: 104px;
+    width: 82px;
+  }
+}
+@keyframes reverse {
+  0% {
+    left: 104px;
+    width: 82px;
+  }
+  60% {
+    left: 72px;
+    width: 112px;
+  }
+  100% {
+    left: 4px;
+  }
+}
+
+/* on off button */
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  height: 54px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 45px;
+  width: 45px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+#zas:checked + .slider {
+  background-color: #2563eb;
+}
+
+#zas:focus + .slider {
+  box-shadow: 0 0 1px #2563eb;
+}
+
+#zas:checked + .slider:before {
+  -webkit-transform: translateX(67px);
+  -ms-transform: translateX(67px);
+  transform: translateX(67px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.btnfos-4 {
+  border: 1px solid;
+  overflow: hidden;
+  position: relative;
+}
+.btnfos-4 span {
+  z-index: 20;
+}
+.btnfos-4:after {
+  background: #fff;
+  content: "";
+  height: 155px;
+  left: -75px;
+  opacity: 0.2;
+  position: absolute;
+  top: -50px;
+  width: 50px;
+  -webkit-transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+  -webkit-transform: rotate(35deg);
+  -ms-transform: rotate(35deg);
+  transform: rotate(35deg);
+  z-index: 10;
+}
+
+.btnfos-4:hover:after {
+  left: 120%;
+  -webkit-transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.zz {
+  -webkit-clip-path: polygon(100% 0, 0% 100%, 0 0);
+  clip-path: polygon(100% 0, 0% 100%, 0 0);
 }
