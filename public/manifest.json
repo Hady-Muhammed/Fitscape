@@ -8,17 +8,17 @@
       "type": "image/x-icon"
     },
     {
-      "src": "../src/assets/fitlogo.png",
+      "src": "logo-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "../src/assets/fitlogo.png",
+      "src": "logo-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "./",
   "display": "standalone",
   "theme_color": "#000",
   "background_color": "#221713"

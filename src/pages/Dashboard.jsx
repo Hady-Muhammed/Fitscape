@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import userr from "../assets/user.jpg";
 import { enviroment } from "../enviroment";
 import { Line } from "react-chartjs-2";
+import Pako from "pako";
 
 const Dashboard = () => {
   // Global States
@@ -247,7 +248,7 @@ const Dashboard = () => {
                     src={
                       avatar === "default" || avatar === ""
                         ? userr
-                        : enviroment.API_URL + "/" + avatar
+                        : Pako.inflate(avatar, { to: 'string' })
                     }
                     alt="profile"
                   />

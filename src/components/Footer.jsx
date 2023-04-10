@@ -46,7 +46,6 @@ const Footer = () => {
         setVisible(true);
       }
     } catch (err) {
-      toast.error(err.message);
     }
   };
   const scrollToTop = () => {

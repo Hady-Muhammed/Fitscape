@@ -7,8 +7,11 @@ import { BsCheckCircleFill } from "react-icons/bs";
 import Swal from "sweetalert2";
 import ScrollAnimation from "react-animate-on-scroll";
 import { GiCheckMark } from "react-icons/gi";
+import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { enviroment } from "../enviroment";
+import Pako from "pako";
+
 const UserAccount = () => {
   // States
   const [workoutsDone, setWorkoutsDone] = useState(0);
@@ -36,19 +39,18 @@ const UserAccount = () => {
       const token = localStorage.getItem("token");
       const { email } = jwtDecode(token);
       const file = e.target.files[0];
-      let formData = new FormData();
-      formData.append("email", email);
-      formData.append("avatar", file);
-      await axios.post(enviroment.API_URL + "/api/users/uploadImg", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const base64String = await fileToBase64(file);
+      const compressedString = Pako.gzip(base64String);
+      await axios.post(enviroment.API_URL + "/api/users/uploadImg", {
+        email,
+        file: compressedString,
       });
       getAvatar();
     } catch (err) {
-      toast.error(err.message);
+      toast.error("Picture is too large")
     }
   };
+
   const getAvatar = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -56,7 +58,8 @@ const UserAccount = () => {
       const res = await axios.get(
         enviroment.API_URL + `/api/users/getAvatar/${email}`
       );
-      setAvatar(res?.data?.avatar);
+      const image = Pako.inflate(res?.data?.avatar, { to: 'string' });
+      setAvatar(image);
     } catch (err) {
       toast.error(err.message);
     }
@@ -134,7 +137,7 @@ const UserAccount = () => {
               src={
                 avatar === "default" || avatar === ""
                   ? userr
-                  : enviroment.API_URL + "/" + avatar
+                  : avatar
               }
               alt="userImg"
             />
@@ -216,3 +219,12 @@ const UserAccount = () => {
 };
 
 export default UserAccount;
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+}

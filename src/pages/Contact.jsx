@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import Loader from "../components/Loader";
-import { toast } from "react-toastify";
 import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
+import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../enviroment";
+import { toast } from "react-toastify";
 
 const Contact = () => {
   // States

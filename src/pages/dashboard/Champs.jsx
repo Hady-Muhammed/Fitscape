@@ -9,6 +9,7 @@ import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
 import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
+import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../../enviroment";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 

@@ -7,6 +7,7 @@ import swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { Backdrop, Box, Fade, Modal } from "@mui/material";
 import ScrollAnimation from "react-animate-on-scroll";
+import "react-toastify/dist/ReactToastify.css";
 import "animate.css/animate.min.css";
 import { enviroment } from "../../enviroment";
 const DashbNav = lazy(() => import("../../components/DashbNav"));

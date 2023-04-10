@@ -83,7 +83,7 @@ const Tables = () => {
         enviroment.API_URL +
           `/api/users/retrieveRow/?email=${email}&date=${date}&id=${id}`
       );
-      console.log(res)
+      console.log(res);
       setExer(res.data.exer);
       setSet1(res.data.set1);
       setSet2(res.data.set2);
@@ -267,7 +267,6 @@ const Tables = () => {
                             <button
                               className="flex items-center bg-red-700 text-white p-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
                               onClick={(e) => {
-                                // e.target.parentElement.parentElement.parentElement.style.display = 'none';
                                 deleteRow(row._id);
                               }}
                             >

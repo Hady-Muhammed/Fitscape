@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState, lazy } from "react";
-import { toast } from "react-toastify";
 import { enviroment } from "../enviroment";
 import { exercises } from "../exercisesData";
 const ExerciseCard = lazy(() => import("../components/ExerciseCard"));
@@ -11,12 +10,10 @@ const Exercises = () => {
   // Functions
   const getAllExercises = async () => {
     try {
-      const res = await axios.get(
-        enviroment.API_URL +"/api/exercises"
-      );
+      const res = await axios.get(enviroment.API_URL + "/api/exercises");
       setDbExercises(res.data.exers);
     } catch (error) {
-      toast.error(error.message);
+      console.error(error.message);
     }
   };
   // Effects

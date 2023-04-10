@@ -6,6 +6,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../../enviroment";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 

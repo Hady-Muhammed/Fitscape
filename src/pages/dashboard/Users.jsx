@@ -10,12 +10,14 @@ import TableRow from "@mui/material/TableRow";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import swal from "sweetalert2";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import ScrollAnimation from "react-animate-on-scroll";
 import { BsSearch } from "react-icons/bs";
 import Loader from "../../components/Loader";
 import userr from "../../assets/user.jpg";
 import { enviroment } from "../../enviroment";
+import Pako from "pako";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 
 const Users = () => {
@@ -198,7 +200,7 @@ const Users = () => {
                                   src={
                                     avatar === "default" || avatar === ""
                                       ? userr
-                                      : enviroment.API_URL + "/" + avatar
+                                      : Pako.inflate(avatar, { to: 'string' })
                                   }
                                   alt="profile"
                                 />
