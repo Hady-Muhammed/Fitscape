@@ -15,9 +15,12 @@ jobs:
           script: |
             const teams = await github.teams
             console.log(teams) 
-            await github.pulls.requestReviewers({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number,
-              reviewers: reviewers
-            });
+            const github = await github
+            console.log(github)
+
+# await github.pulls.requestReviewers({
+#   owner: context.repo.owner,
+#   repo: context.repo.repo,
+#   pull_number: context.payload.pull_request.number,
+#   reviewers: reviewers
+# });
