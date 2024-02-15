@@ -10,9 +10,7 @@ const _404Page = () => {
         <h1 className="text-white z-10 text-9xl">404</h1>
         <div className="text-center text-white z-10">
           <p className="text-2xl">Page not found</p>
-          <p className="text-2xl">
-            We couldn't find the page you were looking for.
-          </p>
+          <p className="text-2xl"></p>
         </div>
         <Link
           className="text-white bg-[#795548] hover:bg-[#5f443a] duration-300 rounded-md px-6 p-3 z-10 shadow shadow-white"
