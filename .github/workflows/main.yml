@@ -13,13 +13,14 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: members } = await github.teams.listMembersInOrg({
-              org: 'your-organization-name',
-              team_slug: 'your-team-name'
-            });
+            # const { data: members } = await github.teams.listMembersInOrg({
+            #   org: 'your-organization-name',
+            #   team_slug: 'your-team-name'
+            # });
 
-            const reviewers = members.map(member => member.login);
-
+            # const reviewers = members.map(member => member.login);
+            const teams = await github.teams
+            echo teams
             await github.pulls.requestReviewers({
               owner: context.repo.owner,
               repo: context.repo.repo,
