@@ -8,7 +8,6 @@ const Champions = () => {
   return (
     <>
       <section className="champs flex justify-center items-center relative">
-        {/* Overlay Screen */}
         <div className="absolute w-full h-full left-0 top-0 bg-black/60 "></div>
         {/* Logo */}
         <Logo />
