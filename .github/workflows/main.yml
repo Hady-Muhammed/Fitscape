@@ -14,9 +14,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const teams = await github.teams
-            console.log(teams) 
-            const github = await github
-            console.log(github)
+            console.log(teams)
 
 # await github.pulls.requestReviewers({
 #   owner: context.repo.owner,
