@@ -8,11 +8,8 @@ jobs:
   assign-reviewers:
     runs-on: ubuntu-latest
     steps:
-      - name: Assign Reviewers
-        uses: actions/github-script@v7
+      - name: Add Pull Request Reviewer
+        uses: AveryCameronUofR/add-reviewer-gh-action@1.0.3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            console.log(github.repos)
-            console.log(github.pulls)
-            console.log(context)
+          reviewers: "muhammed-elsherif,mohamed2410933"
+          token: ${{ secrets.GITHUB_TOKEN }}
