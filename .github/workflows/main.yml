@@ -13,4 +13,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            console.log(github)
+            console.log(github.repos)
+            console.log(github.pulls)
+            console.log(context)
