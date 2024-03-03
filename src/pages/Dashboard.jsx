@@ -16,43 +16,36 @@ const Dashboard = () => {
   // Global States
   const darkMode = useSelector((state) => state.theme.darkMode);
   const lang = useSelector((state) => state.theme.language);
-  // States
   const [emails, setEmails] = useState([]);
   const [user, setUsers] = useState([]);
   const [likes, setLikes] = useState([]);
   const [chartData] = useState({
-    labels: [2018,2019,2020,2021,2022], 
+    labels: [2018, 2019, 2020, 2021, 2022],
     datasets: [
       {
         label: "Money Gained ",
-        data: [50,60,40,50,30],
-        backgroundColor: [
-          "blue",
-          "blue",
-          "blue",
-          "blue",
-          "blue"
-        ],
+        data: [50, 60, 40, 50, 30],
+        backgroundColor: ["blue", "blue", "blue", "blue", "blue"],
         borderColor: "#2563eb",
         borderWidth: 2,
-      }
+      },
     ],
-  })
+  });
   const [chartOptions] = useState({
     plugins: {
       title: {
         display: true,
-        text: "Users Gained between 2016-2020"
+        text: "Users Gained between 2016-2020",
       },
       legend: {
-        display: false
+        display: false,
       },
     },
     tension: 0.4,
     animation: {
-        delay: 1200
+      delay: 1200,
     },
-  })
+  });
   // Functions
   const getRecentEmails = async () => {
     const res = await axios.get(enviroment.API_URL + "/api/users/emails/3");
@@ -215,10 +208,7 @@ const Dashboard = () => {
               </p>
             </div>
             <div className="p-5">
-              <Line
-                data={chartData}
-                options={chartOptions}
-              />
+              <Line data={chartData} options={chartOptions} />
             </div>
           </ScrollAnimation>
         </div>
@@ -248,7 +238,7 @@ const Dashboard = () => {
                     src={
                       avatar === "default" || avatar === ""
                         ? userr
-                        : Pako.inflate(avatar, { to: 'string' })
+                        : Pako.inflate(avatar, { to: "string" })
                     }
                     alt="profile"
                   />
