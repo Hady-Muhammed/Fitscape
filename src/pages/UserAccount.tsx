@@ -10,7 +10,8 @@ import { GiCheckMark } from "react-icons/gi";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { enviroment } from "../enviroment";
-import Pako from "pako";
+import Pako, { Data } from "pako";
+import { Token } from "../types/token";
 
 const UserAccount = () => {
   // States
@@ -23,23 +24,23 @@ const UserAccount = () => {
   // Functions
   const getWorkoutsDone = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const { email } = jwtDecode(token);
+      const token = localStorage.getItem("token") || "";
+      const { email } = jwtDecode(token) as Token;
       const res = await axios.get(
         enviroment.API_URL + `/api/users/getAllWorkouts/${email}`
       );
       setWorkoutsDone(res?.data?.workouts?.length);
-    } catch (err) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
 
-  const uploadAvatar = async (e) => {
+  const uploadAvatar = async (e: any) => {
     try {
-      const token = localStorage.getItem("token");
-      const { email } = jwtDecode(token);
+      const token = localStorage.getItem("token") || "";
+      const { email } = jwtDecode(token) as Token;
       const file = e.target.files[0];
-      const base64String = await fileToBase64(file);
+      const base64String: any = await fileToBase64(file);
       const compressedString = Pako.gzip(base64String);
       await axios.post(enviroment.API_URL + "/api/users/uploadImg", {
         email,
@@ -47,40 +48,40 @@ const UserAccount = () => {
       });
       getAvatar();
     } catch (err) {
-      toast.error("Picture is too large")
+      toast.error("Picture is too large");
     }
   };
 
   const getAvatar = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const { email } = jwtDecode(token);
+      const token = localStorage.getItem("token") || "";
+      const { email } = jwtDecode(token) as Token;
       const res = await axios.get(
         enviroment.API_URL + `/api/users/getAvatar/${email}`
       );
-      const image = Pako.inflate(res?.data?.avatar, { to: 'string' });
+      const image = Pako.inflate(res?.data?.avatar, { to: "string" });
       setAvatar(image);
-    } catch (err) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
   const getUser = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const { email } = jwtDecode(token);
+      const token = localStorage.getItem("token") || "";
+      const { email } = jwtDecode(token) as Token;
       const res = await axios.get(
         enviroment.API_URL + `/api/users/getUser/${email}`
       );
       setName(res.data.user.name);
       setEmail(res.data.user.email);
-    } catch (err) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
   const updateUser = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const { email } = jwtDecode(token);
+      const token = localStorage.getItem("token") || "";
+      const { email } = jwtDecode(token) as Token;
       if (password !== "123456") {
         await axios.post(enviroment.API_URL + `/api/users/updateUser/`, {
           email,
@@ -98,7 +99,7 @@ const UserAccount = () => {
         "your info has been edited",
         "success"
       );
-    } catch (err) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
@@ -134,11 +135,7 @@ const UserAccount = () => {
             </label>
             <img
               className="w-full h-full"
-              src={
-                avatar === "default" || avatar === ""
-                  ? userr
-                  : avatar
-              }
+              src={avatar === "default" || avatar === "" ? userr : avatar}
               alt="userImg"
             />
           </div>
@@ -220,7 +217,7 @@ const UserAccount = () => {
 
 export default UserAccount;
 
-function fileToBase64(file) {
+function fileToBase64(file: any) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);

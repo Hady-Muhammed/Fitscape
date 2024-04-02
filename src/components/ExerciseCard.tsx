@@ -1,7 +1,18 @@
 import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
-
-const ExerciseCard = ({ title, img, desc, tutorial }) => {
+import React, { FC } from "react";
+interface ExerciseCardProps {
+  title: string;
+  img: string;
+  desc: string;
+  tutorial: string;
+}
+const ExerciseCard: FC<ExerciseCardProps> = ({
+  title,
+  img,
+  desc,
+  tutorial,
+}) => {
   return (
     <ScrollAnimation offset={300} animateIn="animate__fadeInUp">
       <div className="text-white text-center space-y-5">

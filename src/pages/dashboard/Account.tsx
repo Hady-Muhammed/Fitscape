@@ -6,19 +6,20 @@ import axios from "axios";
 import ScrollAnimation from "react-animate-on-scroll";
 import { useSelector } from "react-redux";
 import { enviroment } from "../../enviroment";
+import { Token } from "../../types/token";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 
 const Account = () => {
   // Global States
-  const darkMode = useSelector((state) => state.theme.darkMode);
-  const lang = useSelector((state) => state.theme.language);
+  const darkMode = useSelector((state: any) => state.theme.darkMode);
+  const lang = useSelector((state: any) => state.theme.language);
   // States
   const [disabled, setDisabled] = useState(true);
   const [pass, setPass] = useState("");
   const [email, setEmail] = useState("");
   // Functions
   const getUserData = async () => {
-    const token = jwtDecode(localStorage.getItem("token"));
+    const token: Token = jwtDecode(localStorage.getItem("token") || "");
     const res = await axios.post(enviroment.API_URL + "/api/users/getUser", {
       email: token.email,
       password: token.password,
@@ -201,8 +202,8 @@ const Account = () => {
                   className="border w-full resize-none"
                   name=""
                   id=""
-                  cols="30"
-                  rows="5"
+                  cols={30}
+                  rows={5}
                 ></textarea>
               </div>
               <button

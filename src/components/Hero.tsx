@@ -21,8 +21,8 @@ const Hero = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
         >
-          Champions aren't made overnight , <br /> Putting the hardwork is NOT
-          an option its a MUST
+          Champions aren&apos;t made overnight , <br /> Putting the hardwork is
+          NOT an option its a MUST
         </motion.h1>
         <motion.span
           className="text-xl block italic"
@@ -30,7 +30,7 @@ const Hero = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.5 }}
         >
-          "Growth is painful"
+          {"Growth is painful"}
         </motion.span>
       </motion.div>
       <button className="absolute bottom-5 left-1/2 translate-x-[-50%]">

@@ -9,10 +9,10 @@ const themeSlice = createSlice({
   name: "theme",
   initialState,
   reducers: {
-    CHANGE_THEME(state, { type, payload }) {
+    CHANGE_THEME(state) {
       state.darkMode = !state.darkMode;
     },
-    CHANGE_LANG(state, { type, payload }) {
+    CHANGE_LANG(state, { payload }) {
       state.language = payload;
     },
   },

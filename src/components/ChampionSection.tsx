@@ -4,18 +4,17 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { champions } from "../championsData";
 import ChampionCard from "./ChampionCard";
-import {enviroment as env} from '../enviroment'
+import { enviroment as env } from "../enviroment";
+import { Champion } from "../types/champion";
 const ChampionSection = () => {
   // States
   const [dbChampions, setDbChampions] = useState([]);
   // Functions
   const getAllChampions = async () => {
     try {
-      const res = await axios.get(
-        env.API_URL + "/api/champs"
-      );
+      const res = await axios.get(env.API_URL + "/api/champs");
       setDbChampions(res.data.champs);
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message);
     }
   };
@@ -39,7 +38,7 @@ const ChampionSection = () => {
               desc={champ.desc}
             />
           ))}
-          {dbChampions.map((champ) => (
+          {dbChampions.map((champ: Champion) => (
             <ChampionCard
               key={champ._id}
               title={champ.name}

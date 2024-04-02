@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import { lazy, Suspense } from "react";
 import Navbar from "./components/Navbar";
 import LogoutBtn from "./components/LogoutBtn";
+import React from "react";
 import Footer from "./components/Footer";
 import { WaveSpinner } from "react-spinners-kit";
 import AdminRoutes from "./guards/AdminRoutes";
@@ -37,7 +38,15 @@ const Edit = lazy(() => import("./pages/dashboard/Edit"));
 const UserAccount = lazy(() => import("./pages/UserAccount"));
 const Page404 = lazy(() => import("./pages/404Page"));
 
-Chart.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale,PointElement,LineElement);
+Chart.register(
+  BarElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement
+);
 
 function App() {
   const location = useLocation();

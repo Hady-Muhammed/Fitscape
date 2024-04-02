@@ -2,7 +2,14 @@ import React from "react";
 import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
 
-const ChampionCard = ({ title, img, desc }) => {
+// Define prop types
+interface ChampionCardProps {
+  title: string;
+  img: string;
+  desc: string;
+}
+
+const ChampionCard: React.FC<ChampionCardProps> = ({ title, img, desc }) => {
   return (
     <ScrollAnimation offset={500} animateIn="animate__fadeInUp">
       <div className="text-white text-center space-y-5">

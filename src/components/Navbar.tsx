@@ -20,7 +20,11 @@ const Navbar = () => {
     };
   };
   const scrollToTop = () => {
-    if (window.scrollY) window.scrollTo(0);
+    if (window.scrollY)
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
   };
   // Effects
   useEffect(() => {

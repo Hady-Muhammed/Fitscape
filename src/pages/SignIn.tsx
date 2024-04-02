@@ -13,30 +13,30 @@ const SignIn = () => {
   // Utilites
   const navigate = useNavigate();
   // Refs
-  const email = useRef();
-  const password = useRef();
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
   // States
   const [isLoading, setIsLoading] = useState(false);
   // Functions
-  const logIn = async (e) => {
+  const logIn = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
     try {
       const url = enviroment.API_URL + "/api/auth/";
       const res = await axios.post(url, {
-        email: email.current.value,
-        password: password.current.value,
+        email: email?.current?.value,
+        password: password?.current?.value,
       });
       setIsLoading(false);
       toast.success(res.data.message + "!");
       localStorage.setItem("token", JSON.stringify(res.data.token));
-      const user = jwt(res.data.token);
+      const user: any = jwt(res.data.token);
       setTimeout(() => {
         user.email === "admin@gmail.com" && user.password === "admin"
           ? navigate("/dashboard")
           : navigate("/");
       }, 1000);
-    } catch (err) {
+    } catch (err: any) {
       if (err.response.status === 401) {
         setTimeout(() => {
           setIsLoading(false);

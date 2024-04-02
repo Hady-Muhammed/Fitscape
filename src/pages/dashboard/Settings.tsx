@@ -8,8 +8,8 @@ const Settings = () => {
   // Utilites
   const dispatch = useDispatch();
   // Global States
-  const darkMode = useSelector((state) => state.theme.darkMode);
-  const lang = useSelector((state) => state.theme.language);
+  const darkMode = useSelector((state: any) => state.theme.darkMode);
+  const lang = useSelector((state: any) => state.theme.language);
   // Functions
   const changeTheme = () => {
     dispatch(CHANGE_THEME());

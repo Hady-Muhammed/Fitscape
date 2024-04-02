@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import React, { motion } from "framer-motion";
 
 const Loader = () => {
   return (

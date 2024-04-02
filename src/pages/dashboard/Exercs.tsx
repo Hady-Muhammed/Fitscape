@@ -10,24 +10,25 @@ import ScrollAnimation from "react-animate-on-scroll";
 import "react-toastify/dist/ReactToastify.css";
 import "animate.css/animate.min.css";
 import { enviroment } from "../../enviroment";
+import { Exercise } from "../../types/exercise";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 
 const Exercs = () => {
   // Utilites
   const navigate = useNavigate();
   // States
-  const [exercises, setExercises] = useState([]);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   // Global States
-  const lang = useSelector((state) => state.theme.language);
-  const darkMode = useSelector((state) => state.theme.darkMode);
+  const lang = useSelector((state: any) => state.theme.language);
+  const darkMode = useSelector((state: any) => state.theme.darkMode);
   // Refs
-  const name = useRef();
-  const desc = useRef();
-  const imgURL = useRef();
-  const vidLink = useRef();
+  const name = useRef<HTMLInputElement>(null);
+  const desc = useRef<HTMLInputElement>(null);
+  const imgURL = useRef<HTMLInputElement>(null);
+  const vidLink = useRef<HTMLInputElement>(null);
   // Functions
   const getAllExercises = async () => {
     try {
@@ -38,7 +39,7 @@ const Exercs = () => {
       setError("No Data Found!");
     }
   };
-  const openDeleteModal = (name) => {
+  const openDeleteModal = (name: string) => {
     if (lang !== "AR")
       swal
         .fire({
@@ -69,28 +70,28 @@ const Exercs = () => {
     setIsLoading(true);
     try {
       await axios.post(enviroment.API_URL + "/api/exercises/addExercise", {
-        name: name.current.value,
-        description: desc.current.value,
-        img: imgURL.current.value,
-        vid: vidLink.current.value,
+        name: name?.current?.value,
+        description: desc?.current?.value,
+        img: imgURL?.current?.value,
+        vid: vidLink?.current?.value,
       });
       getAllExercises();
       setIsLoading(false);
       toast.success("Champion added successfully!");
       setOpen(false);
-    } catch (err) {
+    } catch (err: any) {
       setIsLoading(false);
       toast.error(err.message);
       setOpen(false);
     }
   };
-  const deleteExercise = async (name) => {
+  const deleteExercise = async (name: string) => {
     try {
       await axios.post(enviroment.API_URL + "/api/exercises/deleteExercise", {
         name,
       });
       getAllExercises();
-    } catch (err) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };

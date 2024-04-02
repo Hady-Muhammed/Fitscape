@@ -11,23 +11,24 @@ import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../../enviroment";
+import { Champion } from "../../types/champion";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 
 const Champs = () => {
   // Utilites
   const navigate = useNavigate();
   // Global States
-  const darkMode = useSelector((state) => state.theme.darkMode);
-  const lang = useSelector((state) => state.theme.language);
+  const darkMode = useSelector((state: any) => state.theme.darkMode);
+  const lang = useSelector((state: any) => state.theme.language);
   // States
-  const [champs, setChamps] = useState([]);
+  const [champs, setChamps] = useState<Champion[]>([]);
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   // Refs
-  const name = useRef();
-  const desc = useRef();
-  const imgURL = useRef();
+  const name = useRef<HTMLInputElement>(null);
+  const desc = useRef<HTMLInputElement>(null);
+  const imgURL = useRef<HTMLInputElement>(null);
   // Functions
   const getAllChampions = async () => {
     try {
@@ -39,7 +40,7 @@ const Champs = () => {
     }
   };
 
-  const openDeleteModal = (name) => {
+  const openDeleteModal = (name: string) => {
     if (lang !== "AR")
       swal
         .fire({
@@ -72,28 +73,28 @@ const Champs = () => {
     setIsLoading(true);
     try {
       await axios.post(enviroment.API_URL + "/api/champs/addChamp", {
-        name: name.current.value,
-        description: desc.current.value,
-        img: imgURL.current.value,
+        name: name?.current?.value,
+        description: desc?.current?.value,
+        img: imgURL?.current?.value,
       });
       getAllChampions();
       setIsLoading(false);
       toast.success("Champion added successfully!");
       setOpen(false);
-    } catch (err) {
+    } catch (err: any) {
       setIsLoading(false);
       toast.error(err.message);
       setOpen(false);
     }
   };
 
-  const deleteChamp = async (name) => {
+  const deleteChamp = async (name: string) => {
     try {
       await axios.post(enviroment.API_URL + "/api/champs/deleteChamp", {
         name,
       });
       getAllChampions();
-    } catch (err) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };

@@ -5,11 +5,11 @@ import "animate.css/animate.min.css";
 
 const VolumeCalculator = () => {
   // States
-  const [total, setTotal] = useState(null);
+  const [total, setTotal] = useState<number>();
   // Refs
-  const sets = useRef();
-  const reps = useRef();
-  const wt = useRef();
+  const sets = useRef<any>(null);
+  const reps = useRef<any>(null);
+  const wt = useRef<any>();
   // Functions
   const EvaluateVol = () => {
     setTotal(sets.current.value * reps.current.value * wt.current.value);

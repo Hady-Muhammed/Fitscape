@@ -9,35 +9,32 @@ import "animate.css/animate.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../enviroment";
 import { toast } from "react-toastify";
+import { Token } from "../types/token";
 
 const Contact = () => {
   // States
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   // Functions
-  const sendMessage = async (e) => {
-    e.preventDefault();
+  const sendMessage: React.MouseEventHandler<HTMLButtonElement> = async () => {
     setIsLoading(true);
     if (!message) {
       toast.error("Enter a message!");
       setIsLoading(false);
     } else {
       try {
-        const token = localStorage.getItem("token");
-        const user = jwtDecode(token);
+        const token = localStorage.getItem("token") || "";
+        const user = jwtDecode(token) as Token;
         if (user) {
-          await axios.post(
-            enviroment.API_URL + "/api/users/contact",
-            {
-              email: user.email,
-              message: message,
-              avatar: "",
-            }
-          );
+          await axios.post(enviroment.API_URL + "/api/users/contact", {
+            email: user.email,
+            message: message,
+            avatar: "",
+          });
           toast.success("Sent successfully!");
           setIsLoading(false);
         }
-      } catch (err) {
+      } catch (err: any) {
         toast.error(err.message);
       }
     }
@@ -93,8 +90,8 @@ const Contact = () => {
               placeholder="Your Message"
               name=""
               id=""
-              cols="30"
-              rows="10"
+              cols={30}
+              rows={10}
             ></textarea>
             <button
               onClick={sendMessage}

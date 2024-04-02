@@ -23,17 +23,24 @@ const Footer = () => {
   const likeTheApp = async () => {
     try {
       setDisabled(true);
-      const { email } = jwtDecode(localStorage.getItem("token"));
+      const token = localStorage.getItem("token") || "";
+      const { email } = jwtDecode(token) as { email: string };
       await axios.post(enviroment.API_URL + "/api/users/like", {
         email,
       });
-    } catch (err) {
-      toast.error(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        // Handle other types of errors
+        console.error("An unknown error occurred:", err);
+      }
     }
   };
   const checkLiked = async () => {
     try {
-      const { email } = jwtDecode(localStorage.getItem("token"));
+      const token = localStorage.getItem("token") || "";
+      const { email } = jwtDecode(token) as { email: string };
       const res = await axios.get(
         enviroment.API_URL + `/api/users/isLiked/${email}`
       );
@@ -46,10 +53,14 @@ const Footer = () => {
         setVisible(true);
       }
     } catch (err) {
+      console.log(err);
     }
   };
   const scrollToTop = () => {
-    window.scrollTo(0);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
   useEffect(() => {
     // Removing Footer from unauthorized routes

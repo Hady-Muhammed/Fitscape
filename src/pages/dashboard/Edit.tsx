@@ -23,8 +23,8 @@ const Edit = () => {
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   // Global States
-  const lang = useSelector((state) => state.theme.language);
-  const darkMode = useSelector((state) => state.theme.darkMode);
+  const lang = useSelector((state: any) => state.theme.language);
+  const darkMode = useSelector((state: any) => state.theme.darkMode);
   // Functions
   const saveChanges = async () => {
     try {
@@ -64,7 +64,7 @@ const Edit = () => {
         });
         navigate("/dashboard/exercises");
       }
-    } catch (err) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
@@ -178,8 +178,8 @@ const Edit = () => {
               value={desc}
               placeholder="Description"
               className="bg-white block outline-none text-black w-full border-l-8 border-l-blue-600 p-3"
-              cols="30"
-              rows="10"
+              cols={30}
+              rows={10}
             ></textarea>
           </div>
           <button

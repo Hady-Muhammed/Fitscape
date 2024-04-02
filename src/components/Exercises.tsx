@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState, lazy } from "react";
 import { enviroment } from "../enviroment";
 import { exercises } from "../exercisesData";
+import { Exercise } from "../types/exercise";
 const ExerciseCard = lazy(() => import("../components/ExerciseCard"));
 
 const Exercises = () => {
@@ -12,7 +13,7 @@ const Exercises = () => {
     try {
       const res = await axios.get(enviroment.API_URL + "/api/exercises");
       setDbExercises(res.data.exers);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error.message);
     }
   };
@@ -36,7 +37,7 @@ const Exercises = () => {
             tutorial={exer.tutorial}
           />
         ))}
-        {dbExercises.map((exer) => (
+        {dbExercises.map((exer: Exercise) => (
           <ExerciseCard
             key={exer.name}
             title={exer.name}

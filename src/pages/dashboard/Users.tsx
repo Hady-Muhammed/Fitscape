@@ -18,14 +18,15 @@ import Loader from "../../components/Loader";
 import userr from "../../assets/user.jpg";
 import { enviroment } from "../../enviroment";
 import Pako from "pako";
+import { Account } from "../../types/account";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 
 const Users = () => {
   // Global States
-  const darkMode = useSelector((state) => state.theme.darkMode);
-  const lang = useSelector((state) => state.theme.language);
+  const darkMode = useSelector((state: any) => state.theme.darkMode);
+  const lang = useSelector((state: any) => state.theme.language);
   // States
-  const [accounts, setAccounts] = useState([]);
+  const [accounts, setAccounts] = useState<Account[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,12 +38,12 @@ const Users = () => {
       const res = await axios.get(enviroment.API_URL + "/api/users/accounts");
       setAccounts(res.data.users);
       setLoading(false);
-    } catch (err) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
 
-  const openModal = (email) => {
+  const openModal = (email: string) => {
     swal
       .fire({
         icon: "warning",
@@ -54,28 +55,28 @@ const Users = () => {
         if (res.isConfirmed) deleteUser(email);
       });
   };
-  const deleteUser = async (email) => {
+  const deleteUser = async (email: string) => {
     try {
       await axios.delete(enviroment.API_URL + `/api/users/deleteUser/${email}`);
       toast.success("Deleted successfully!");
       getAllAccounts();
-    } catch (err) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_: any, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
+  const handleChangeRowsPerPage = (event: any) => {
+    setRowsPerPage(+event?.target?.value);
     setPage(0);
   };
   // Effects
   useEffect(() => {
     getAllAccounts();
-  },[]);
+  }, []);
 
   return (
     <div
@@ -127,7 +128,7 @@ const Users = () => {
             <ScrollAnimation
               className="bg-white shadow-xl"
               animateIn="animate__animated animate__fadeIn"
-              sx={{ width: "100%", overflow: "hidden" }}
+              style={{ width: "100%", overflow: "hidden" }}
             >
               <TableContainer sx={{ maxHeight: 700 }}>
                 <Table stickyHeader aria-label="sticky table">
@@ -200,7 +201,7 @@ const Users = () => {
                                   src={
                                     avatar === "default" || avatar === ""
                                       ? userr
-                                      : Pako.inflate(avatar, { to: 'string' })
+                                      : Pako.inflate(avatar, { to: "string" })
                                   }
                                   alt="profile"
                                 />

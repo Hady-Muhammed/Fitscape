@@ -18,12 +18,12 @@ const SignUp = () => {
   const [errorPass, setErrorPass] = useState("");
   const [errorTerms, setErrorTerms] = useState("");
   // Refs
-  const name = useRef();
-  const email = useRef();
-  const password = useRef();
-  const acceptTerms = useRef();
+  const name = useRef<HTMLInputElement>(null);
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
+  const acceptTerms = useRef<HTMLInputElement>(null);
   // Functions
-  const createUser = async (e) => {
+  const createUser = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
     try {
@@ -34,10 +34,10 @@ const SignUp = () => {
       const res = await axios.post(
         url,
         JSON.stringify({
-          name: name.current.value,
-          email: email.current.value,
-          password: password.current.value,
-          acceptTerms: acceptTerms.current.checked,
+          name: name?.current?.value,
+          email: email?.current?.value,
+          password: password?.current?.value,
+          acceptTerms: acceptTerms?.current?.checked,
           liked: false,
           avatar: "default",
           createdAt: new Date().toLocaleDateString().toString(),
@@ -55,7 +55,7 @@ const SignUp = () => {
           navigate("/signin");
         }, 3000);
       }
-    } catch (err) {
+    } catch (err: any) {
       if (
         err.response.data === '"name" length must be at least 5 characters long'
       ) {

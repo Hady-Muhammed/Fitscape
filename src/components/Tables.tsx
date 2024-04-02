@@ -15,18 +15,21 @@ import axios from "axios";
 import jwt from "jwt-decode";
 import { toast } from "react-toastify";
 import { enviroment } from "../enviroment";
+import jwtDecode from "jwt-decode";
+import { Token } from "../types/token";
+import { Row } from "../types/row";
 
-let date = 0;
+let date: any = 0;
 
 const Tables = () => {
   // Refs
-  const inp = useRef(null);
+  const inp = useRef<HTMLInputElement>(null);
   // States
   const [exer, setExer] = useState("");
-  const [set1, setSet1] = useState();
-  const [set2, setSet2] = useState();
-  const [set3, setSet3] = useState();
-  const [set4, setSet4] = useState();
+  const [set1, setSet1] = useState<string>();
+  const [set2, setSet2] = useState<string>();
+  const [set3, setSet3] = useState<string>();
+  const [set4, setSet4] = useState<string>();
   const [rest, setRest] = useState("");
   const [weight, setWeight] = useState("");
   const [tablesFound, setTablesFound] = useState(false);
@@ -35,14 +38,14 @@ const Tables = () => {
   const [warning, setWarning] = useState(false);
   const [editSuccess, setEditSuccess] = useState(false);
   const [createSuccess, setCreateSuccess] = useState(false);
-  const [currentTable, setCurrentTable] = useState();
+  const [currentTable, setCurrentTable] = useState<any>();
   // Functions
-  const addRow = async (e) => {
+  const addRow = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     try {
       if (exer) {
-        const token = localStorage.getItem("token");
-        const { email } = jwt(token);
+        const token = localStorage.getItem("token") || "";
+        const { email } = jwtDecode(token) as { email: string };
         const exercise = {
           exer,
           set1,
@@ -57,7 +60,7 @@ const Tables = () => {
           date,
           exercise,
         });
-        setCurrentTable(res.data.workouts.find((w) => w.date === date));
+        setCurrentTable(res.data.workouts.find((w: any) => w.date === date));
         setWarning(false);
         setExer("");
         setSet1("");
@@ -69,16 +72,16 @@ const Tables = () => {
       } else {
         setWarning(true);
       }
-    } catch (err) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
 
-  const editRow = async (id) => {
+  const editRow = async (id: string) => {
     setIsEditing(true);
     try {
-      const token = localStorage.getItem("token");
-      const { email } = jwt(token);
+      const token: string = localStorage.getItem("token") || "";
+      const { email } = jwt(token) as { email: string };
       const res = await axios.get(
         enviroment.API_URL +
           `/api/users/retrieveRow/?email=${email}&date=${date}&id=${id}`
@@ -92,7 +95,7 @@ const Tables = () => {
       setRest(res.data.rest);
       setWeight(res.data.weight);
       localStorage.setItem("id", id);
-    } catch (err) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
@@ -100,8 +103,8 @@ const Tables = () => {
   const submitRow = async () => {
     try {
       if (exer) {
-        const token = localStorage.getItem("token");
-        const { email } = jwt(token);
+        const token = localStorage.getItem("token") || "";
+        const { email } = jwt(token) as Token;
         const editedExer = {
           exer,
           set1,
@@ -116,7 +119,7 @@ const Tables = () => {
           enviroment.API_URL + `/api/users/submitRow`,
           { email, date, id, editedExer }
         );
-        setCurrentTable(res.data.workouts.find((w) => w.date === date));
+        setCurrentTable(res.data.workouts.find((w: any) => w.date === date));
         setWarning(false);
         setExer("");
         setSet1("");
@@ -132,38 +135,39 @@ const Tables = () => {
       } else {
         setWarning(true);
       }
-    } catch (err) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
 
-  const deleteRow = async (id) => {
+  const deleteRow = async (id: string) => {
     try {
-      const token = localStorage.getItem("token");
-      const { email } = jwt(token);
+      const token = localStorage.getItem("token") || "";
+      const { email } = jwt(token) as Token;
       const res = await axios.delete(
         enviroment.API_URL + `/api/users/deleteRow`,
         { headers: {}, data: { email, date, id } }
       );
-      setCurrentTable(res.data.workouts.find((w) => w.date === date));
-    } catch (err) {
+      setCurrentTable(res.data.workouts.find((w: any) => w.date === date));
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
 
   const changeTable = async () => {
     setIsLoading(true);
-    date = inp.current.value;
+    date = inp.current?.value;
+
     try {
-      const token = localStorage.getItem("token");
-      const { email } = jwt(token);
+      const token = localStorage.getItem("token") || "";
+      const { email } = jwt(token) as Token;
       const res = await axios.get(
         enviroment.API_URL + `/api/users/getTable/?email=${email}&date=${date}`
       );
       console.log(res);
       setCurrentTable(res.data);
       res.data ? setTablesFound(true) : setTablesFound(false);
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message);
     }
     setTimeout(() => {
@@ -173,8 +177,8 @@ const Tables = () => {
 
   const createNewTable = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const { email } = jwt(token);
+      const token = localStorage.getItem("token") || "";
+      const { email } = jwt(token) as Token;
       await axios.post(enviroment.API_URL + "/api/users/createTable", {
         email,
         date,
@@ -182,7 +186,7 @@ const Tables = () => {
       changeTable();
       setCreateSuccess(true);
       setTimeout(() => setCreateSuccess(false), 4000);
-    } catch (err) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
@@ -228,7 +232,7 @@ const Tables = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {currentTable?.rows?.map((row, index) => (
+                    {currentTable?.rows?.map((row: Row, index: number) => (
                       <TableRow
                         key={index}
                         sx={{
@@ -266,7 +270,7 @@ const Tables = () => {
                             </button>
                             <button
                               className="flex items-center bg-red-700 text-white p-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
-                              onClick={(e) => {
+                              onClick={() => {
                                 deleteRow(row._id);
                               }}
                             >
