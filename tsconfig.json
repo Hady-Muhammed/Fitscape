@@ -1,13 +1,26 @@
 {
   "compilerOptions": {
-    "jsx": "react",
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "strict": true,
-    "esModuleInterop": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    // "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "strict": true, // This makes noImplicitAny as true
+    "lib": [
+      "ES2022",
+      "dom" // This is important
+    ],
+    "jsx": "preserve" // This is important
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./src/components/*.ts"],
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "./src/components/*.ts",
+    "./index.d.ts"
+  ],
   "exclude": ["./node_modules"]
 }
