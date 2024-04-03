@@ -10,7 +10,7 @@ import { GiCheckMark } from "react-icons/gi";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { enviroment } from "../enviroment";
-import Pako, { Data } from "pako";
+import Pako from "pako";
 import { Token } from "../types/token";
 
 const UserAccount = () => {
