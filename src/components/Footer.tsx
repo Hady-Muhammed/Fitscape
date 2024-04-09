@@ -7,10 +7,8 @@ import { FaLinkedinIn } from "react-icons/fa";
 import { FiInstagram } from "react-icons/fi";
 import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
-import axios from "axios";
-import jwtDecode from "jwt-decode";
-import { toast } from "react-toastify";
-import { enviroment } from "../enviroment";
+import useUser from "../hooks/useUser";
+import useUtility from "../hooks/useUtility";
 
 const Footer = () => {
   // States
@@ -20,48 +18,8 @@ const Footer = () => {
   const [show, setShow] = useState(false);
   const location = useLocation();
   // Functions
-  const likeTheApp = async () => {
-    try {
-      setDisabled(true);
-      const token = localStorage.getItem("token") || "";
-      const { email } = jwtDecode(token) as { email: string };
-      await axios.post(enviroment.API_URL + "/api/users/like", {
-        email,
-      });
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        toast.error(err.message);
-      } else {
-        // Handle other types of errors
-        console.error("An unknown error occurred:", err);
-      }
-    }
-  };
-  const checkLiked = async () => {
-    try {
-      const token = localStorage.getItem("token") || "";
-      const { email } = jwtDecode(token) as { email: string };
-      const res = await axios.get(
-        enviroment.API_URL + `/api/users/isLiked/${email}`
-      );
-      res.data.liked ? setDisabled(true) : setDisabled(false);
-      if (res.data.liked) {
-        setHeartColor("red");
-        setVisible(true);
-      } else {
-        setHeartColor("#AAB8C2");
-        setVisible(true);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  const { checkLiked, likeTheApp } = useUser();
+  const { scrollToTop } = useUtility();
   useEffect(() => {
     // Removing Footer from unauthorized routes
     if (
@@ -76,7 +34,15 @@ const Footer = () => {
       return;
     } else {
       setShow(true);
-      checkLiked();
+      checkLiked().then((isLiked) => {
+        if (isLiked) {
+          setHeartColor("red");
+          setDisabled(true);
+        } else {
+          setHeartColor("#AAB8C2");
+        }
+        setVisible(true);
+      });
     }
   }, [location]);
 
@@ -102,7 +68,10 @@ const Footer = () => {
                         disabled={disabled}
                         type="checkbox"
                         id="checkbox"
-                        onClick={likeTheApp}
+                        onClick={() => {
+                          likeTheApp();
+                          setDisabled(true);
+                        }}
                       />
                       <label
                         className={`cursor-pointer flex items-center duration-300 ${

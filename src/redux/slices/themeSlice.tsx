@@ -18,6 +18,7 @@ const themeSlice = createSlice({
   },
 });
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const { CHANGE_THEME, CHANGE_LANG } = themeSlice.actions;
 
 export default themeSlice.reducer;

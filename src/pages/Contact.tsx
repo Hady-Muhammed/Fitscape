@@ -1,44 +1,17 @@
 import React, { useState } from "react";
 import Logo from "../components/Logo";
 import { motion } from "framer-motion";
-import axios from "axios";
-import jwtDecode from "jwt-decode";
 import Loader from "../components/Loader";
 import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
 import "react-toastify/dist/ReactToastify.css";
-import { enviroment } from "../enviroment";
-import { toast } from "react-toastify";
-import { Token } from "../types/token";
+import useUser from "../hooks/useUser";
 
 const Contact = () => {
   // States
   const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   // Functions
-  const sendMessage: React.MouseEventHandler<HTMLButtonElement> = async () => {
-    setIsLoading(true);
-    if (!message) {
-      toast.error("Enter a message!");
-      setIsLoading(false);
-    } else {
-      try {
-        const token = localStorage.getItem("token") || "";
-        const user = jwtDecode(token) as Token;
-        if (user) {
-          await axios.post(enviroment.API_URL + "/api/users/contact", {
-            email: user.email,
-            message: message,
-            avatar: "",
-          });
-          toast.success("Sent successfully!");
-          setIsLoading(false);
-        }
-      } catch (err: any) {
-        toast.error(err.message);
-      }
-    }
-  };
+  const { sendMessage, isLoading } = useUser();
   return (
     <>
       {isLoading && (
@@ -94,7 +67,7 @@ const Contact = () => {
               rows={10}
             ></textarea>
             <button
-              onClick={sendMessage}
+              onClick={() => sendMessage(message)}
               className="bg-[#795548] whitespace-nowrap send text-white p-5 rounded-md"
             >
               SEND MESSAGE

@@ -11,191 +11,61 @@ import Loader from "./Loader";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import ScrollAnimation from "react-animate-on-scroll";
-import axios from "axios";
-import jwt from "jwt-decode";
-import { toast } from "react-toastify";
-import { enviroment } from "../enviroment";
-import jwtDecode from "jwt-decode";
-import { Token } from "../types/token";
 import { Row } from "../types/row";
+import { Table as Tablee } from "../types/table";
+import useTable from "../hooks/useTable";
 
-let date: any = 0;
+let date: string | Date | undefined = undefined;
 
 const Tables = () => {
   // Refs
   const inp = useRef<HTMLInputElement>(null);
+  const [row, setRow] = useState<Row>({
+    set1: "",
+    set2: "",
+    set3: "",
+    set4: "",
+    exerciseName: "",
+    weight: "",
+    rest: "",
+    _id: "",
+  });
   // States
-  const [exer, setExer] = useState("");
-  const [set1, setSet1] = useState<string>();
-  const [set2, setSet2] = useState<string>();
-  const [set3, setSet3] = useState<string>();
-  const [set4, setSet4] = useState<string>();
-  const [rest, setRest] = useState("");
-  const [weight, setWeight] = useState("");
   const [tablesFound, setTablesFound] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [warning, setWarning] = useState(false);
-  const [editSuccess, setEditSuccess] = useState(false);
-  const [createSuccess, setCreateSuccess] = useState(false);
-  const [currentTable, setCurrentTable] = useState<any>();
+  const [currentTable, setCurrentTable] = useState<Tablee>();
+  const {
+    changeTable,
+    editRow,
+    addRow,
+    submitRow,
+    createNewTable,
+    deleteRow,
+    isLoading,
+    isEditing,
+    warning,
+    createSuccess,
+    editSuccess,
+  } = useTable();
   // Functions
-  const addRow = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    try {
-      if (exer) {
-        const token = localStorage.getItem("token") || "";
-        const { email } = jwtDecode(token) as { email: string };
-        const exercise = {
-          exer,
-          set1,
-          set2,
-          set3,
-          set4,
-          rest,
-          weight,
-        };
-        const res = await axios.post(enviroment.API_URL + `/api/users/addRow`, {
-          email,
-          date,
-          exercise,
-        });
-        setCurrentTable(res.data.workouts.find((w: any) => w.date === date));
-        setWarning(false);
-        setExer("");
-        setSet1("");
-        setSet2("");
-        setSet3("");
-        setSet4("");
-        setRest("");
-        setWeight("");
-      } else {
-        setWarning(true);
-      }
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  };
 
-  const editRow = async (id: string) => {
-    setIsEditing(true);
-    try {
-      const token: string = localStorage.getItem("token") || "";
-      const { email } = jwt(token) as { email: string };
-      const res = await axios.get(
-        enviroment.API_URL +
-          `/api/users/retrieveRow/?email=${email}&date=${date}&id=${id}`
-      );
-      console.log(res);
-      setExer(res.data.exer);
-      setSet1(res.data.set1);
-      setSet2(res.data.set2);
-      setSet3(res.data.set3);
-      setSet4(res.data.set4);
-      setRest(res.data.rest);
-      setWeight(res.data.weight);
-      localStorage.setItem("id", id);
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  };
-
-  const submitRow = async () => {
-    try {
-      if (exer) {
-        const token = localStorage.getItem("token") || "";
-        const { email } = jwt(token) as Token;
-        const editedExer = {
-          exer,
-          set1,
-          set2,
-          set3,
-          set4,
-          rest,
-          weight,
-        };
-        const id = localStorage.getItem("id");
-        const res = await axios.put(
-          enviroment.API_URL + `/api/users/submitRow`,
-          { email, date, id, editedExer }
-        );
-        setCurrentTable(res.data.workouts.find((w: any) => w.date === date));
-        setWarning(false);
-        setExer("");
-        setSet1("");
-        setSet2("");
-        setSet3("");
-        setSet4("");
-        setRest("");
-        setWeight("");
-        setIsEditing(false);
-        setEditSuccess(true);
-        localStorage.removeItem("id");
-        setTimeout(() => setEditSuccess(false), 1000);
-      } else {
-        setWarning(true);
-      }
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  };
-
-  const deleteRow = async (id: string) => {
-    try {
-      const token = localStorage.getItem("token") || "";
-      const { email } = jwt(token) as Token;
-      const res = await axios.delete(
-        enviroment.API_URL + `/api/users/deleteRow`,
-        { headers: {}, data: { email, date, id } }
-      );
-      setCurrentTable(res.data.workouts.find((w: any) => w.date === date));
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  };
-
-  const changeTable = async () => {
-    setIsLoading(true);
-    date = inp.current?.value;
-
-    try {
-      const token = localStorage.getItem("token") || "";
-      const { email } = jwt(token) as Token;
-      const res = await axios.get(
-        enviroment.API_URL + `/api/users/getTable/?email=${email}&date=${date}`
-      );
-      console.log(res);
-      setCurrentTable(res.data);
-      res.data ? setTablesFound(true) : setTablesFound(false);
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  };
-
-  const createNewTable = async () => {
-    try {
-      const token = localStorage.getItem("token") || "";
-      const { email } = jwt(token) as Token;
-      await axios.post(enviroment.API_URL + "/api/users/createTable", {
-        email,
-        date,
-      });
-      changeTable();
-      setCreateSuccess(true);
-      setTimeout(() => setCreateSuccess(false), 4000);
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  };
   return (
     <>
       <div className="main-color p-12">
         <p className="text-white text-center">Select The Workout Day</p>
         <input
-          onChange={changeTable}
+          onChange={() => {
+            date = inp.current?.value;
+            changeTable(inp.current?.value).then(
+              (
+                data:
+                  | { currentTable: Tablee; isTableFound: boolean }
+                  | undefined,
+              ) => {
+                setCurrentTable(data?.currentTable);
+                setTablesFound(!!data?.isTableFound);
+              },
+            );
+          }}
           ref={inp}
           className="block xs:w-full sm:w-1/4 mx-auto text-center"
           type="date"
@@ -210,13 +80,16 @@ const Tables = () => {
         {isLoading ? (
           <Loader />
         ) : !tablesFound && !date ? (
-          <div></div>
+          <>
+            <div className="text-white">{tablesFound}</div>
+            <div className="text-white">{date}</div>
+          </>
         ) : tablesFound ? (
           <>
             <TableContainer className="xs:h-[35%] md:h-auto" component={Paper}>
               <ScrollAnimation animateIn="animate__fadeIn">
                 <p className="text-center block py-2 font-bold border-b">
-                  {date}
+                  {date instanceof Date ? date.toISOString() : date}
                 </p>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <TableHead>
@@ -244,7 +117,7 @@ const Tables = () => {
                           component="th"
                           scope="row"
                         >
-                          {row?.exer}
+                          {row?.exerciseName}
                         </TableCell>
                         <TableCell align="center">{row?.set1}</TableCell>
                         <TableCell align="center">{row?.set2}</TableCell>
@@ -258,7 +131,13 @@ const Tables = () => {
                           <div className="flex space-x-2 justify-center">
                             <button
                               className="flex items-center bg-slate-600 text-white px-4 py-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
-                              onClick={() => editRow(row._id)}
+                              onClick={() => {
+                                editRow(row?._id || "", date || "").then(
+                                  (row: Row) => {
+                                    setRow(row);
+                                  },
+                                );
+                              }}
                             >
                               <span className="relative top-0 group-hover:top-[-250%] duration-300">
                                 EDIT
@@ -271,7 +150,11 @@ const Tables = () => {
                             <button
                               className="flex items-center bg-red-700 text-white p-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
                               onClick={() => {
-                                deleteRow(row._id);
+                                deleteRow(row?._id || "", date || "").then(
+                                  (currentTable) => {
+                                    setCurrentTable(currentTable);
+                                  },
+                                );
                               }}
                             >
                               <span className="relative top-0 group-hover:top-[-250%] duration-300">
@@ -295,8 +178,13 @@ const Tables = () => {
                 <div>
                   <label htmlFor="">Exercise name</label>
                   <input
-                    onChange={({ target }) => setExer(target.value)}
-                    value={exer}
+                    onChange={({ target }) =>
+                      setRow((oldRow: Row) => ({
+                        ...oldRow,
+                        exerciseName: target?.value || "",
+                      }))
+                    }
+                    value={row?.exerciseName}
                     className="text-center font-bold main-color text-white border-b appearance-none mx-auto block rounded-xl p-1 xs:w-[200px] lg:w-[120px] xl:w-[150px] outline-none"
                     type="text"
                   />
@@ -304,8 +192,13 @@ const Tables = () => {
                 <div>
                   <label htmlFor="">Set(1)</label>
                   <input
-                    onChange={({ target }) => setSet1(target.value)}
-                    value={set1}
+                    onChange={({ target }) =>
+                      setRow((oldRow: Row) => ({
+                        ...oldRow,
+                        set1: target?.value || "",
+                      }))
+                    }
+                    value={row?.set1}
                     className="text-center font-bold main-color text-white border-b appearance-none mx-auto block rounded-xl p-1 xs:w-[200px] lg:w-[120px] xl:w-[150px] outline-none"
                     type="number"
                   />
@@ -313,8 +206,13 @@ const Tables = () => {
                 <div>
                   <label htmlFor="">Set(2)</label>
                   <input
-                    onChange={({ target }) => setSet2(target.value)}
-                    value={set2}
+                    onChange={({ target }) =>
+                      setRow((oldRow: Row) => ({
+                        ...oldRow,
+                        set2: target?.value || "",
+                      }))
+                    }
+                    value={row?.set2}
                     className="text-center font-bold main-color text-white border-b appearance-none mx-auto block rounded-xl p-1 xs:w-[200px] lg:w-[120px] xl:w-[150px] outline-none"
                     type="number"
                   />
@@ -322,8 +220,13 @@ const Tables = () => {
                 <div>
                   <label htmlFor="">Set(3)</label>
                   <input
-                    onChange={({ target }) => setSet3(target.value)}
-                    value={set3}
+                    onChange={({ target }) =>
+                      setRow((oldRow: Row) => ({
+                        ...oldRow,
+                        set3: target?.value || "",
+                      }))
+                    }
+                    value={row?.set3}
                     className="text-center font-bold main-color text-white border-b appearance-none mx-auto block rounded-xl p-1 xs:w-[200px] lg:w-[120px] xl:w-[150px] outline-none"
                     type="number"
                   />
@@ -331,8 +234,13 @@ const Tables = () => {
                 <div>
                   <label htmlFor="">Set(4)</label>
                   <input
-                    onChange={({ target }) => setSet4(target.value)}
-                    value={set4}
+                    onChange={({ target }) =>
+                      setRow((oldRow: Row) => ({
+                        ...oldRow,
+                        set4: target?.value || "",
+                      }))
+                    }
+                    value={row?.set4}
                     className="text-center font-bold main-color text-white border-b appearance-none mx-auto block rounded-xl p-1 xs:w-[200px] lg:w-[120px] xl:w-[150px] outline-none"
                     type="number"
                   />
@@ -340,8 +248,13 @@ const Tables = () => {
                 <div>
                   <label htmlFor="">Rest Period</label>
                   <input
-                    onChange={({ target }) => setRest(target.value)}
-                    value={rest}
+                    onChange={({ target }) =>
+                      setRow((oldRow: Row) => ({
+                        ...oldRow,
+                        rest: target?.value || "",
+                      }))
+                    }
+                    value={row?.rest}
                     className="text-center font-bold main-color text-white border-b appearance-none mx-auto block rounded-xl p-1 xs:w-[200px] lg:w-[120px] xl:w-[150px] outline-none"
                     type="text"
                   />
@@ -349,8 +262,13 @@ const Tables = () => {
                 <div>
                   <label htmlFor="">Weight Lifted</label>
                   <input
-                    onChange={({ target }) => setWeight(target.value)}
-                    value={weight}
+                    onChange={({ target }) =>
+                      setRow((oldRow: Row) => ({
+                        ...oldRow,
+                        weight: target?.value || "",
+                      }))
+                    }
+                    value={row?.weight}
                     className="text-center font-bold main-color text-white border-b appearance-none mx-auto block rounded-xl p-1 xs:w-[200px] lg:w-[120px] xl:w-[150px] outline-none"
                     type="number"
                   />
@@ -369,7 +287,17 @@ const Tables = () => {
                     transition={{ duration: 0.5 }}
                     onClick={(e) => {
                       e.preventDefault();
-                      submitRow();
+                      submitRow(row, date).then(() => {
+                        setRow({
+                          exerciseName: "",
+                          set1: "",
+                          set2: "",
+                          set3: "",
+                          set4: "",
+                          rest: "",
+                          weight: "",
+                        });
+                      });
                     }}
                   >
                     Submit Row
@@ -386,7 +314,20 @@ const Tables = () => {
                       },
                     }}
                     transition={{ duration: 0.5 }}
-                    onClick={addRow}
+                    onClick={(e) =>
+                      addRow(e, row, date).then((currentTable) => {
+                        setCurrentTable(currentTable);
+                        setRow({
+                          exerciseName: "",
+                          set1: "",
+                          set2: "",
+                          set3: "",
+                          set4: "",
+                          rest: "",
+                          weight: "",
+                        });
+                      })
+                    }
                   >
                     Add Row
                   </motion.button>
@@ -450,7 +391,17 @@ const Tables = () => {
                 },
               }}
               transition={{ duration: 0.5 }}
-              onClick={createNewTable}
+              onClick={() =>
+                createNewTable(date).then(
+                  (data: {
+                    currentTable: Tablee | undefined;
+                    isTableFound: boolean;
+                  }) => {
+                    setCurrentTable(data?.currentTable);
+                    setTablesFound(!!data?.isTableFound);
+                  },
+                )
+              }
             >
               Create New Workout
             </motion.button>

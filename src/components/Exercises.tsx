@@ -1,25 +1,16 @@
-import axios from "axios";
 import React, { useEffect, useState, lazy } from "react";
-import { enviroment } from "../enviroment";
 import { exercises } from "../exercisesData";
 import { Exercise } from "../types/exercise";
+import useExercise from "../hooks/useExercise";
 const ExerciseCard = lazy(() => import("../components/ExerciseCard"));
 
 const Exercises = () => {
   // States
   const [dbExercises, setDbExercises] = useState([]);
-  // Functions
-  const getAllExercises = async () => {
-    try {
-      const res = await axios.get(enviroment.API_URL + "/api/exercises");
-      setDbExercises(res.data.exers);
-    } catch (error: any) {
-      console.error(error.message);
-    }
-  };
+  const { getAllExercises } = useExercise();
   // Effects
   useEffect(() => {
-    getAllExercises();
+    getAllExercises().then((exercises) => setDbExercises(exercises));
   }, []);
 
   return (

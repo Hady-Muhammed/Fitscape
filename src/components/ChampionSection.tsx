@@ -1,26 +1,14 @@
-import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { champions } from "../championsData";
 import ChampionCard from "./ChampionCard";
-import { enviroment as env } from "../enviroment";
 import { Champion } from "../types/champion";
+import useChampion from "../hooks/useChampion";
+import { champions as fakeChampions } from "../championsData";
 const ChampionSection = () => {
-  // States
-  const [dbChampions, setDbChampions] = useState([]);
-  // Functions
-  const getAllChampions = async () => {
-    try {
-      const res = await axios.get(env.API_URL + "/api/champs");
-      setDbChampions(res.data.champs);
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-  };
-  // Effects
+  const { getAllChampions } = useChampion();
+  const [champions, setChampions] = useState<Champion[]>([]);
   useEffect(() => {
-    getAllChampions();
+    getAllChampions().then((champs) => setChampions(champs));
   }, []);
 
   return (
@@ -30,15 +18,15 @@ const ChampionSection = () => {
           The Greatest OF ALL Time Classic Physiques!
         </h2>
         <div className="grid md:grid-cols-2 gap-20">
-          {champions.map((champ) => (
+          {fakeChampions?.map((champ) => (
             <ChampionCard
               key={champ.title}
               title={champ.title}
               img={champ.img}
-              desc={champ.desc}
+              desc={champ.description}
             />
           ))}
-          {dbChampions.map((champ: Champion) => (
+          {champions?.map((champ: Champion) => (
             <ChampionCard
               key={champ._id}
               title={champ.name}

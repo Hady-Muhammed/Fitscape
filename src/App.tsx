@@ -45,9 +45,10 @@ Chart.register(
   CategoryScale,
   LinearScale,
   PointElement,
-  LineElement
+  LineElement,
 );
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 function App() {
   const location = useLocation();
   return (
