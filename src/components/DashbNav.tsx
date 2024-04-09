@@ -1,34 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { GiChampions } from "react-icons/gi";
 import { IoMdFitness, IoIosSettings } from "react-icons/io";
 import { FaUsers } from "react-icons/fa";
 import { AiOutlinePoweroff } from "react-icons/ai";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Link, useLocation } from "react-router-dom";
 import Loader from "./Loader";
 import { useSelector } from "react-redux";
 import { MdManageAccounts } from "react-icons/md";
+import useUser from "../hooks/useUser";
+interface RootState {
+  theme: ThemeState;
+}
+
+interface ThemeState {
+  darkMode: boolean;
+  language: string;
+}
 
 const DashbNav = () => {
   // Utilites
   const location = useLocation();
-  const navigate = useNavigate();
+  const { logout, isLoading } = useUser();
   // Global States
-  const darkMode = useSelector((state: any) => state.theme.darkMode);
-  const lang = useSelector((state: any) => state.theme.language);
-  // States
-  const [isLoading, setIsLoading] = useState(false);
-  // Functions
-  const logout = () => {
-    setIsLoading(true);
-    localStorage.removeItem("token");
-    setTimeout(() => {
-      toast.success("Logged out successfully!");
-      setIsLoading(false);
-      navigate("/signin");
-    }, 3000);
-  };
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+  const lang = useSelector((state: RootState) => state.theme.language);
   return (
     <>
       {/* Loader */}

@@ -7,12 +7,15 @@ const VolumeCalculator = () => {
   // States
   const [total, setTotal] = useState<number>();
   // Refs
-  const sets = useRef<any>(null);
-  const reps = useRef<any>(null);
-  const wt = useRef<any>();
+  const sets = useRef<HTMLInputElement | null>(null);
+  const reps = useRef<HTMLInputElement | null>(null);
+  const wt = useRef<HTMLInputElement | null>(null);
   // Functions
   const EvaluateVol = () => {
-    setTotal(sets.current.value * reps.current.value * wt.current.value);
+    const setsValue = parseFloat(sets?.current?.value ?? "0");
+    const repsValue = parseFloat(reps?.current?.value ?? "0");
+    const wtValue = parseFloat(wt?.current?.value ?? "0");
+    setTotal(setsValue * repsValue * wtValue);
   };
 
   return (

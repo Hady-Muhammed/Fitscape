@@ -24,6 +24,11 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "settings": {
+    "react": {
+      "version": "detect" // or specify the React version you are using, e.g., "16.8.0"
+    }
+  },
   "plugins": ["@typescript-eslint", "react"],
   "rules": {
     "@typescript-eslint/naming-convention": [
@@ -40,6 +45,7 @@
         "leadingUnderscore": "allow",
         "trailingUnderscore": "allow"
       }
-    ]
+    ],
+    "react/no-unescaped-entities": "off"
   }
 }

@@ -3,14 +3,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { GiMuscleUp } from "react-icons/gi";
 import { Link, useLocation } from "react-router-dom";
+import useUtility from "../hooks/useUtility";
 const Navbar = () => {
   // Utilites
   const location = useLocation();
   // States
   const [open, setOpen] = useState(true);
   const [navColor, setNavColor] = useState(false);
+  const { scrollToTop } = useUtility();
   // Functions
-  const handleNavColor = () => {
+  function handleNavColor() {
     window.onscroll = () => {
       if (window.scrollY >= 100) {
         setNavColor(true);
@@ -18,14 +20,7 @@ const Navbar = () => {
         setNavColor(false);
       }
     };
-  };
-  const scrollToTop = () => {
-    if (window.scrollY)
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-  };
+  }
   // Effects
   useEffect(() => {
     handleNavColor();

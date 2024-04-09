@@ -10,8 +10,9 @@ import { GiCheckMark } from "react-icons/gi";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { enviroment } from "../enviroment";
-import Pako from "pako";
+import Pako, { Data } from "pako";
 import { Token } from "../types/token";
+import useUser from "../hooks/useUser";
 
 const UserAccount = () => {
   // States
@@ -22,26 +23,29 @@ const UserAccount = () => {
   const [password, setPassword] = useState("123456");
   const [disabled, setDisabled] = useState(true);
   // Functions
+  const { getUser } = useUser();
   const getWorkoutsDone = async () => {
     try {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as Token;
       const res = await axios.get(
-        enviroment.API_URL + `/api/users/getAllWorkouts/${email}`
+        enviroment.API_URL + `/api/users/getAllWorkouts/${email}`,
       );
       setWorkoutsDone(res?.data?.workouts?.length);
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
     }
   };
 
-  const uploadAvatar = async (e: any) => {
+  const uploadAvatar = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as Token;
-      const file = e.target.files[0];
-      const base64String: any = await fileToBase64(file);
-      const compressedString = Pako.gzip(base64String);
+      const file: File | undefined = e.target.files?.[0];
+      const base64String = file && (await fileToBase64(file));
+      const compressedString = Pako.gzip(base64String as string | Data);
       await axios.post(enviroment.API_URL + "/api/users/uploadImg", {
         email,
         file: compressedString,
@@ -57,27 +61,17 @@ const UserAccount = () => {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as Token;
       const res = await axios.get(
-        enviroment.API_URL + `/api/users/getAvatar/${email}`
+        enviroment.API_URL + `/api/users/getAvatar/${email}`,
       );
       const image = Pako.inflate(res?.data?.avatar, { to: "string" });
       setAvatar(image);
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
     }
   };
-  const getUser = async () => {
-    try {
-      const token = localStorage.getItem("token") || "";
-      const { email } = jwtDecode(token) as Token;
-      const res = await axios.get(
-        enviroment.API_URL + `/api/users/getUser/${email}`
-      );
-      setName(res.data.user.name);
-      setEmail(res.data.user.email);
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  };
+
   const updateUser = async () => {
     try {
       const token = localStorage.getItem("token") || "";
@@ -97,17 +91,22 @@ const UserAccount = () => {
       Swal.fire(
         "Updated Successfully!",
         "your info has been edited",
-        "success"
+        "success",
       );
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
     }
   };
   // Effects
   useEffect(() => {
     getWorkoutsDone();
     getAvatar();
-    getUser();
+    getUser().then((user) => {
+      setName(user?.name);
+      setEmail(user?.email);
+    });
   }, []);
   return (
     <div className="bg-cover flex justify-center items-center acc relative">
@@ -217,7 +216,7 @@ const UserAccount = () => {
 
 export default UserAccount;
 
-function fileToBase64(file: any) {
+function fileToBase64(file: File) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);

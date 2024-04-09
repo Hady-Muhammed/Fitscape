@@ -1,50 +1,18 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import jwt from "jwt-decode";
-import { enviroment } from "../enviroment";
+import useUser from "../hooks/useUser";
 
 const SignIn = () => {
-  // Utilites
-  const navigate = useNavigate();
   // Refs
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
   // States
-  const [isLoading, setIsLoading] = useState(false);
   // Functions
-  const logIn = async (e: any) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      const url = enviroment.API_URL + "/api/auth/";
-      const res = await axios.post(url, {
-        email: email?.current?.value,
-        password: password?.current?.value,
-      });
-      setIsLoading(false);
-      toast.success(res.data.message + "!");
-      localStorage.setItem("token", JSON.stringify(res.data.token));
-      const user: any = jwt(res.data.token);
-      setTimeout(() => {
-        user.email === "admin@gmail.com" && user.password === "admin"
-          ? navigate("/dashboard")
-          : navigate("/");
-      }, 1000);
-    } catch (err: any) {
-      if (err.response.status === 401) {
-        setTimeout(() => {
-          setIsLoading(false);
-          toast.error(err.response.data.message + "!");
-        }, 1500);
-      }
-    }
-  };
+  const { logIn, isLoading } = useUser();
 
   return (
     <div className="signin relative flex justify-center items-center">
@@ -121,7 +89,12 @@ const SignIn = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.5, delay: 2.8 }}
-            onClick={logIn}
+            onClick={(e) =>
+              logIn(e, {
+                email: email?.current?.value || "",
+                password: password?.current?.value || "",
+              })
+            }
           >
             <div className="btn btn-one text-center p-2">
               <p className="relative z-30">LOGIN</p>

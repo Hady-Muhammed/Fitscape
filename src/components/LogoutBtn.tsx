@@ -1,26 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiOutlinePoweroff } from "react-icons/ai";
-import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import Loader from "./Loader";
+import useUser from "../hooks/useUser";
 
 const LogoutBtn = () => {
   // Utilites
   const location = useLocation();
-  const navigate = useNavigate();
   // States
-  const [isLoading, setIsLoading] = useState(false);
-  // Functions
-  const logout = () => {
-    setIsLoading(true);
-    localStorage.removeItem("token");
-    setTimeout(() => {
-      toast.success("Logged out successfully!");
-      setIsLoading(false);
-      navigate("/signin");
-    }, 3000);
-  };
+  const { logout, isLoading } = useUser();
   return (
     <>
       {!location.pathname.includes("/dashboard") &&
