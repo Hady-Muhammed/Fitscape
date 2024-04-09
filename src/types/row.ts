@@ -3,8 +3,8 @@ export interface Row {
   set2: string;
   set3: string;
   set4: string;
-  exer: string;
+  exerciseName: string;
   weight: string;
   rest: string;
-  _id: string;
+  _id?: string;
 }
