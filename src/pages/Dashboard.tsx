@@ -12,11 +12,19 @@ import { enviroment } from "../enviroment";
 import { Line } from "react-chartjs-2";
 import Pako from "pako";
 import { Email } from "../types/email";
+interface RootState {
+  theme: ThemeState;
+}
+
+interface ThemeState {
+  darkMode: boolean;
+  language: string;
+}
 
 const Dashboard = () => {
   // Global States
-  const darkMode = useSelector((state: any) => state.theme.darkMode);
-  const lang = useSelector((state: any) => state.theme.language);
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+  const lang = useSelector((state: RootState) => state.theme.language);
   // States
   const [emails, setEmails] = useState<Email[]>([]);
   const [user, setUsers] = useState([]);

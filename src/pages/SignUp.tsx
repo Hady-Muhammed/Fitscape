@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { MouseEventHandler, useState } from "react";
 import { AiOutlineMail, AiOutlineLock, AiOutlineUser } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -23,7 +23,7 @@ const SignUp = () => {
   const password = useRef<HTMLInputElement>(null);
   const acceptTerms = useRef<HTMLInputElement>(null);
   // Functions
-  const createUser = async (e: any) => {
+  const createUser: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
@@ -43,7 +43,7 @@ const SignUp = () => {
           createdAt: new Date().toLocaleDateString().toString(),
           workouts: [],
         }),
-        { headers: { "Content-Type": "application/json" } }
+        { headers: { "Content-Type": "application/json" } },
       );
       if (res.data.message === "That user already exists") {
         setIsLoading(false);
@@ -55,25 +55,42 @@ const SignUp = () => {
           navigate("/signin");
         }, 3000);
       }
-    } catch (err: any) {
+    } catch (err) {
+      const error = err as {
+        response?: { data?: string | { message: string } } | undefined;
+      };
       if (
-        err.response.data === '"name" length must be at least 5 characters long'
+        error?.response?.data ===
+        '"name" length must be at least 5 characters long'
       ) {
         setIsLoading(false);
         setErrorName("Must be at least 5 characters!");
       } else if (
-        err.response.data ===
+        error.response?.data ===
         '"password" length must be at least 5 characters long'
       ) {
         setIsLoading(false);
         setErrorPass("Must be at least 5 characters!");
-      } else if (err.response.data === '"acceptTerms" must be [true]') {
+      } else if (error.response?.data === '"acceptTerms" must be [true]') {
         setIsLoading(false);
         setErrorTerms("Must be checked!");
-      } else if (err.response.data?.message === "That user already exists!") {
+      } else if (
+        typeof error.response?.data === "object" && // Check if data is an object
+        "message" in error.response.data && // Check if data has a message property
+        error.response?.data?.message === "That user already exists!"
+      ) {
         setTimeout(() => {
+          let msg: string | undefined;
+          if (
+            typeof error.response?.data === "object" &&
+            "message" in error.response.data
+          ) {
+            msg = error.response.data.message;
+          } else {
+            msg = undefined;
+          }
           setIsLoading(false);
-          toast.error(err.response.data?.message);
+          toast.error(msg);
         }, 1500);
       }
     }
