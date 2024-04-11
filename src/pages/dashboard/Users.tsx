@@ -19,12 +19,13 @@ import userr from "../../assets/user.jpg";
 import { enviroment } from "../../enviroment";
 import Pako from "pako";
 import { Account } from "../../types/account";
+import { RootState } from "../../components/DashbNav";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 
 const Users = () => {
   // Global States
-  const darkMode = useSelector((state: any) => state.theme.darkMode);
-  const lang = useSelector((state: any) => state.theme.language);
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+  const lang = useSelector((state: RootState) => state.theme.language);
   // States
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [page, setPage] = useState(0);
@@ -38,8 +39,10 @@ const Users = () => {
       const res = await axios.get(enviroment.API_URL + "/api/users/accounts");
       setAccounts(res.data.users);
       setLoading(false);
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
     }
   };
 
@@ -55,20 +58,24 @@ const Users = () => {
         if (res.isConfirmed) deleteUser(email);
       });
   };
-  const deleteUser = async (email: string) => {
+  const deleteUser = async (id: string) => {
     try {
-      await axios.delete(enviroment.API_URL + `/api/users/deleteUser/${email}`);
+      await axios.delete(enviroment.API_URL + `/api/users/${id}`);
       toast.success("Deleted successfully!");
       getAllAccounts();
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err) {
+      if (err instanceof Error) toast.error(err.message);
     }
   };
 
-  const handleChangePage = (_: any, newPage: number) => {
+  const handleChangePage = (
+    _: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
+    newPage: number,
+  ) => {
     setPage(newPage);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChangeRowsPerPage = (event: any) => {
     setRowsPerPage(+event?.target?.value);
     setPage(0);
@@ -182,7 +189,7 @@ const Users = () => {
                     {accounts
                       .slice(
                         page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
+                        page * rowsPerPage + rowsPerPage,
                       )
                       .map(
                         ({ name, email, createdAt, avatar }, i) =>
@@ -229,7 +236,7 @@ const Users = () => {
                                 </div>
                               </TableCell>
                             </TableRow>
-                          )
+                          ),
                       )}
                   </TableBody>
                 </Table>

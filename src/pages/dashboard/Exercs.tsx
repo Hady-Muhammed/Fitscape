@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "animate.css/animate.min.css";
 import { enviroment } from "../../enviroment";
 import { Exercise } from "../../types/exercise";
+import { RootState } from "../../components/DashbNav";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 
 const Exercs = () => {
@@ -22,8 +23,8 @@ const Exercs = () => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   // Global States
-  const lang = useSelector((state: any) => state.theme.language);
-  const darkMode = useSelector((state: any) => state.theme.darkMode);
+  const lang = useSelector((state: RootState) => state.theme.language);
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   // Refs
   const name = useRef<HTMLInputElement>(null);
   const desc = useRef<HTMLInputElement>(null);
@@ -39,7 +40,7 @@ const Exercs = () => {
       setError("No Data Found!");
     }
   };
-  const openDeleteModal = (name: string) => {
+  const openDeleteModal = (exercise: Exercise) => {
     if (lang !== "AR")
       swal
         .fire({
@@ -49,7 +50,7 @@ const Exercs = () => {
           showCancelButton: true,
         })
         .then((res) => {
-          if (res.isConfirmed) deleteExercise(name);
+          if (res.isConfirmed) deleteExercise(exercise);
         });
     else
       swal
@@ -60,7 +61,7 @@ const Exercs = () => {
           showCancelButton: true,
         })
         .then((res) => {
-          if (res.isConfirmed) deleteExercise(name);
+          if (res.isConfirmed) deleteExercise(exercise);
         });
   };
   const openAddModal = () => {
@@ -69,7 +70,7 @@ const Exercs = () => {
   const addExercise = async () => {
     setIsLoading(true);
     try {
-      await axios.post(enviroment.API_URL + "/api/exercises/addExercise", {
+      await axios.post(enviroment.API_URL + "/api/exercises/", {
         name: name?.current?.value,
         description: desc?.current?.value,
         img: imgURL?.current?.value,
@@ -79,20 +80,22 @@ const Exercs = () => {
       setIsLoading(false);
       toast.success("Champion added successfully!");
       setOpen(false);
-    } catch (err: any) {
-      setIsLoading(false);
-      toast.error(err.message);
-      setOpen(false);
+    } catch (err) {
+      if (err instanceof Error) {
+        setIsLoading(false);
+        toast.error(err.message);
+        setOpen(false);
+      }
     }
   };
-  const deleteExercise = async (name: string) => {
+  const deleteExercise = async (exercise: Exercise) => {
     try {
-      await axios.post(enviroment.API_URL + "/api/exercises/deleteExercise", {
-        name,
-      });
+      await axios.delete(enviroment.API_URL + `/api/exercises/${exercise._id}`);
       getAllExercises();
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
     }
   };
   // Effects
@@ -169,7 +172,7 @@ const Exercs = () => {
                 <div className="flex justify-evenly pb-4">
                   <button
                     onClick={() =>
-                      navigate(`/dashboard/edit/${exer.name}`, {
+                      navigate(`/dashboard/edit/${exer._id}`, {
                         state: { type: "exer" },
                       })
                     }
@@ -178,7 +181,7 @@ const Exercs = () => {
                     {lang === "AR" ? "تعديل" : "Edit"}
                   </button>
                   <button
-                    onClick={() => openDeleteModal(exer.name)}
+                    onClick={() => openDeleteModal(exer)}
                     className="btnfos btnfos-4 bg-blue-600 text-white rounded-full border-2 w-[45%] border-blue-700 p-2"
                   >
                     {lang === "AR" ? "حذف" : "Delete"}

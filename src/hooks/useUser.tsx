@@ -34,9 +34,9 @@ function useUser() {
         password,
       });
       setIsLoading(false);
-      toast.success(res.data.message + "!");
-      localStorage.setItem("token", JSON.stringify(res.data.token));
-      const user = jwtDecode(res.data.token) as Token;
+      toast.success(res.message + "!");
+      localStorage.setItem("token", JSON.stringify(res.token));
+      const user = jwtDecode(res.token) as Token;
       setTimeout(() => {
         user.email === "admin@gmail.com" && user.password === "admin"
           ? navigate("/dashboard")
@@ -46,7 +46,7 @@ function useUser() {
       const error = err as {
         response: { status: number; data: { message: string } };
       };
-      if (error.response.status === 401) {
+      if (error?.response?.status === 401) {
         setTimeout(() => {
           setIsLoading(false);
           toast.error(error.response.data.message + "!");
@@ -115,7 +115,7 @@ function useUser() {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as { email: string };
       const res = await get(enviroment.API_URL + `/api/users/isLiked/${email}`);
-      return res.data.liked ? true : false;
+      return res?.data?.liked ? true : false;
     } catch (err) {
       console.log(err);
     }

@@ -35,7 +35,7 @@ const Tables = () => {
   const [currentTable, setCurrentTable] = useState<Tablee>();
   const {
     changeTable,
-    editRow,
+    selectRow,
     addRow,
     submitRow,
     createNewTable,
@@ -132,9 +132,11 @@ const Tables = () => {
                             <button
                               className="flex items-center bg-slate-600 text-white px-4 py-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
                               onClick={() => {
-                                editRow(row?._id || "", date || "").then(
-                                  (row: Row) => {
-                                    setRow(row);
+                                selectRow(currentTable, row._id || "").then(
+                                  (roww: Row | undefined) => {
+                                    if (roww) {
+                                      setRow(roww);
+                                    }
                                   },
                                 );
                               }}
@@ -287,7 +289,8 @@ const Tables = () => {
                     transition={{ duration: 0.5 }}
                     onClick={(e) => {
                       e.preventDefault();
-                      submitRow(row, date).then(() => {
+                      submitRow(row, date).then((currentTable: Tablee) => {
+                        setCurrentTable(currentTable);
                         setRow({
                           exerciseName: "",
                           set1: "",
@@ -397,6 +400,7 @@ const Tables = () => {
                     currentTable: Tablee | undefined;
                     isTableFound: boolean;
                   }) => {
+                    console.log(data);
                     setCurrentTable(data?.currentTable);
                     setTablesFound(!!data?.isTableFound);
                   },
