@@ -36,14 +36,12 @@ function useTable() {
           rest: row.rest,
           weight: row.weight,
         };
-        const res = await post(enviroment.API_URL + `/api/users/addRow`, {
+        const res = await post(enviroment.API_URL + `/api/workouts/rows/`, {
           email,
           date,
           exercise,
         });
-        const currentTable = res.data.workouts.find(
-          (w: Workout) => w.date === date,
-        );
+        const currentTable = res.workouts.find((w: Workout) => w.date === date);
         setWarning(false);
         return currentTable;
       } else {
@@ -74,16 +72,13 @@ function useTable() {
           rest: row?.rest,
           weight: row?.weight,
         };
-        const id = localStorage.getItem("id");
-        const res = await put(enviroment.API_URL + `/api/users/submitRow`, {
+        const res = await put(enviroment.API_URL + `/api/workouts/rows/`, {
           email,
           date,
-          id,
+          id: row._id,
           editedExer,
         });
-        const currentTable = res.data.workouts.find(
-          (w: Workout) => w.date === date,
-        );
+        const currentTable = res.workouts.find((w: Workout) => w.date === date);
         setWarning(false);
         setIsEditing(false);
         setEditSuccess(true);
@@ -111,7 +106,7 @@ function useTable() {
       try {
         const token = localStorage.getItem("token") || "";
         const { email } = jwtDecode(token) as Token;
-        post(enviroment.API_URL + "/api/users/createTable", {
+        post(enviroment.API_URL + "/api/workouts/", {
           email,
           date,
         }).then(() => {
@@ -146,10 +141,10 @@ function useTable() {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as Token;
       const res = await get(
-        enviroment.API_URL + `/api/users/getTable/?email=${email}&date=${date}`,
+        enviroment.API_URL + `/api/workouts?email=${email}&date=${date}`,
       );
-      const isTableFound: boolean = res.data ? true : false;
-      const currentTable: Table = res.data;
+      const isTableFound: boolean = res ? true : false;
+      const currentTable: Table = res;
       closeLoader();
       return { currentTable, isTableFound };
     } catch (error) {
@@ -163,26 +158,10 @@ function useTable() {
     closeLoader();
   };
 
-  const editRow = async (id: string, date: Date | string) => {
+  const selectRow = async (workout: Table, rowId: string) => {
     setIsEditing(true);
     try {
-      const token: string = localStorage.getItem("token") || "";
-      const { email } = jwtDecode(token) as { email: string };
-      const { data } = await get(
-        enviroment.API_URL +
-          `/api/users/retrieveRow/?email=${email}&date=${date}&id=${id}`,
-      );
-      const row: Row = {
-        set1: data.set1,
-        set2: data.set2,
-        set3: data.set3,
-        set4: data.set4,
-        exerciseName: data.exerciseName,
-        weight: data.weight,
-        rest: data.rest,
-        _id: data._id,
-      };
-      localStorage.setItem("id", id);
+      const row = workout.rows.find((row: Row) => row._id === rowId);
       return row;
     } catch (error) {
       if (error instanceof Error) {
@@ -214,11 +193,12 @@ function useTable() {
     try {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as Token;
-      const res = await deletee(enviroment.API_URL + `/api/users/deleteRow`, {
-        headers: {},
-        data: { email, date, id },
+      const res = await deletee(enviroment.API_URL + `/api/workouts/rows`, {
+        email,
+        date,
+        id,
       });
-      return res.data.workouts.find((w: Workout) => w.date === date);
+      return res.workouts.find((w: Workout) => w.date === date);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -232,7 +212,7 @@ function useTable() {
     deleteRow,
     submitRow,
     addRow,
-    editRow,
+    selectRow,
     createNewTable,
     changeTable,
     isLoading,

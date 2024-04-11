@@ -77,13 +77,13 @@ const UserAccount = () => {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as Token;
       if (password !== "123456") {
-        await axios.post(enviroment.API_URL + `/api/users/updateUser/`, {
+        await axios.put(enviroment.API_URL + `/api/users/`, {
           email,
           name,
           password,
         });
       } else {
-        await axios.post(enviroment.API_URL + `/api/users/updateUser/`, {
+        await axios.put(enviroment.API_URL + `/api/users/`, {
           email,
           name,
         });

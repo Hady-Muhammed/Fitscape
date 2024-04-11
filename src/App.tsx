@@ -262,7 +262,7 @@ function App() {
               }
             />
             <Route
-              path="/dashboard/edit/:name"
+              path="/dashboard/edit/:id"
               element={
                 <Suspense
                   fallback={
