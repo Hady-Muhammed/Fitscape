@@ -23,7 +23,7 @@ function useUser() {
 
   const logIn = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    { email, password }: { email: string; password: string },
+    { email, password }: { email: string; password: string }
   ) => {
     e.preventDefault();
     setIsLoading(true);
