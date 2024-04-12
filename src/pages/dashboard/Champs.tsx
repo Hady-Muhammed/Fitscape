@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState, lazy } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import swal from "sweetalert2";
 import { Backdrop, Fade, Modal } from "@mui/material";
 import { Box } from "@mui/system";
@@ -12,6 +11,7 @@ import "animate.css/animate.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../../enviroment";
 import { Champion } from "../../types/champion";
+import useRest from "../../hooks/useRest";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 interface RootState {
   theme: ThemeState;
@@ -32,6 +32,7 @@ const Champs = () => {
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { get, post, deletee } = useRest();
   // Refs
   const name = useRef<HTMLInputElement>(null);
   const desc = useRef<HTMLInputElement>(null);
@@ -40,14 +41,14 @@ const Champs = () => {
   const getAllChampions = async () => {
     try {
       setError("");
-      const res = await axios.get(enviroment.API_URL + "/api/champs");
-      setChamps(res.data.champs);
+      const res = await get(enviroment.API_URL + "/api/champs");
+      setChamps(res.champs);
     } catch (error) {
       setError("No Data Found!");
     }
   };
 
-  const openDeleteModal = (name: string) => {
+  const openDeleteModal = (id: string) => {
     if (lang !== "AR")
       swal
         .fire({
@@ -57,7 +58,7 @@ const Champs = () => {
           showCancelButton: true,
         })
         .then((res) => {
-          if (res.isConfirmed) deleteChamp(name);
+          if (res.isConfirmed) deleteChamp(id);
         });
     else
       swal
@@ -68,7 +69,7 @@ const Champs = () => {
           showCancelButton: true,
         })
         .then((res) => {
-          if (res.isConfirmed) deleteChamp(name);
+          if (res.isConfirmed) deleteChamp(id);
         });
   };
 
@@ -79,7 +80,7 @@ const Champs = () => {
   const addChamp = async () => {
     setIsLoading(true);
     try {
-      await axios.post(enviroment.API_URL + "/api/champs/addChamp", {
+      await post(enviroment.API_URL + "/api/champs/addChamp", {
         name: name?.current?.value,
         description: desc?.current?.value,
         img: imgURL?.current?.value,
@@ -97,10 +98,10 @@ const Champs = () => {
     }
   };
 
-  const deleteChamp = async (name: string) => {
+  const deleteChamp = async (id: string) => {
     try {
-      await axios.post(enviroment.API_URL + "/api/champs/deleteChamp", {
-        name,
+      await deletee(enviroment.API_URL + "/api/champs/", {
+        id,
       });
       getAllChampions();
     } catch (err) {
@@ -192,7 +193,7 @@ const Champs = () => {
                     <span>{lang === "AR" ? "تعديل" : "Edit"}</span>
                   </button>
                   <button
-                    onClick={() => openDeleteModal(champ.name)}
+                    onClick={() => openDeleteModal(champ._id)}
                     className="btnfos btnfos-4 bg-blue-600 text-white rounded-full border-2 w-[45%] border-blue-700 p-2"
                   >
                     <span>{lang === "AR" ? "حذف" : "Delete"}</span>

@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState, lazy } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "../../components/Loader";
-import axios from "axios";
 import swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { Backdrop, Box, Fade, Modal } from "@mui/material";
@@ -12,11 +11,13 @@ import "animate.css/animate.min.css";
 import { enviroment } from "../../enviroment";
 import { Exercise } from "../../types/exercise";
 import { RootState } from "../../components/DashbNav";
+import useRest from "../../hooks/useRest";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 
 const Exercs = () => {
   // Utilites
   const navigate = useNavigate();
+  const { get, post, deletee } = useRest();
   // States
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [error, setError] = useState("");
@@ -34,8 +35,8 @@ const Exercs = () => {
   const getAllExercises = async () => {
     try {
       setError("");
-      const res = await axios.get(enviroment.API_URL + "/api/exercises");
-      setExercises(res.data.exers);
+      const res = await get(enviroment.API_URL + "/api/exercises");
+      setExercises(res.exers);
     } catch (error) {
       setError("No Data Found!");
     }
@@ -70,7 +71,7 @@ const Exercs = () => {
   const addExercise = async () => {
     setIsLoading(true);
     try {
-      await axios.post(enviroment.API_URL + "/api/exercises/", {
+      await post(enviroment.API_URL + "/api/exercises/", {
         name: name?.current?.value,
         description: desc?.current?.value,
         img: imgURL?.current?.value,
@@ -90,7 +91,7 @@ const Exercs = () => {
   };
   const deleteExercise = async (exercise: Exercise) => {
     try {
-      await axios.delete(enviroment.API_URL + `/api/exercises/${exercise._id}`);
+      await deletee(enviroment.API_URL + `/api/exercises/${exercise._id}`, {});
       getAllExercises();
     } catch (err) {
       if (err instanceof Error) {

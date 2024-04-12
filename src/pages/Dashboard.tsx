@@ -4,7 +4,6 @@ import { GiReceiveMoney, GiTakeMyMoney } from "react-icons/gi";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import { GrUserExpert } from "react-icons/gr";
 import { BiLike } from "react-icons/bi";
-import axios from "axios";
 import ScrollAnimation from "react-animate-on-scroll";
 import { useSelector } from "react-redux";
 import userr from "../assets/user.jpg";
@@ -12,6 +11,7 @@ import { enviroment } from "../enviroment";
 import { Line } from "react-chartjs-2";
 import Pako from "pako";
 import { Email } from "../types/email";
+import useRest from "../hooks/useRest";
 interface RootState {
   theme: ThemeState;
 }
@@ -29,6 +29,7 @@ const Dashboard = () => {
   const [emails, setEmails] = useState<Email[]>([]);
   const [user, setUsers] = useState([]);
   const [likes, setLikes] = useState([]);
+  const { get } = useRest();
   const [chartData] = useState({
     labels: [2018, 2019, 2020, 2021, 2022],
     datasets: [
@@ -58,16 +59,16 @@ const Dashboard = () => {
   });
   // Functions
   const getRecentEmails = async () => {
-    const res = await axios.get(enviroment.API_URL + "/api/users/emails/3");
-    setEmails(res.data.emails);
+    const res = await get(enviroment.API_URL + "/api/users/emails/3");
+    setEmails(res.emails);
   };
   const getAllAccounts = async () => {
-    const res = await axios.get(enviroment.API_URL + "/api/users/accounts");
-    setUsers(res.data.users);
+    const res = await get(enviroment.API_URL + "/api/users/accounts");
+    setUsers(res.users);
   };
   const getAllLikes = async () => {
-    const res = await axios.get(enviroment.API_URL + "/api/users/alllikes");
-    setLikes(res.data.likes);
+    const res = await get(enviroment.API_URL + "/api/users/alllikes");
+    setLikes(res.likes);
   };
   // Effects
   useEffect(() => {

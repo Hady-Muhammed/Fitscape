@@ -68,6 +68,7 @@ const Contact = () => {
             ></textarea>
             <button
               onClick={() => sendMessage(message)}
+              type="button"
               className="bg-[#795548] whitespace-nowrap send text-white p-5 rounded-md"
             >
               SEND MESSAGE

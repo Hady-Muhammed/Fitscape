@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../components/Logo";
 import userr from "../assets/user.jpg";
-import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { BsCheckCircleFill } from "react-icons/bs";
 import Swal from "sweetalert2";
@@ -13,6 +12,7 @@ import { enviroment } from "../enviroment";
 import Pako, { Data } from "pako";
 import { Token } from "../types/token";
 import useUser from "../hooks/useUser";
+import useRest from "../hooks/useRest";
 
 const UserAccount = () => {
   // States
@@ -22,16 +22,17 @@ const UserAccount = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("123456");
   const [disabled, setDisabled] = useState(true);
+  const { put, get, post } = useRest();
   // Functions
   const { getUser } = useUser();
   const getWorkoutsDone = async () => {
     try {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as Token;
-      const res = await axios.get(
+      const res = await get(
         enviroment.API_URL + `/api/users/getAllWorkouts/${email}`,
       );
-      setWorkoutsDone(res?.data?.workouts?.length);
+      setWorkoutsDone(res?.workouts?.length);
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
@@ -46,7 +47,7 @@ const UserAccount = () => {
       const file: File | undefined = e.target.files?.[0];
       const base64String = file && (await fileToBase64(file));
       const compressedString = Pako.gzip(base64String as string | Data);
-      await axios.post(enviroment.API_URL + "/api/users/uploadImg", {
+      await post(enviroment.API_URL + "/api/users/uploadImg", {
         email,
         file: compressedString,
       });
@@ -60,10 +61,10 @@ const UserAccount = () => {
     try {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as Token;
-      const res = await axios.get(
+      const res = await get(
         enviroment.API_URL + `/api/users/getAvatar/${email}`,
       );
-      const image = Pako.inflate(res?.data?.avatar, { to: "string" });
+      const image = Pako.inflate(res?.avatar, { to: "string" });
       setAvatar(image);
     } catch (err) {
       if (err instanceof Error) {
@@ -77,13 +78,13 @@ const UserAccount = () => {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as Token;
       if (password !== "123456") {
-        await axios.put(enviroment.API_URL + `/api/users/`, {
+        await put(enviroment.API_URL + `/api/users/`, {
           email,
           name,
           password,
         });
       } else {
-        await axios.put(enviroment.API_URL + `/api/users/`, {
+        await put(enviroment.API_URL + `/api/users/`, {
           email,
           name,
         });

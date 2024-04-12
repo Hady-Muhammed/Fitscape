@@ -1,5 +1,4 @@
 import React, { useEffect, useState, lazy } from "react";
-import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -20,12 +19,14 @@ import { enviroment } from "../../enviroment";
 import Pako from "pako";
 import { Account } from "../../types/account";
 import { RootState } from "../../components/DashbNav";
+import useRest from "../../hooks/useRest";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 
 const Users = () => {
   // Global States
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   const lang = useSelector((state: RootState) => state.theme.language);
+  const { get, deletee } = useRest();
   // States
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [page, setPage] = useState(0);
@@ -36,8 +37,8 @@ const Users = () => {
   const getAllAccounts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(enviroment.API_URL + "/api/users/accounts");
-      setAccounts(res.data.users);
+      const res = await get(enviroment.API_URL + "/api/users/accounts");
+      setAccounts(res.users);
       setLoading(false);
     } catch (err) {
       if (err instanceof Error) {
@@ -60,7 +61,7 @@ const Users = () => {
   };
   const deleteUser = async (id: string) => {
     try {
-      await axios.delete(enviroment.API_URL + `/api/users/${id}`);
+      await deletee(enviroment.API_URL + `/api/users/${id}`, {});
       toast.success("Deleted successfully!");
       getAllAccounts();
     } catch (err) {

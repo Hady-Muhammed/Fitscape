@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState, lazy } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "../../components/Loader";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../../enviroment";
+import useRest from "../../hooks/useRest";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 interface RootState {
   theme: ThemeState;
@@ -20,6 +20,7 @@ interface ThemeState {
 const Edit = () => {
   // Utilites
   const { id } = useParams();
+  const { put, get } = useRest();
   const {
     state: { type },
   } = useLocation();
@@ -37,7 +38,7 @@ const Edit = () => {
     try {
       setIsLoading(true);
       if (type === "champ") {
-        await axios.post(enviroment.API_URL + `/api/champs?id=${id}`, {
+        await put(enviroment.API_URL + `/api/champs/${id}`, {
           name: Name,
           description: desc,
           img: url,
@@ -51,7 +52,7 @@ const Edit = () => {
         });
         navigate("/dashboard/champions");
       } else {
-        await axios.put(enviroment.API_URL + `/api/exercises/${id}`, {
+        await put(enviroment.API_URL + `/api/exercises/${id}`, {
           name: Name,
           description: desc,
           img: url,
@@ -74,22 +75,16 @@ const Edit = () => {
   const getData = useCallback(async () => {
     try {
       if (type === "champ") {
-        console.log(id);
-        const res = await axios.get(
-          enviroment.API_URL + `/api/champs?id=${id}`,
-        );
+        const res = await get(enviroment.API_URL + `/api/champs?id=${id}`);
         console.log(res);
-        setName(res?.data?.champ?.name);
-        setDesc(res?.data?.champ?.description);
-        setUrl(res?.data?.champ?.img);
+        setName(res?.champ?.name);
+        setDesc(res?.champ?.description);
+        setUrl(res?.champ?.img);
       } else {
-        console.log(id);
-        const res = await axios.get(
-          enviroment.API_URL + `/api/exercises/${id}`,
-        );
-        setName(res.data?.exer?.name);
-        setDesc(res.data?.exer?.description);
-        setUrl(res.data?.exer?.img);
+        const res = await get(enviroment.API_URL + `/api/exercises/${id}`);
+        setName(res.exer?.name);
+        setDesc(res.exer?.description);
+        setUrl(res.exer?.img);
       }
     } catch (err) {
       console.error(err);

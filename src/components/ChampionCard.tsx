@@ -14,7 +14,7 @@ const ChampionCard: React.FC<ChampionCardProps> = ({ title, img, desc }) => {
     <ScrollAnimation offset={500} animateIn="animate__fadeInUp">
       <div className="text-white text-center space-y-5">
         <img
-          className="w-full h-[700px] object-cover rounded-md mx-auto duration-300"
+          className="w-[16rem] h-80 object-cover rounded-xl mx-auto duration-300"
           src={img}
           alt={title}
         />
