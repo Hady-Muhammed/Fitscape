@@ -13,13 +13,20 @@ import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../../enviroment";
 import { Champion } from "../../types/champion";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
+interface RootState {
+  theme: ThemeState;
+}
 
+interface ThemeState {
+  darkMode: boolean;
+  language: string;
+}
 const Champs = () => {
   // Utilites
   const navigate = useNavigate();
   // Global States
-  const darkMode = useSelector((state: any) => state.theme.darkMode);
-  const lang = useSelector((state: any) => state.theme.language);
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+  const lang = useSelector((state: RootState) => state.theme.language);
   // States
   const [champs, setChamps] = useState<Champion[]>([]);
   const [error, setError] = useState("");
@@ -81,10 +88,12 @@ const Champs = () => {
       setIsLoading(false);
       toast.success("Champion added successfully!");
       setOpen(false);
-    } catch (err: any) {
-      setIsLoading(false);
-      toast.error(err.message);
-      setOpen(false);
+    } catch (err) {
+      if (err instanceof Error) {
+        setIsLoading(false);
+        toast.error(err.message);
+        setOpen(false);
+      }
     }
   };
 
@@ -94,8 +103,10 @@ const Champs = () => {
         name,
       });
       getAllChampions();
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
     }
   };
   // Effects
@@ -172,7 +183,7 @@ const Champs = () => {
                 <div className="flex justify-around p-3">
                   <button
                     onClick={() =>
-                      navigate(`/dashboard/edit/${champ.name}`, {
+                      navigate(`/dashboard/edit/${champ._id}`, {
                         state: { type: "champ" },
                       })
                     }

@@ -9,7 +9,7 @@ import Loader from "./Loader";
 import { useSelector } from "react-redux";
 import { MdManageAccounts } from "react-icons/md";
 import useUser from "../hooks/useUser";
-interface RootState {
+export interface RootState {
   theme: ThemeState;
 }
 

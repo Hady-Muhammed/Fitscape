@@ -9,10 +9,17 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../../enviroment";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
+interface RootState {
+  theme: ThemeState;
+}
 
+interface ThemeState {
+  darkMode: boolean;
+  language: string;
+}
 const Edit = () => {
   // Utilites
-  const { name } = useParams();
+  const { id } = useParams();
   const {
     state: { type },
   } = useLocation();
@@ -23,21 +30,18 @@ const Edit = () => {
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   // Global States
-  const lang = useSelector((state: any) => state.theme.language);
-  const darkMode = useSelector((state: any) => state.theme.darkMode);
+  const lang = useSelector((state: RootState) => state.theme.language);
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   // Functions
   const saveChanges = async () => {
     try {
       setIsLoading(true);
       if (type === "champ") {
-        await axios.post(
-          enviroment.API_URL + `/api/champs/updateChamp/${name}`,
-          {
-            name: Name,
-            description: desc,
-            img: url,
-          }
-        );
+        await axios.post(enviroment.API_URL + `/api/champs?id=${id}`, {
+          name: Name,
+          description: desc,
+          img: url,
+        });
         setIsLoading(false);
         Swal.fire({
           icon: "success",
@@ -47,14 +51,11 @@ const Edit = () => {
         });
         navigate("/dashboard/champions");
       } else {
-        await axios.post(
-          enviroment.API_URL + `/api/exercises/updateExer/${name}`,
-          {
-            name: Name,
-            description: desc,
-            img: url,
-          }
-        );
+        await axios.put(enviroment.API_URL + `/api/exercises/${id}`, {
+          name: Name,
+          description: desc,
+          img: url,
+        });
         setIsLoading(false);
         Swal.fire({
           icon: "success",
@@ -64,22 +65,27 @@ const Edit = () => {
         });
         navigate("/dashboard/exercises");
       }
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
     }
   };
   const getData = useCallback(async () => {
     try {
       if (type === "champ") {
+        console.log(id);
         const res = await axios.get(
-          enviroment.API_URL + `/api/champs/getChamp/${name}`
+          enviroment.API_URL + `/api/champs?id=${id}`,
         );
+        console.log(res);
         setName(res?.data?.champ?.name);
         setDesc(res?.data?.champ?.description);
         setUrl(res?.data?.champ?.img);
       } else {
+        console.log(id);
         const res = await axios.get(
-          enviroment.API_URL + `/api/exercises/getExer/${name}`
+          enviroment.API_URL + `/api/exercises/${id}`,
         );
         setName(res.data?.exer?.name);
         setDesc(res.data?.exer?.description);
