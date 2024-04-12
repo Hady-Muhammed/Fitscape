@@ -19,7 +19,7 @@ const Exercises = () => {
         Exercises
       </h2>
       <div className="grid md:grid-cols-2 gap-20">
-        {exercises.map((exer) => (
+        {exercises?.map((exer) => (
           <ExerciseCard
             key={exer.title}
             title={exer.title}
@@ -28,7 +28,7 @@ const Exercises = () => {
             tutorial={exer.tutorial}
           />
         ))}
-        {dbExercises.map((exer: Exercise) => (
+        {dbExercises?.map((exer: Exercise) => (
           <ExerciseCard
             key={exer.name}
             title={exer.name}

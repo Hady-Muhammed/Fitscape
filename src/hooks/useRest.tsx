@@ -28,9 +28,13 @@ function useRest() {
   async function sendRequest(url: string, method: string, body?: RequestBody) {
     setLoading(true);
     setError(null);
-
     const headers = {
       "Content-Type": "application/json",
+      ...(!url.includes("auth") && {
+        Authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("token") || "",
+        )}`,
+      }),
     };
 
     try {

@@ -34,9 +34,10 @@ function useUser() {
         password,
       });
       setIsLoading(false);
-      toast.success(res.data.message + "!");
-      localStorage.setItem("token", JSON.stringify(res.data.token));
-      const user = jwtDecode(res.data.token) as Token;
+      toast.success(res.message + "!");
+      localStorage.setItem("token", JSON.stringify(res.token));
+      const user = jwtDecode(res.token) as Token;
+      console.log(user);
       setTimeout(() => {
         user.email === "admin@gmail.com" && user.password === "admin"
           ? navigate("/dashboard")
@@ -115,7 +116,8 @@ function useUser() {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as { email: string };
       const res = await get(enviroment.API_URL + `/api/users/isLiked/${email}`);
-      return res.data.liked ? true : false;
+      console.log(res);
+      return res?.liked ? true : false;
     } catch (err) {
       console.log(err);
     }
