@@ -2,30 +2,30 @@ import React, { useEffect, useState, lazy } from "react";
 import img from "../../assets/ruf.webp";
 import jwtDecode from "jwt-decode";
 import { FiEdit } from "react-icons/fi";
-import axios from "axios";
 import ScrollAnimation from "react-animate-on-scroll";
 import { useSelector } from "react-redux";
 import { enviroment } from "../../enviroment";
 import { Token } from "../../types/token";
+import { RootState } from "../../components/DashbNav";
+import useRest from "../../hooks/useRest";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 
 const Account = () => {
   // Global States
-  const darkMode = useSelector((state: any) => state.theme.darkMode);
-  const lang = useSelector((state: any) => state.theme.language);
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+  const lang = useSelector((state: RootState) => state.theme.language);
   // States
   const [disabled, setDisabled] = useState(true);
-  const [pass, setPass] = useState("");
-  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const { get } = useRest();
   // Functions
   const getUserData = async () => {
     const token: Token = jwtDecode(localStorage.getItem("token") || "");
-    const res = await axios.post(enviroment.API_URL + "/api/users/getUser", {
-      email: token.email,
-      password: token.password,
-    });
-    setPass(res.data.password);
-    setEmail(res.data.email);
+    console.log(token);
+    const res = await get(enviroment.API_URL + `/api/users/${token.email}`);
+    setPass(res.password);
+    setEmail(res.email);
   };
   // EFFECTS
   useEffect(() => {

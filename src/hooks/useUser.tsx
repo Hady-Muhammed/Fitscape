@@ -23,7 +23,7 @@ function useUser() {
 
   const logIn = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    { email, password }: { email: string; password: string }
+    { email, password }: { email: string; password: string },
   ) => {
     e.preventDefault();
     setIsLoading(true);
@@ -59,8 +59,8 @@ function useUser() {
     try {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as Token;
-      const res = await get(enviroment.API_URL + `/api/users/getUser/${email}`);
-      return { name: res.data.user.name, email: res.data.user.email };
+      const res = await get(enviroment.API_URL + `/api/users/${email}`);
+      return { name: res.user.name, email: res.user.email };
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);

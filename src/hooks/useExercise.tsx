@@ -7,7 +7,7 @@ function useExercise() {
   const getAllExercises = async () => {
     try {
       const res = await get(enviroment.API_URL + "/api/exercises");
-      return res.data.exers;
+      return res.exers;
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
