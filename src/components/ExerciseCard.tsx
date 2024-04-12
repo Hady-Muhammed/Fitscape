@@ -19,7 +19,7 @@ const ExerciseCard: FC<ExerciseCardProps> = ({
         <a className="group relative block" href={tutorial} target="blank">
           <img
             loading="lazy"
-            className="w-full group-hover:brightness-50 h-[400px] object-cover rounded-md mx-auto duration-300"
+            className="w-full group-hover:brightness-50 h-80 object-cover rounded-md mx-auto duration-300"
             src={img}
             alt={title}
           />
