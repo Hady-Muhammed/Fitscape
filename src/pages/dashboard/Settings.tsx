@@ -2,14 +2,15 @@ import React, { lazy } from "react";
 import ScrollAnimation from "react-animate-on-scroll";
 import { useDispatch, useSelector } from "react-redux";
 import { CHANGE_LANG, CHANGE_THEME } from "../../redux/slices/themeSlice";
+import { RootState } from "../../components/DashbNav";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 
 const Settings = () => {
   // Utilites
   const dispatch = useDispatch();
   // Global States
-  const darkMode = useSelector((state: any) => state.theme.darkMode);
-  const lang = useSelector((state: any) => state.theme.language);
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+  const lang = useSelector((state: RootState) => state.theme.language);
   // Functions
   const changeTheme = () => {
     dispatch(CHANGE_THEME());
@@ -47,8 +48,8 @@ const Settings = () => {
                 ? "الوضع النهاري"
                 : "الوضع الليلي"
               : darkMode
-              ? "Dark Mode"
-              : "Light Mode"}
+                ? "Dark Mode"
+                : "Light Mode"}
           </p>
           <div className="w-[50px] h-[50px] p-2">
             <input
