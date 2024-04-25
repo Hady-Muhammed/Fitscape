@@ -46,7 +46,6 @@ const Tables = () => {
     createSuccess,
     editSuccess,
   } = useTable();
-  // Functions
 
   return (
     <>
