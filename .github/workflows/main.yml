@@ -1,4 +1,4 @@
-name: Assign Reviewers and Update PR Description
+name: Update PR Description
 on:
   pull_request:
     types:
@@ -20,3 +20,4 @@ jobs:
           jq -n "$DESCRIPTION" > pr_description.json
           jq -c '. + {"body": (.body | rtrimstr("\n"))}' pr_description.json > new_description.json
           curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Content-Type: application/json" -d @new_description.json "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}"
+      
