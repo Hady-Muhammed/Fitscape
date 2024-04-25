@@ -1,4 +1,4 @@
-name: Assign Reviewers and Update PR Description
+name: Update PR Description
 on:
   pull_request:
     types:
@@ -6,27 +6,18 @@ on:
   workflow_dispatch:
   
 jobs:
-  assign-reviewers:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Add Pull Request Reviewer
-        uses: AveryCameronUofR/add-reviewer-gh-action@1.0.3
-        with:
-          reviewers: "muhammed-elsherif,mohamed2410933"
-          token: ${{ secrets.GITHUB_TOKEN }}
-
   update-description:
     runs-on: ubuntu-latest
-    needs: assign-reviewers
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       
       - name: Set PR Description
         run: |
-          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          BRANCH_NAME=$(jq -r '.pull_request.head.ref' "${GITHUB_EVENT_PATH}")
           echo "Branch name is $BRANCH_NAME"
           DESCRIPTION=$(jq -n --arg branch "$BRANCH_NAME" '{"body": "This PR is for branch: \($branch)"}')
           jq -n "$DESCRIPTION" > pr_description.json
           jq -c '. + {"body": (.body | rtrimstr("\n"))}' pr_description.json > new_description.json
           curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Content-Type: application/json" -d @new_description.json "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}"
+      
