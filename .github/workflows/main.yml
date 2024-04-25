@@ -19,7 +19,7 @@ jobs:
            # Extract the existing PR description
            EXISTING_DESCRIPTION=$(jq -r '.pull_request.body' "${GITHUB_EVENT_PATH}")
            # Prepend the task link to the existing description
-           DESCRIPTION=$(jq -n --arg branch "$BRANCH_NAME" --arg existingDescription "$EXISTING_DESCRIPTION" '{"body": "This PR is for branch: \($branch)\n\n[task](https://fitscape.atlassian.net/browse/\($branch))\n\n\($existingDescription)"}')
+           DESCRIPTION=$(jq -n --arg branch "$BRANCH_NAME" --arg existingDescription "$EXISTING_DESCRIPTION" '{"body": "[task](https://fitscape.atlassian.net/browse/\($branch))\n\n\($existingDescription)"}')
            jq -n "$DESCRIPTION" > pr_description.json
            jq -c '. + {"body": (.body | rtrimstr("\n"))}' pr_description.json > new_description.json
            curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Content-Type: application/json" -d @new_description.json "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}"

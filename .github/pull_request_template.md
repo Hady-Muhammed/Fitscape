@@ -1,5 +1,3 @@
-[Task](https://deal.atlassian.net/browse/${BRANCH_NAME})
-
 ## Type of change
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
