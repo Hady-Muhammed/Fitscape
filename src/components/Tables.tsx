@@ -30,7 +30,6 @@ const Tables = () => {
     rest: "",
     _id: "",
   });
-  // States
   const [tablesFound, setTablesFound] = useState(false);
   const [currentTable, setCurrentTable] = useState<Tablee>();
   const {
