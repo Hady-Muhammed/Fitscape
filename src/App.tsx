@@ -20,6 +20,8 @@ import {
   PointElement,
   Tooltip,
 } from "chart.js";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const Home = lazy(() => import("./pages/Home"));
 const Champions = lazy(() => import("./pages/Champions"));
@@ -52,7 +54,7 @@ Chart.register(
 function App() {
   const location = useLocation();
   return (
-    <>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <LogoutBtn />
       <Navbar />
       <AnimatePresence>
@@ -305,7 +307,7 @@ function App() {
         pauseOnHover
         theme="light"
       />
-    </>
+    </LocalizationProvider>
   );
 }
 
