@@ -28,7 +28,10 @@ html {
 li:hover,
 .eval:hover,
 .create-new:hover {
-  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff,
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 15px #fff,
     2px 2px 2px rgba(206, 89, 55, 0);
 }
 main {
@@ -223,7 +226,10 @@ input[type="number"] {
     )
     var(--_p) var(--_p) / calc(100% - var(--b) - 2 * var(--_p))
     calc(100% - var(--b) - 2 * var(--_p));
-  transition: 0.3s linear, color 0s, background-color 0s;
+  transition:
+    0.3s linear,
+    color 0s,
+    background-color 0s;
   outline: var(--b) solid #0000;
   outline-offset: 0.6em;
   font-size: 16px;
@@ -273,7 +279,8 @@ input[type="number"] {
   right: 100%;
   bottom: 0;
   background: white;
-  transition: 0.3s 0.2s cubic-bezier(0.1, 0, 0.1, 1),
+  transition:
+    0.3s 0.2s cubic-bezier(0.1, 0, 0.1, 1),
     left 0.3s cubic-bezier(0.1, 0, 0.1, 1);
   z-index: -1;
 }
@@ -298,7 +305,8 @@ input[type="number"] {
   left: calc(100% - 3em);
   right: 0;
   border: 1px solid black;
-  transition: 0.3s cubic-bezier(0.1, 0, 0.1, 1),
+  transition:
+    0.3s cubic-bezier(0.1, 0, 0.1, 1),
     left 0.3s 0.2s cubic-bezier(0.1, 0, 0.1, 1);
 }
 .send:hover::after {
@@ -640,7 +648,9 @@ input[type="number"] {
   transition: all 250ms ease-in;
   position: absolute;
   content: "";
-  box-shadow: var(--gray-dots) -13px 0 0 2px, var(--gray-dots) -24px 14px 0 -2px;
+  box-shadow:
+    var(--gray-dots) -13px 0 0 2px,
+    var(--gray-dots) -24px 14px 0 -2px;
   left: 143px;
   top: 23px;
   width: 10px;
@@ -774,4 +784,17 @@ input[type="number"] {
 .zz {
   -webkit-clip-path: polygon(100% 0, 0% 100%, 0 0);
   clip-path: polygon(100% 0, 0% 100%, 0 0);
+}
+/* Media queries for adjusting font sizes at different screen sizes */
+@media screen and (min-width: 480px) {
+  /* Adjust font sizes for smaller screens */
+  html {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  html {
+    font-size: 0.5rem;
+  }
 }

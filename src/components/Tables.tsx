@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -14,12 +14,12 @@ import ScrollAnimation from "react-animate-on-scroll";
 import { Row } from "../types/row";
 import { Table as Tablee } from "../types/table";
 import useTable from "../hooks/useTable";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 let date: string | Date | undefined = undefined;
 
 const Tables = () => {
   // Refs
-  const inp = useRef<HTMLInputElement>(null);
   const [row, setRow] = useState<Row>({
     set1: "",
     set2: "",
@@ -52,26 +52,25 @@ const Tables = () => {
     <>
       <div className="main-color p-12">
         <p className="text-white text-center">Select The Workout Day</p>
-        <input
-          onChange={() => {
-            date = inp.current?.value;
-            changeTable(inp.current?.value).then(
-              (
-                data:
-                  | { currentTable: Tablee; isTableFound: boolean }
-                  | undefined,
-              ) => {
-                setCurrentTable(data?.currentTable);
-                setTablesFound(!!data?.isTableFound);
-              },
-            );
-          }}
-          ref={inp}
-          className="block xs:w-full sm:w-1/4 mx-auto text-center"
-          type="date"
-          name=""
-          id=""
-        />
+        <div className="block mx-auto mt-2 text-center">
+          <DatePicker
+            className="bg-white rounded-lg xs:w-full sm:w-1/4"
+            onChange={(e) => {
+              date = e?.format("MM/DD/YYYY");
+              console.log(date);
+              changeTable(e?.format("MM/DD/YYYY")).then(
+                (
+                  data:
+                    | { currentTable: Tablee; isTableFound: boolean }
+                    | undefined,
+                ) => {
+                  setCurrentTable(data?.currentTable);
+                  setTablesFound(!!data?.isTableFound);
+                },
+              );
+            }}
+          />
+        </div>
       </div>
       <section
         className="main-color xs:h-[130vh] sm:h-[70vh] flex justify-center items-center flex-col space-y-12 px-12"
