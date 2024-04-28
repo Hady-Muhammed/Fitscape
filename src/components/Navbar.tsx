@@ -4,7 +4,9 @@ import { IoMdClose } from "react-icons/io";
 import { GiMuscleUp } from "react-icons/gi";
 import { Link, useLocation } from "react-router-dom";
 import useUtility from "../hooks/useUtility";
+import { useIonRouter } from "@ionic/react";
 const Navbar = () => {
+  const router = useIonRouter();
   // Utilites
   const location = useLocation();
   // States
@@ -144,15 +146,15 @@ const Navbar = () => {
             transition={{ duration: 0.5 }}
             className="relative before:duration-300 before:absolute before:h-[2px] before:bg-white before:left-1/2 before:translate-x-[-50%] before:-bottom-1 before:w-0  hover:before:w-[25%]"
           >
-            <Link
+            <div
               onClick={() => {
                 setOpen((prev) => !prev);
                 scrollToTop();
+                router.push("/volume", "forward");
               }}
-              to="/volume"
             >
               Evalute Volume
-            </Link>
+            </div>
           </motion.li>
         </motion.ul>
       </nav>
