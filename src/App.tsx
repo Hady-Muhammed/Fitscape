@@ -23,8 +23,6 @@ import {
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "@ionic/react/css/core.css";
-import { IonReactRouter } from "@ionic/react-router";
-import { IonApp, IonRouterOutlet } from "@ionic/react";
 
 const Home = lazy(() => import("./pages/Home"));
 const Champions = lazy(() => import("./pages/Champions"));
@@ -60,266 +58,260 @@ setupIonicReact();
 function App() {
   const location = useLocation();
   return (
-    <IonApp>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <LogoutBtn />
-        <Navbar />
-        <AnimatePresence>
-          <IonReactRouter>
-            <IonRouterOutlet>
-              <Routes location={location} key={location.key}>
-                {/* LoggedIn Guard */}
-                <Route element={<LoggedInRoutes />}>
-                  <Route
-                    path="/signin"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <SignIn />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/signup"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <SignUp />
-                      </Suspense>
-                    }
-                  />
-                </Route>
-                {/* User Guard */}
-                <Route element={<UserRoutes />}>
-                  <Route
-                    path="/"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <Home />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/champions"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <Champions />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/volume"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <Volume />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/workout"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <Workouts />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/contact"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <Contact />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/account"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <UserAccount />
-                      </Suspense>
-                    }
-                  />
-                </Route>
-                {/* Admin Guard */}
-                <Route element={<AdminRoutes />}>
-                  <Route
-                    path="/dashboard"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <Dashboard />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/dashboard/champions"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <Champs />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/dashboard/exercises"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <Exercs />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/dashboard/users"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <Users />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/dashboard/settings"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <Settings />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/dashboard/account"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <Account />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/dashboard/edit/:id"
-                    element={
-                      <Suspense
-                        fallback={
-                          <div className="grid place-items-center h-screen bg-black">
-                            <WaveSpinner size={60} />
-                          </div>
-                        }
-                      >
-                        <Edit />
-                      </Suspense>
-                    }
-                  />
-                </Route>
-                <Route
-                  path="*"
-                  element={
-                    <Suspense
-                      fallback={
-                        <div className="grid place-items-center h-screen bg-black">
-                          <WaveSpinner size={60} />
-                        </div>
-                      }
-                    >
-                      <Page404 />
-                    </Suspense>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <LogoutBtn />
+      <Navbar />
+      <AnimatePresence>
+        <Routes location={location} key={location.key}>
+          {/* LoggedIn Guard */}
+          <Route element={<LoggedInRoutes />}>
+            <Route
+              path="/signin"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
                   }
-                />
-              </Routes>
-            </IonRouterOutlet>
-          </IonReactRouter>
-        </AnimatePresence>
-        <Footer />
-        <ToastContainer
-          position="top-left"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-      </LocalizationProvider>
-    </IonApp>
+                >
+                  <SignIn />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <SignUp />
+                </Suspense>
+              }
+            />
+          </Route>
+          {/* User Guard */}
+          <Route element={<UserRoutes />}>
+            <Route
+              path="/"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <Home />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/champions"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <Champions />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/volume"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <Volume />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/workout"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <Workouts />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <Contact />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/account"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <UserAccount />
+                </Suspense>
+              }
+            />
+          </Route>
+          {/* Admin Guard */}
+          <Route element={<AdminRoutes />}>
+            <Route
+              path="/dashboard"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <Dashboard />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/dashboard/champions"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <Champs />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/dashboard/exercises"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <Exercs />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/dashboard/users"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <Users />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/dashboard/settings"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <Settings />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/dashboard/account"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <Account />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/dashboard/edit/:id"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="grid place-items-center h-screen bg-black">
+                      <WaveSpinner size={60} />
+                    </div>
+                  }
+                >
+                  <Edit />
+                </Suspense>
+              }
+            />
+          </Route>
+          <Route
+            path="*"
+            element={
+              <Suspense
+                fallback={
+                  <div className="grid place-items-center h-screen bg-black">
+                    <WaveSpinner size={60} />
+                  </div>
+                }
+              >
+                <Page404 />
+              </Suspense>
+            }
+          />
+        </Routes>
+      </AnimatePresence>
+      <Footer />
+      <ToastContainer
+        position="top-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </LocalizationProvider>
   );
 }
 
