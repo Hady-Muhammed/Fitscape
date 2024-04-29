@@ -22,6 +22,7 @@ import {
 } from "chart.js";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import "@ionic/react/css/core.css";
 
 const Home = lazy(() => import("./pages/Home"));
 const Champions = lazy(() => import("./pages/Champions"));
@@ -47,8 +48,11 @@ Chart.register(
   CategoryScale,
   LinearScale,
   PointElement,
-  LineElement,
+  LineElement
 );
+import { setupIonicReact } from "@ionic/react";
+
+setupIonicReact();
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function App() {
