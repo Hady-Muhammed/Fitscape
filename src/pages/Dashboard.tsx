@@ -182,7 +182,7 @@ const Dashboard = () => {
                 <GrUserExpert />
               </h3>
               <span className="font-extrabold text-5xl text-blue-600">
-                {user.length}
+                {user?.length}
               </span>
             </ScrollAnimation>
             <ScrollAnimation

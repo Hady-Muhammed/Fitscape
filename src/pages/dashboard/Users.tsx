@@ -71,7 +71,7 @@ const Users = () => {
 
   const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
-    newPage: number,
+    newPage: number
   ) => {
     setPage(newPage);
   };
@@ -188,9 +188,9 @@ const Users = () => {
                   </TableHead>
                   <TableBody>
                     {accounts
-                      .slice(
+                      ?.slice(
                         page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
                       )
                       .map(
                         ({ name, email, createdAt, avatar }, i) =>
@@ -237,7 +237,7 @@ const Users = () => {
                                 </div>
                               </TableCell>
                             </TableRow>
-                          ),
+                          )
                       )}
                   </TableBody>
                 </Table>
@@ -245,7 +245,7 @@ const Users = () => {
               <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
-                count={accounts.length}
+                count={accounts?.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
