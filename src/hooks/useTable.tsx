@@ -19,7 +19,7 @@ function useTable() {
   const addRow = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     row: Row,
-    date: string | Date | undefined,
+    date: string | Date | undefined
   ) => {
     e.preventDefault();
     try {
@@ -112,14 +112,14 @@ function useTable() {
         }).then(() => {
           changeTable(date).then(
             (
-              data: { currentTable: Table; isTableFound: boolean } | undefined,
+              data: { currentTable: Table; isTableFound: boolean } | undefined
             ) => {
               console.log(data);
               resolve({
                 currentTable: data?.currentTable,
                 isTableFound: !!data?.isTableFound,
               });
-            },
+            }
           );
           setCreateSuccess(true);
           setTimeout(() => setCreateSuccess(false), 4000);
@@ -141,9 +141,9 @@ function useTable() {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as Token;
       const res = await get(
-        enviroment.API_URL + `/api/workouts?email=${email}&date=${date}`,
+        enviroment.API_URL + `/api/workouts?email=${email}&date=${date}`
       );
-      const isTableFound: boolean = res ? true : false;
+      const isTableFound: boolean = Object.keys(res).length > 0;
       const currentTable: Table = res;
       closeLoader();
       return { currentTable, isTableFound };
