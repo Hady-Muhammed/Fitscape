@@ -23,7 +23,7 @@ function useUser() {
 
   const logIn = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    { email, password }: { email: string; password: string },
+    { email, password }: { email: string; password: string }
   ) => {
     e.preventDefault();
     setIsLoading(true);
@@ -42,14 +42,12 @@ function useUser() {
           ? navigate("/dashboard")
           : navigate("/");
       }, 1000);
-    } catch (err) {
-      const error = err as {
-        response: { status: number; data: { message: string } };
-      };
-      if (error?.response?.status === 401) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      if (err?.status === 401) {
         setTimeout(() => {
           setIsLoading(false);
-          toast.error(error.response.data.message + "!");
+          toast.error(err.message + "!");
         }, 1500);
       }
     }

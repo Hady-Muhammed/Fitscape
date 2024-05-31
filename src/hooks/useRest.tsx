@@ -32,7 +32,7 @@ function useRest() {
       "Content-Type": "application/json",
       ...(!url.includes("auth") && {
         Authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("token") || "",
+          localStorage.getItem("token") || ""
         )}`,
       }),
     };
@@ -44,17 +44,19 @@ function useRest() {
         ...(body && { body: JSON.stringify(body) }),
       });
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
       const responseData = await response.json();
+      if (!response.ok) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const error: any = new Error(responseData.message);
+        error.status = response.status;
+        throw error;
+      }
       setLoading(false);
       return responseData;
     } catch (error) {
       setLoading(false);
       setError(
-        error instanceof Error ? error.message : "Something went wrong!",
+        error instanceof Error ? error.message : "Something went wrong!"
       );
       throw error;
     }
