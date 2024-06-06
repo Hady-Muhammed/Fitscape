@@ -1,8 +1,8 @@
 import React, { lazy } from "react";
-import ScrollAnimation from "react-animate-on-scroll";
 import { useDispatch, useSelector } from "react-redux";
 import { CHANGE_LANG, CHANGE_THEME } from "../../redux/slices/themeSlice";
 import { RootState } from "../../components/DashbNav";
+import ScrollReveal from "../../animations/ScrollReveal";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 
 const Settings = () => {
@@ -38,10 +38,7 @@ const Settings = () => {
           lang === "AR" ? "items-end text-5xl" : "xs:text-xl sm:text-5xl"
         }  duration-500   font-mont font-bold w-[70%] p-8 z-20`}
       >
-        <ScrollAnimation
-          animateIn="animate__animated animate__rollIn"
-          scrollableParentSelector="#root"
-        >
+        <ScrollReveal animationName="rollIn">
           <p className="mb-5 mt-12">
             {lang === "AR"
               ? !darkMode
@@ -63,11 +60,8 @@ const Settings = () => {
               <span className="toggle--label-background"></span>
             </label>
           </div>
-        </ScrollAnimation>
-        <ScrollAnimation
-          animateIn="animate__animated animate__rollIn"
-          scrollableParentSelector="#root"
-        >
+        </ScrollReveal>
+        <ScrollReveal animationName="rollIn">
           <p className="mb-5 mt-[7em]">
             {lang === "AR" ? "اللغه العربيه" : "Arabic Language"}
           </p>
@@ -80,7 +74,7 @@ const Settings = () => {
             />
             <span className="slider round"></span>
           </label>
-        </ScrollAnimation>
+        </ScrollReveal>
       </div>
     </div>
   );

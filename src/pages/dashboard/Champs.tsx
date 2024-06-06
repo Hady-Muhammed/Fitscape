@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState, lazy } from "react";
-import { useNavigate } from "react-router-dom";
 import swal from "sweetalert2";
 import { Backdrop, Fade, Modal } from "@mui/material";
 import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
 import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
-import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../../enviroment";
 import { Champion } from "../../types/champion";
 import useRest from "../../hooks/useRest";
+import { useHistory } from "react-router-dom";
+import ScrollReveal from "../../animations/ScrollReveal";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 interface RootState {
   theme: ThemeState;
@@ -23,7 +23,7 @@ interface ThemeState {
 }
 const Champs = () => {
   // Utilites
-  const navigate = useNavigate();
+  const history = useHistory();
   // Global States
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   const lang = useSelector((state: RootState) => state.theme.language);
@@ -152,54 +152,53 @@ const Champs = () => {
                 {error}
               </div>
             )}
-            {champs?.map((champ, index) => (
-              <ScrollAnimation
-                delay={index * 100}
-                animateIn="animate__animated animate__fadeInUp"
-                scrollableParentSelector="#root"
+            {champs?.map((champ) => (
+              <div
                 className={`xs:w-[200px] sm:w-[300px] h-fit ${
                   darkMode ? "bg-transparent" : "bg-white shadow-xl"
                 } mx-auto border rounded-lg overflow-hidden space-y-5`}
                 key={champ._id}
               >
-                <img
-                  className="w-full h-[200px] object-cover"
-                  src={champ.img}
-                  alt={champ.name}
-                />
-                <div className="text-center">
-                  <h4
-                    className={`${
-                      darkMode ? "text-white" : "text-black"
-                    } text-2xl font-bold`}
-                  >
-                    {champ.name}
-                  </h4>
-                  <p
-                    className={`${darkMode ? "text-white" : "text-black"} my-4`}
-                  >
-                    {champ.description.slice(0, 90) + "..."}
-                  </p>
-                </div>
-                <div className="flex justify-around p-3">
-                  <button
-                    onClick={() =>
-                      navigate(`/dashboard/edit/${champ._id}`, {
-                        state: { type: "champ" },
-                      })
-                    }
-                    className="btnfos btnfos-4 bg-blue-600 text-white rounded-full border-2 w-[45%] border-blue-700 p-2"
-                  >
-                    <span>{lang === "AR" ? "تعديل" : "Edit"}</span>
-                  </button>
-                  <button
-                    onClick={() => openDeleteModal(champ._id)}
-                    className="btnfos btnfos-4 bg-blue-600 text-white rounded-full border-2 w-[45%] border-blue-700 p-2"
-                  >
-                    <span>{lang === "AR" ? "حذف" : "Delete"}</span>
-                  </button>
-                </div>
-              </ScrollAnimation>
+                <ScrollReveal animationName="fadeInUp">
+                  <img
+                    className="w-full h-[200px] object-cover"
+                    src={champ.img}
+                    alt={champ.name}
+                  />
+                  <div className="text-center">
+                    <h4
+                      className={`${
+                        darkMode ? "text-white" : "text-black"
+                      } text-2xl font-bold`}
+                    >
+                      {champ.name}
+                    </h4>
+                    <p
+                      className={`${darkMode ? "text-white" : "text-black"} my-4`}
+                    >
+                      {champ.description.slice(0, 90) + "..."}
+                    </p>
+                  </div>
+                  <div className="flex justify-around p-3">
+                    <button
+                      onClick={() =>
+                        history.push(`/dashboard/edit/${champ._id}`, {
+                          state: { type: "champ" },
+                        })
+                      }
+                      className="btnfos btnfos-4 bg-blue-600 text-white rounded-full border-2 w-[45%] border-blue-700 p-2"
+                    >
+                      <span>{lang === "AR" ? "تعديل" : "Edit"}</span>
+                    </button>
+                    <button
+                      onClick={() => openDeleteModal(champ._id)}
+                      className="btnfos btnfos-4 bg-blue-600 text-white rounded-full border-2 w-[45%] border-blue-700 p-2"
+                    >
+                      <span>{lang === "AR" ? "حذف" : "Delete"}</span>
+                    </button>
+                  </div>
+                </ScrollReveal>
+              </div>
             ))}
           </div>
         </div>

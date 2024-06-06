@@ -1,8 +1,8 @@
-import React, { useEffect, useState, lazy } from "react";
+import React, { useEffect, useState } from "react";
 import { exercises } from "../exercisesData";
 import { Exercise } from "../types/exercise";
 import useExercise from "../hooks/useExercise";
-const ExerciseCard = lazy(() => import("../components/ExerciseCard"));
+import ExerciseCard from "./ExerciseCard";
 
 const Exercises = () => {
   // States

@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, useState } from "react";
 import { AiOutlineMail, AiOutlineLock, AiOutlineUser } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import Loader from "../components/Loader";
@@ -11,7 +11,7 @@ import { enviroment } from "../enviroment";
 
 const SignUp = () => {
   // Utilites
-  const navigate = useNavigate();
+  const history = useHistory();
   // States
   const [isLoading, setIsLoading] = useState(false);
   const [errorName, setErrorName] = useState("");
@@ -43,7 +43,7 @@ const SignUp = () => {
           createdAt: new Date().toLocaleDateString().toString(),
           workouts: [],
         }),
-        { headers: { "Content-Type": "application/json" } },
+        { headers: { "Content-Type": "application/json" } }
       );
       if (res.data.message === "That user already exists") {
         setIsLoading(false);
@@ -52,7 +52,7 @@ const SignUp = () => {
         setIsLoading(false);
         toast.success("User created successfully!");
         setTimeout(() => {
-          navigate("/signin");
+          history.push("/signin");
         }, 3000);
       }
     } catch (err) {

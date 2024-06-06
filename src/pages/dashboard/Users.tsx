@@ -11,7 +11,6 @@ import swal from "sweetalert2";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
-import ScrollAnimation from "react-animate-on-scroll";
 import { BsSearch } from "react-icons/bs";
 import Loader from "../../components/Loader";
 import userr from "../../assets/user.jpg";
@@ -20,6 +19,7 @@ import Pako from "pako";
 import { Account } from "../../types/account";
 import { RootState } from "../../components/DashbNav";
 import useRest from "../../hooks/useRest";
+import ScrollReveal from "../../animations/ScrollReveal";
 const DashbNav = lazy(() => import("../../components/DashbNav"));
 
 const Users = () => {
@@ -133,125 +133,127 @@ const Users = () => {
               <Loader />
             </div>
           ) : (
-            <ScrollAnimation
-              className="bg-white shadow-xl"
-              animateIn="animate__animated animate__fadeIn"
-              style={{ width: "100%", overflow: "hidden" }}
-            >
-              <TableContainer sx={{ maxHeight: 700 }}>
-                <Table stickyHeader aria-label="sticky table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell
-                        align="center"
-                        sx={{ fontWeight: "bold", fontSize: "1.1em" }}
-                      >
-                        #
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{ fontWeight: "bold", fontSize: "1.1em" }}
-                      >
-                        {lang === "AR" ? "الصوره" : "Avatar"}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{ fontWeight: "bold", fontSize: "1.1em" }}
-                      >
-                        {lang === "AR" ? "الاسم" : "Name"}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{ fontWeight: "bold", fontSize: "1.1em" }}
-                      >
-                        {lang === "AR" ? "تاريخ الانشاء" : "Date Created"}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{ fontWeight: "bold", fontSize: "1.1em" }}
-                      >
-                        {lang === "AR" ? "البريد الالكتروني" : "Email"}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{ fontWeight: "bold", fontSize: "1.1em" }}
-                      >
-                        {lang === "AR" ? "المنصب" : "Role"}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{ fontWeight: "bold", fontSize: "1.1em" }}
-                      >
-                        {lang === "AR" ? "العمليات" : "Actions"}
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {accounts
-                      ?.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                      .map(
-                        ({ name, email, createdAt, avatar }, i) =>
-                          name.includes(searchTerm) &&
-                          name !== "admin" && (
-                            <TableRow
-                              hover
-                              role="checkbox"
-                              tabIndex={-1}
-                              key={i}
-                            >
-                              <TableCell align="center">{i + 1}</TableCell>
-                              <TableCell align="center">
-                                <img
-                                  className="block mx-auto w-[35px] h-[35px] rounded-full object-cover border border-black/70"
-                                  src={
-                                    avatar === "default" || avatar === ""
-                                      ? userr
-                                      : Pako.inflate(avatar, { to: "string" })
-                                  }
-                                  alt="profile"
-                                />
-                              </TableCell>
-                              <TableCell align="center">{name}</TableCell>
-                              <TableCell align="center">{createdAt}</TableCell>
-                              <TableCell align="center">{email}</TableCell>
-                              <TableCell align="center">
-                                {lang === "AR" ? "مستخدم" : "User"}
-                              </TableCell>
-                              <TableCell align="center">
-                                <div className="flex space-x-2 justify-center">
-                                  <button
-                                    onClick={() => openModal(email)}
-                                    className="flex items-center bg-red-700 text-white p-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
-                                  >
-                                    <span className="relative top-0 group-hover:top-[-250%] duration-300">
-                                      {lang === "AR" ? "حذف الحساب" : "DELETE"}
-                                    </span>
-                                    <RiDeleteBin2Fill
-                                      size={17}
-                                      className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
-                                    />
-                                  </button>
-                                </div>
-                              </TableCell>
-                            </TableRow>
-                          )
-                      )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={accounts?.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </ScrollAnimation>
+            <div className="bg-white shadow-xl">
+              <ScrollReveal animationName="fadeIn">
+                <TableContainer sx={{ maxHeight: 700 }}>
+                  <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell
+                          align="center"
+                          sx={{ fontWeight: "bold", fontSize: "1.1em" }}
+                        >
+                          #
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          sx={{ fontWeight: "bold", fontSize: "1.1em" }}
+                        >
+                          {lang === "AR" ? "الصوره" : "Avatar"}
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          sx={{ fontWeight: "bold", fontSize: "1.1em" }}
+                        >
+                          {lang === "AR" ? "الاسم" : "Name"}
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          sx={{ fontWeight: "bold", fontSize: "1.1em" }}
+                        >
+                          {lang === "AR" ? "تاريخ الانشاء" : "Date Created"}
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          sx={{ fontWeight: "bold", fontSize: "1.1em" }}
+                        >
+                          {lang === "AR" ? "البريد الالكتروني" : "Email"}
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          sx={{ fontWeight: "bold", fontSize: "1.1em" }}
+                        >
+                          {lang === "AR" ? "المنصب" : "Role"}
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          sx={{ fontWeight: "bold", fontSize: "1.1em" }}
+                        >
+                          {lang === "AR" ? "العمليات" : "Actions"}
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {accounts
+                        ?.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                        .map(
+                          ({ name, email, createdAt, avatar }, i) =>
+                            name.includes(searchTerm) &&
+                            name !== "admin" && (
+                              <TableRow
+                                hover
+                                role="checkbox"
+                                tabIndex={-1}
+                                key={i}
+                              >
+                                <TableCell align="center">{i + 1}</TableCell>
+                                <TableCell align="center">
+                                  <img
+                                    className="block mx-auto w-[35px] h-[35px] rounded-full object-cover border border-black/70"
+                                    src={
+                                      avatar === "default" || avatar === ""
+                                        ? userr
+                                        : Pako.inflate(avatar, { to: "string" })
+                                    }
+                                    alt="profile"
+                                  />
+                                </TableCell>
+                                <TableCell align="center">{name}</TableCell>
+                                <TableCell align="center">
+                                  {createdAt}
+                                </TableCell>
+                                <TableCell align="center">{email}</TableCell>
+                                <TableCell align="center">
+                                  {lang === "AR" ? "مستخدم" : "User"}
+                                </TableCell>
+                                <TableCell align="center">
+                                  <div className="flex space-x-2 justify-center">
+                                    <button
+                                      onClick={() => openModal(email)}
+                                      className="flex items-center bg-red-700 text-white p-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
+                                    >
+                                      <span className="relative top-0 group-hover:top-[-250%] duration-300">
+                                        {lang === "AR"
+                                          ? "حذف الحساب"
+                                          : "DELETE"}
+                                      </span>
+                                      <RiDeleteBin2Fill
+                                        size={17}
+                                        className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
+                                      />
+                                    </button>
+                                  </div>
+                                </TableCell>
+                              </TableRow>
+                            )
+                        )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 100]}
+                  component="div"
+                  count={accounts?.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </ScrollReveal>
+            </div>
           )}
         </div>
       </div>

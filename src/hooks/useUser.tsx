@@ -1,23 +1,24 @@
 import jwtDecode from "jwt-decode";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { enviroment } from "../enviroment";
 import axios from "axios";
 import { Token } from "../types/token";
 import useRest from "./useRest";
+import { useHistory } from "react-router-dom";
 
 function useUser() {
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
   const { post, get } = useRest();
+  const history = useHistory();
+
   const logout = () => {
     setIsLoading(true);
     localStorage.removeItem("token");
     setTimeout(() => {
       toast.success("Logged out successfully!");
       setIsLoading(false);
-      navigate("/signin");
+      history.push("/signin");
     }, 3000);
   };
 
@@ -39,8 +40,8 @@ function useUser() {
       const user = jwtDecode(res.token) as Token;
       setTimeout(() => {
         user.email === "admin@gmail.com" && user.password === "admin"
-          ? navigate("/dashboard")
-          : navigate("/");
+          ? history.push("/dashboard")
+          : history.push("/");
       }, 1000);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {

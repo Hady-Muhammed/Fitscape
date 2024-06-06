@@ -1,20 +1,29 @@
 import React, { useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+// import Table from "@mui/material/Table";
+// import TableBody from "@mui/material/TableBody";
+// import TableCell from "@mui/material/TableCell";
+// import TableContainer from "@mui/material/TableContainer";
+// import TableHead from "@mui/material/TableHead";
+// import TableRow from "@mui/material/TableRow";
+// import Paper from "@mui/material/Paper";
 import { AnimatePresence, motion } from "framer-motion";
 import Loader from "./Loader";
-import { BiEditAlt } from "react-icons/bi";
-import { RiDeleteBin2Fill } from "react-icons/ri";
-import ScrollAnimation from "react-animate-on-scroll";
+// import { BiEditAlt } from "react-icons/bi";
+// import { RiDeleteBin2Fill } from "react-icons/ri";
 import { Row } from "../types/row";
 import { Table as Tablee } from "../types/table";
 import useTable from "../hooks/useTable";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import {
+  IonReorderGroup,
+  IonReorder,
+  IonList,
+  IonItem,
+  IonLabel,
+} from "@ionic/react";
+import { BiEditAlt } from "react-icons/bi";
+import { RiDeleteBin2Fill } from "react-icons/ri";
+import ScrollReveal from "../animations/ScrollReveal";
 
 let date: string | Date | undefined = undefined;
 
@@ -48,6 +57,26 @@ const Tables = () => {
   } = useTable();
   // Functions
 
+  const [items, setItems] = useState([
+    "Item 1",
+    "Item 2",
+    "Item 3",
+    "Item 4",
+    "Item 5",
+  ]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleReorder = (event: any) => {
+    const from = event.detail.from;
+    const to = event.detail.to;
+    const updatedItems = [...items];
+    const movedItem = updatedItems.splice(from, 1)[0];
+    updatedItems.splice(to, 0, movedItem);
+
+    setItems(updatedItems);
+    event.detail.complete();
+  };
+
   return (
     <>
       <div className="main-color p-12">
@@ -62,11 +91,11 @@ const Tables = () => {
                 (
                   data:
                     | { currentTable: Tablee; isTableFound: boolean }
-                    | undefined,
+                    | undefined
                 ) => {
                   setCurrentTable(data?.currentTable);
                   setTablesFound(!!data?.isTableFound);
-                },
+                }
               );
             }}
           />
@@ -85,96 +114,174 @@ const Tables = () => {
           </>
         ) : tablesFound ? (
           <>
-            <TableContainer className="xs:h-[35%] md:h-auto" component={Paper}>
-              <ScrollAnimation animateIn="animate__fadeIn">
+            {/* <TableContainer className="xs:h-[35%] md:h-auto" component={Paper}> */}
+            <div className="bg-white w-full">
+              <ScrollReveal animationName="fadeIn">
                 <p className="text-center block py-2 font-bold border-b">
                   {date instanceof Date ? date.toISOString() : date}
                 </p>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Exercise Name</TableCell>
-                      <TableCell align="center">Set(1)</TableCell>
-                      <TableCell align="center">Set(2)</TableCell>
-                      <TableCell align="center">Set(3)</TableCell>
-                      <TableCell align="center">Set(4)</TableCell>
-                      <TableCell align="center">Rest Period(Min)</TableCell>
-                      <TableCell align="center">Weight Lifted(KG)</TableCell>
-                      <TableCell align="center">Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {currentTable?.rows?.map((row: Row, index: number) => (
-                      <TableRow
-                        key={index}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell
-                          sx={{ fontWeight: "bold", fontSize: "23px" }}
-                          component="th"
-                          scope="row"
-                        >
-                          {row?.exerciseName}
-                        </TableCell>
-                        <TableCell align="center">{row?.set1}</TableCell>
-                        <TableCell align="center">{row?.set2}</TableCell>
-                        <TableCell align="center">{row?.set3}</TableCell>
-                        <TableCell align="center">{row?.set4}</TableCell>
-                        <TableCell align="center">{row?.rest}</TableCell>
-                        <TableCell align="center">
-                          {(row?.weight || "0") + "KG"}
-                        </TableCell>
-                        <TableCell align="center">
-                          <div className="flex space-x-2 justify-center">
-                            <button
-                              className="flex items-center bg-slate-600 text-white px-4 py-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
-                              onClick={() => {
-                                selectRow(currentTable, row._id || "").then(
-                                  (roww: Row | undefined) => {
-                                    if (roww) {
-                                      setRow(roww);
+                <IonList style={{ "padding-top": 0 }} className="w-full">
+                  <IonItem style={{ "--background": "white" }}>
+                    <IonLabel class="text-center">Exercise Name</IonLabel>
+                    <IonLabel class="text-center">Set(1)</IonLabel>
+                    <IonLabel class="text-center">Set(2)</IonLabel>
+                    <IonLabel class="text-center">Set(3)</IonLabel>
+                    <IonLabel class="text-center">Set(4)</IonLabel>
+                    <IonLabel class="text-center">Rest Period(Min)</IonLabel>
+                    <IonLabel class="text-center">Weight Lifted(KG)</IonLabel>
+                    <IonLabel class="text-center">Actions</IonLabel>
+                  </IonItem>
+                  <IonReorderGroup
+                    disabled={false}
+                    onIonItemReorder={handleReorder}
+                  >
+                    {currentTable?.rows.map((row, index) => (
+                      <IonReorder key={index}>
+                        <IonItem style={{ "--background": "white" }}>
+                          <IonLabel className="text-3xlxl font-bold">
+                            {row.exerciseName}
+                          </IonLabel>
+                          <IonLabel class="text-center">{row.set1}</IonLabel>
+                          <IonLabel class="text-center">{row.set2}</IonLabel>
+                          <IonLabel class="text-center">{row.set3}</IonLabel>
+                          <IonLabel class="text-center">{row.set4}</IonLabel>
+                          <IonLabel class="text-center">{row.rest}</IonLabel>
+                          <IonLabel class="text-center">
+                            {row.weight} KG
+                          </IonLabel>
+                          <IonLabel class="text-center">
+                            <div className="flex space-x-2 justify-center">
+                              <button
+                                className="flex items-center bg-slate-600 text-white px-4 py-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
+                                onClick={() => {
+                                  selectRow(currentTable, row._id || "").then(
+                                    (roww: Row | undefined) => {
+                                      if (roww) {
+                                        setRow(roww);
+                                      }
                                     }
-                                  },
-                                );
-                              }}
-                            >
-                              <span className="relative top-0 group-hover:top-[-250%] duration-300">
-                                EDIT
-                              </span>
-                              <BiEditAlt
-                                size={17}
-                                className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
-                              />
-                            </button>
-                            <button
-                              className="flex items-center bg-red-700 text-white p-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
-                              onClick={() => {
-                                deleteRow(row?._id || "", date || "").then(
-                                  (currentTable) => {
-                                    setCurrentTable(currentTable);
-                                  },
-                                );
-                              }}
-                            >
-                              <span className="relative top-0 group-hover:top-[-250%] duration-300">
-                                DELETE
-                              </span>
-                              <RiDeleteBin2Fill
-                                size={17}
-                                className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
-                              />
-                            </button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
+                                  );
+                                }}
+                              >
+                                <span className="relative top-0 group-hover:top-[-250%] duration-300">
+                                  EDIT
+                                </span>
+                                <BiEditAlt
+                                  size={17}
+                                  className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
+                                />
+                              </button>
+                              <button
+                                className="flex items-center bg-red-700 text-white p-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
+                                onClick={() => {
+                                  deleteRow(row?._id || "", date || "").then(
+                                    (currentTable) => {
+                                      setCurrentTable(currentTable);
+                                    }
+                                  );
+                                }}
+                              >
+                                <span className="relative top-0 group-hover:top-[-250%] duration-300">
+                                  DELETE
+                                </span>
+                                <RiDeleteBin2Fill
+                                  size={17}
+                                  className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
+                                />
+                              </button>
+                            </div>
+                          </IonLabel>
+                          <IonReorder slot="end" />
+                        </IonItem>
+                      </IonReorder>
                     ))}
-                  </TableBody>
-                </Table>
-              </ScrollAnimation>
-            </TableContainer>
-            <ScrollAnimation animateIn="animate__fadeInDown">
+                  </IonReorderGroup>
+                </IonList>
+
+                {/* {show && (
+                <IonList className="w-full">
+                  <IonReorderGroup
+                    disabled={false}
+                    onIonItemReorder={handleReorder}
+                  >
+                    {currentTable?.rows?.map((row: Row, index: number) => (
+                      <IonReorder key={index}>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": {
+                              border: 0,
+                            },
+                          }}
+                          className="w-full  gap-5 justify-between flexx"
+                        >
+                          <TableCell
+                            sx={{ fontWeight: "bold", fontSize: "23px" }}
+                            component="th"
+                            scope="row"
+                          >
+                            {row?.exerciseName}
+                          </TableCell>
+                          <TableCell align="center">{row?.set1}</TableCell>
+                          <TableCell align="center">{row?.set2}</TableCell>
+                          <TableCell align="center">{row?.set3}</TableCell>
+                          <TableCell align="center">{row?.set4}</TableCell>
+                          <TableCell align="center">{row?.rest}</TableCell>
+                          <TableCell align="center">
+                            {(row?.weight || "0") + "KG"}
+                          </TableCell>
+                          <TableCell align="center">
+                            <div className="flex space-x-2 justify-center">
+                              <button
+                                className="flex items-center bg-slate-600 text-white px-4 py-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
+                                onClick={() => {
+                                  selectRow(currentTable, row._id || "").then(
+                                    (roww: Row | undefined) => {
+                                      if (roww) {
+                                        setRow(roww);
+                                      }
+                                    }
+                                  );
+                                }}
+                              >
+                                <span className="relative top-0 group-hover:top-[-250%] duration-300">
+                                  EDIT
+                                </span>
+                                <BiEditAlt
+                                  size={17}
+                                  className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
+                                />
+                              </button>
+                              <button
+                                className="flex items-center bg-red-700 text-white p-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
+                                onClick={() => {
+                                  deleteRow(row?._id || "", date || "").then(
+                                    (currentTable) => {
+                                      setCurrentTable(currentTable);
+                                    }
+                                  );
+                                }}
+                              >
+                                <span className="relative top-0 group-hover:top-[-250%] duration-300">
+                                  DELETE
+                                </span>
+                                <RiDeleteBin2Fill
+                                  size={17}
+                                  className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
+                                />
+                              </button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      </IonReorder>
+                    ))}
+                  </IonReorderGroup>
+                </IonList>
+              )} */}
+              </ScrollReveal>
+            </div>
+
+            {/* </TableContainer> */}
+            <ScrollReveal animationName="fadeIn">
               <form className="flex space-x-2 xs:flex-col lg:flex-row text-center text-white">
                 <div>
                   <label htmlFor="">Exercise name</label>
@@ -288,7 +395,7 @@ const Tables = () => {
                     transition={{ duration: 0.5 }}
                     onClick={(e) => {
                       e.preventDefault();
-                      submitRow(row, date).then((currentTable: Tablee) => {
+                      submitRow(row, date).then(() => {
                         setCurrentTable(currentTable);
                         setRow({
                           exerciseName: "",
@@ -317,7 +424,7 @@ const Tables = () => {
                     }}
                     transition={{ duration: 0.5 }}
                     onClick={(e) =>
-                      addRow(e, row, date).then((currentTable) => {
+                      addRow(e, row, date).then(() => {
                         setCurrentTable(currentTable);
                         setRow({
                           exerciseName: "",
@@ -335,7 +442,7 @@ const Tables = () => {
                   </motion.button>
                 )}
               </form>
-            </ScrollAnimation>
+            </ScrollReveal>
 
             <AnimatePresence>
               {warning && (
@@ -402,7 +509,7 @@ const Tables = () => {
                     console.log(data);
                     setCurrentTable(data?.currentTable);
                     setTablesFound(!!data?.isTableFound);
-                  },
+                  }
                 )
               }
             >

@@ -5,10 +5,10 @@ import { CgTwitter } from "react-icons/cg";
 import { RiFacebookCircleLine } from "react-icons/ri";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FiInstagram } from "react-icons/fi";
-import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
 import useUser from "../hooks/useUser";
 import useUtility from "../hooks/useUtility";
+import ScrollReveal from "../animations/ScrollReveal";
 
 const Footer = () => {
   // States
@@ -56,9 +56,9 @@ const Footer = () => {
           <hr className="w-[80%] my-12 mx-auto" />
           <div className="flex xs:flex-col-reverse items-center sm:flex-row justify-around">
             <div className="flex flex-col xs:mt-12 sm:mt-0">
-              <ScrollAnimation animateIn="animate__slideInLeft">
+              <ScrollReveal animationName="slideInLeft">
                 <h3 className="text-3xl font-mont">Enjoying the app?</h3>
-              </ScrollAnimation>
+              </ScrollReveal>
               <div className="mt-4">
                 {/* Start Like */}
                 {visible && (
@@ -250,37 +250,27 @@ const Footer = () => {
                   </button>
                 )}
                 {/* End Like */}
-
                 <ul className="flex justify-evenly mt-4">
-                  <ScrollAnimation animateIn="animate__jackInTheBox">
+                  <ScrollReveal animationName="jackInTheBox">
                     <li className="cursor-pointer">
                       <CgTwitter />
                     </li>
-                  </ScrollAnimation>
-                  <ScrollAnimation
-                    delay={300}
-                    animateIn="animate__jackInTheBox"
-                  >
+                  </ScrollReveal>
+                  <ScrollReveal animationName="jackInTheBox">
                     <li className="cursor-pointer">
                       <RiFacebookCircleLine />
                     </li>
-                  </ScrollAnimation>
-                  <ScrollAnimation
-                    delay={400}
-                    animateIn="animate__jackInTheBox"
-                  >
+                  </ScrollReveal>
+                  <ScrollReveal animationName="jackInTheBox">
                     <li className="cursor-pointer">
                       <FaLinkedinIn />
                     </li>
-                  </ScrollAnimation>
-                  <ScrollAnimation
-                    delay={500}
-                    animateIn="animate__jackInTheBox"
-                  >
+                  </ScrollReveal>
+                  <ScrollReveal animationName="jackInTheBox">
                     <li className="cursor-pointer">
                       <FiInstagram />
                     </li>
-                  </ScrollAnimation>
+                  </ScrollReveal>
                 </ul>
               </div>
             </div>
@@ -291,7 +281,7 @@ const Footer = () => {
               >
                 <SiFitbit size={20} /> <span className="block">fitscape</span>
               </Link>
-              <ScrollAnimation animateIn="animate__jackInTheBox">
+              <ScrollReveal animationName="jackInTheBox">
                 <Link
                   onClick={scrollToTop}
                   className="font-bold text-3xl button-89 block"
@@ -299,27 +289,23 @@ const Footer = () => {
                 >
                   CONTACT US!
                 </Link>
-              </ScrollAnimation>
+              </ScrollReveal>
             </div>
           </div>
-          <ScrollAnimation className="p-5" animateIn="animate__fadeIn">
+          <ScrollReveal animationName="fadeIn">
             <Link
               to={"/account"}
-              className="flex items-center justify-center space-x-2 font-mont font-thin mx-auto"
+              className="flex items-center justify-center space-x-2 font-mont font-thin mx-auto p-5"
             >
               -<span className="block ml-1">My Account</span>
             </Link>
-          </ScrollAnimation>
+          </ScrollReveal>
           <hr className="w-[50%] my-12 mx-auto" />
-          <ScrollAnimation
-            delay={300}
-            offset={-500}
-            animateIn="animate__fadeIn"
-          >
+          <ScrollReveal animationName="fadeIn">
             <p className="font-mont mt-5">
               Copyrights @{new Date().getFullYear()} | All rights reserved
             </p>
-          </ScrollAnimation>
+          </ScrollReveal>
         </footer>
       )}
     </>
