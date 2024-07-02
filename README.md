@@ -4,7 +4,7 @@
 
 I enjoyed building this project so much because fitness is kinda my passion , so i created this
 to help me evaluate the training volume and track my training sessions. **it's basically built with** : <br/><br/>
-[![My Skills](https://skills.thijs.gg/icons?i=react,tailwind,js,mongodb,nodejs)](https://skills.thijs.gg)
+[![My Skills](https://skillicons.dev/icons?i=react,tailwind,js,mongodb,nodejs)](https://skillicons.dev)
 
 
 ## Features 
