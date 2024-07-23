@@ -1,22 +1,21 @@
-import React, { useEffect, useRef, useState, lazy } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import Loader from "../../components/Loader";
 import swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { Backdrop, Box, Fade, Modal } from "@mui/material";
-import ScrollAnimation from "react-animate-on-scroll";
 import "react-toastify/dist/ReactToastify.css";
 import "animate.css/animate.min.css";
 import { enviroment } from "../../enviroment";
 import { Exercise } from "../../types/exercise";
-import { RootState } from "../../components/DashbNav";
+import DashbNav, { RootState } from "../../components/DashbNav";
 import useRest from "../../hooks/useRest";
-const DashbNav = lazy(() => import("../../components/DashbNav"));
+import { useHistory } from "react-router-dom";
+import ScrollReveal from "../../animations/ScrollReveal";
 
 const Exercs = () => {
   // Utilites
-  const navigate = useNavigate();
+  const history = useHistory();
   const { get, post, deletee } = useRest();
   // States
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -142,53 +141,53 @@ const Exercs = () => {
                 {error}
               </div>
             )}
-            {exercises?.map((exer, index) => (
-              <ScrollAnimation
-                delay={index * 100}
-                animateIn="animate__animated animate__rollIn"
+            {exercises?.map((exer) => (
+              <div
                 className={`xs:w-[200px] sm:w-[300px] h-fit ${
                   darkMode ? "bg-transparent" : "bg-white shadow-xl"
                 } mx-auto border rounded-lg overflow-hidden space-y-3`}
                 key={exer._id}
               >
-                <img
-                  className="w-full h-[200px] object-cover"
-                  src={exer.img}
-                  alt={exer.name}
-                />
-                <div className="text-center">
-                  <h4
-                    className={`${
-                      darkMode ? "text-white" : "text-black"
-                    } text-2xl font-bold`}
-                  >
-                    {exer.name}
-                  </h4>
-                  <p
-                    className={`${darkMode ? "text-white" : "text-black"} my-4`}
-                  >
-                    {exer.description.slice(0, 90) + "..."}
-                  </p>
-                </div>
-                <div className="flex justify-evenly pb-4">
-                  <button
-                    onClick={() =>
-                      navigate(`/dashboard/edit/${exer._id}`, {
-                        state: { type: "exer" },
-                      })
-                    }
-                    className="btnfos btnfos-4 bg-blue-600 text-white rounded-full border-2 w-[45%] border-blue-700 p-2"
-                  >
-                    {lang === "AR" ? "تعديل" : "Edit"}
-                  </button>
-                  <button
-                    onClick={() => openDeleteModal(exer)}
-                    className="btnfos btnfos-4 bg-blue-600 text-white rounded-full border-2 w-[45%] border-blue-700 p-2"
-                  >
-                    {lang === "AR" ? "حذف" : "Delete"}
-                  </button>
-                </div>
-              </ScrollAnimation>
+                <ScrollReveal animationName="rollIn">
+                  <img
+                    className="w-full h-[200px] object-cover"
+                    src={exer.img}
+                    alt={exer.name}
+                  />
+                  <div className="text-center">
+                    <h4
+                      className={`${
+                        darkMode ? "text-white" : "text-black"
+                      } text-2xl font-bold`}
+                    >
+                      {exer.name}
+                    </h4>
+                    <p
+                      className={`${darkMode ? "text-white" : "text-black"} my-4`}
+                    >
+                      {exer.description.slice(0, 90) + "..."}
+                    </p>
+                  </div>
+                  <div className="flex justify-evenly pb-4">
+                    <button
+                      onClick={() =>
+                        history.push(`/dashboard/edit/${exer._id}`, {
+                          state: { type: "exer" },
+                        })
+                      }
+                      className="btnfos btnfos-4 bg-blue-600 text-white rounded-full border-2 w-[45%] border-blue-700 p-2"
+                    >
+                      {lang === "AR" ? "تعديل" : "Edit"}
+                    </button>
+                    <button
+                      onClick={() => openDeleteModal(exer)}
+                      className="btnfos btnfos-4 bg-blue-600 text-white rounded-full border-2 w-[45%] border-blue-700 p-2"
+                    >
+                      {lang === "AR" ? "حذف" : "Delete"}
+                    </button>
+                  </div>
+                </ScrollReveal>
+              </div>
             ))}
           </div>
         </div>

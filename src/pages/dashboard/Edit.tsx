@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState, lazy } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "../../components/Loader";
 import Swal from "sweetalert2";
@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../../enviroment";
 import useRest from "../../hooks/useRest";
-const DashbNav = lazy(() => import("../../components/DashbNav"));
+import DashbNav from "../../components/DashbNav";
 interface RootState {
   theme: ThemeState;
 }
@@ -19,12 +19,12 @@ interface ThemeState {
 }
 const Edit = () => {
   // Utilites
-  const { id } = useParams();
+  const { id }: { id: string } = useParams();
   const { put, get } = useRest();
   const {
     state: { type },
-  } = useLocation();
-  const navigate = useNavigate();
+  }: { state: { type: string } } = useLocation();
+  const history = useHistory();
   // States
   const [Name, setName] = useState("");
   const [desc, setDesc] = useState("");
@@ -50,7 +50,7 @@ const Edit = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/dashboard/champions");
+        history.push("/dashboard/champions");
       } else {
         await put(enviroment.API_URL + `/api/exercises/${id}`, {
           name: Name,
@@ -64,7 +64,7 @@ const Edit = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/dashboard/exercises");
+        history.push("/dashboard/exercises");
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -76,7 +76,6 @@ const Edit = () => {
     try {
       if (type === "champ") {
         const res = await get(enviroment.API_URL + `/api/champs?id=${id}`);
-        console.log(res);
         setName(res?.champ?.name);
         setDesc(res?.champ?.description);
         setUrl(res?.champ?.img);

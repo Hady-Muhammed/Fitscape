@@ -4,6 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import { GiMuscleUp } from "react-icons/gi";
 import { Link, useLocation } from "react-router-dom";
 import useUtility from "../hooks/useUtility";
+
 const Navbar = () => {
   // Utilites
   const location = useLocation();
@@ -13,6 +14,7 @@ const Navbar = () => {
   const { scrollToTop } = useUtility();
   // Functions
   function handleNavColor() {
+    setNavColor(true);
     window.onscroll = () => {
       if (window.scrollY >= 100) {
         setNavColor(true);

@@ -1,20 +1,24 @@
 import React, { useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { AnimatePresence, motion } from "framer-motion";
 import Loader from "./Loader";
-import { BiEditAlt } from "react-icons/bi";
-import { RiDeleteBin2Fill } from "react-icons/ri";
-import ScrollAnimation from "react-animate-on-scroll";
+import { CgArrowsExchangeAltV } from "react-icons/cg";
+import ReactTooltip from "react-tooltip";
+import { CgCloseO } from "react-icons/cg";
+
 import { Row } from "../types/row";
 import { Table as Tablee } from "../types/table";
 import useTable from "../hooks/useTable";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import {
+  IonReorderGroup,
+  IonReorder,
+  IonList,
+  IonItem,
+  IonLabel,
+} from "@ionic/react";
+import { BiEditAlt } from "react-icons/bi";
+import { RiDeleteBin2Fill } from "react-icons/ri";
+import ScrollReveal from "../animations/ScrollReveal";
 
 let date: string | Date | undefined = undefined;
 
@@ -31,15 +35,17 @@ const Tables = () => {
     _id: "",
   });
   // States
+  const [isUserReordering, setIsUserReordering] = useState(false);
   const [tablesFound, setTablesFound] = useState(false);
   const [currentTable, setCurrentTable] = useState<Tablee>();
   const {
-    changeTable,
+    changeWorkout,
     selectRow,
     addRow,
     submitRow,
     createNewTable,
     deleteRow,
+    reorderRows,
     isLoading,
     isEditing,
     warning,
@@ -47,6 +53,20 @@ const Tables = () => {
     editSuccess,
   } = useTable();
   // Functions
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleReorder = (event: any) => {
+    const from = event.detail.from;
+    const to = event.detail.to;
+    const firstRowId = currentTable?.rows[from]._id;
+    const secondRowId = currentTable?.rows[to]._id;
+    reorderRows(currentTable?._id || "", { firstRowId, secondRowId }).then(
+      (workout) => {
+        setCurrentTable(workout);
+      },
+    );
+    event.detail.complete();
+  };
 
   return (
     <>
@@ -57,8 +77,7 @@ const Tables = () => {
             className="bg-white rounded-lg xs:w-full sm:w-1/4"
             onChange={(e) => {
               date = e?.format("MM/DD/YYYY");
-              console.log(date);
-              changeTable(e?.format("MM/DD/YYYY")).then(
+              changeWorkout(e?.format("MM/DD/YYYY")).then(
                 (
                   data:
                     | { currentTable: Tablee; isTableFound: boolean }
@@ -85,51 +104,60 @@ const Tables = () => {
           </>
         ) : tablesFound ? (
           <>
-            <TableContainer className="xs:h-[35%] md:h-auto" component={Paper}>
-              <ScrollAnimation animateIn="animate__fadeIn">
-                <p className="text-center block py-2 font-bold border-b">
+            <div className="bg-white w-full">
+              <div className="flex justify-center pt-4 pr-4 gap-5">
+                <p className="text-center block py-2 font-bold border-b w-full">
                   {date instanceof Date ? date.toISOString() : date}
                 </p>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Exercise Name</TableCell>
-                      <TableCell align="center">Set(1)</TableCell>
-                      <TableCell align="center">Set(2)</TableCell>
-                      <TableCell align="center">Set(3)</TableCell>
-                      <TableCell align="center">Set(4)</TableCell>
-                      <TableCell align="center">Rest Period(Min)</TableCell>
-                      <TableCell align="center">Weight Lifted(KG)</TableCell>
-                      <TableCell align="center">Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {currentTable?.rows?.map((row: Row, index: number) => (
-                      <TableRow
-                        key={index}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell
-                          sx={{ fontWeight: "bold", fontSize: "23px" }}
-                          component="th"
-                          scope="row"
-                        >
-                          {row?.exerciseName}
-                        </TableCell>
-                        <TableCell align="center">{row?.set1}</TableCell>
-                        <TableCell align="center">{row?.set2}</TableCell>
-                        <TableCell align="center">{row?.set3}</TableCell>
-                        <TableCell align="center">{row?.set4}</TableCell>
-                        <TableCell align="center">{row?.rest}</TableCell>
-                        <TableCell align="center">
-                          {(row?.weight || "0") + "KG"}
-                        </TableCell>
-                        <TableCell align="center">
+                <div className="flex justify-end">
+                  <button
+                    className="text-white bg-slate-600 rounded-md px-4 py-1"
+                    onClick={() => setIsUserReordering(!isUserReordering)}
+                    data-tip=" Reorder Exercises"
+                  >
+                    {isUserReordering ? (
+                      <CgCloseO size={30} />
+                    ) : (
+                      <CgArrowsExchangeAltV size={30} />
+                    )}
+                  </button>
+                  <ReactTooltip />
+                </div>
+              </div>
+              <ScrollReveal animationName="fadeIn">
+                <IonList style={{ paddingTop: 0 }} className="w-full">
+                  <IonItem style={{ "--background": "white" }}>
+                    <IonLabel class="text-center">Exercise Name</IonLabel>
+                    <IonLabel class="text-center">Set(1)</IonLabel>
+                    <IonLabel class="text-center">Set(2)</IonLabel>
+                    <IonLabel class="text-center">Set(3)</IonLabel>
+                    <IonLabel class="text-center">Set(4)</IonLabel>
+                    <IonLabel class="text-center">Rest Period(Min)</IonLabel>
+                    <IonLabel class="text-center">Weight Lifted(KG)</IonLabel>
+                    <IonLabel class="text-center">Actions</IonLabel>
+                  </IonItem>
+                  <IonReorderGroup
+                    disabled={!isUserReordering}
+                    onIonItemReorder={handleReorder}
+                  >
+                    {currentTable?.rows?.map((row, index) => (
+                      <IonReorder key={index}>
+                        <IonItem style={{ "--background": "white" }}>
+                          <IonLabel className="text-3xlxl font-bold">
+                            {row.exerciseName}
+                          </IonLabel>
+                          <IonLabel class="text-center">{row.set1}</IonLabel>
+                          <IonLabel class="text-center">{row.set2}</IonLabel>
+                          <IonLabel class="text-center">{row.set3}</IonLabel>
+                          <IonLabel class="text-center">{row.set4}</IonLabel>
+                          <IonLabel class="text-center">{row.rest}</IonLabel>
+                          <IonLabel class="text-center">
+                            {row.weight} KG
+                          </IonLabel>
+                          {/* <IonLabel class="text-center"> */}
                           <div className="flex space-x-2 justify-center">
                             <button
-                              className="flex items-center bg-slate-600 text-white px-4 py-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
+                              className={`flex items-center bg-slate-600 text-white px-4 py-2 rounded-md duration-150 opacity-50  overflow-hidden relative ${!isUserReordering && "opacity-100 group hover:scale-110"}`}
                               onClick={() => {
                                 selectRow(currentTable, row._id || "").then(
                                   (roww: Row | undefined) => {
@@ -149,7 +177,7 @@ const Tables = () => {
                               />
                             </button>
                             <button
-                              className="flex items-center bg-red-700 text-white p-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
+                              className={`flex items-center bg-red-700 text-white p-2 rounded-md duration-150 opacity-50  overflow-hidden relative ${!isUserReordering && "opacity-100 group hover:scale-110"}`}
                               onClick={() => {
                                 deleteRow(row?._id || "", date || "").then(
                                   (currentTable) => {
@@ -167,14 +195,96 @@ const Tables = () => {
                               />
                             </button>
                           </div>
-                        </TableCell>
-                      </TableRow>
+                          {/* </IonLabel> */}
+                          <IonReorder slot="end" />
+                        </IonItem>
+                      </IonReorder>
                     ))}
-                  </TableBody>
-                </Table>
-              </ScrollAnimation>
-            </TableContainer>
-            <ScrollAnimation animateIn="animate__fadeInDown">
+                  </IonReorderGroup>
+                </IonList>
+
+                {/* {show && (
+                <IonList className="w-full">
+                  <IonReorderGroup
+                    disabled={false}
+                    onIonItemReorder={handleReorder}
+                  >
+                    {currentTable?.rows?.map((row: Row, index: number) => (
+                      <IonReorder key={index}>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": {
+                              border: 0,
+                            },
+                          }}
+                          className="w-full  gap-5 justify-between flexx"
+                        >
+                          <TableCell
+                            sx={{ fontWeight: "bold", fontSize: "23px" }}
+                            component="th"
+                            scope="row"
+                          >
+                            {row?.exerciseName}
+                          </TableCell>
+                          <TableCell align="center">{row?.set1}</TableCell>
+                          <TableCell align="center">{row?.set2}</TableCell>
+                          <TableCell align="center">{row?.set3}</TableCell>
+                          <TableCell align="center">{row?.set4}</TableCell>
+                          <TableCell align="center">{row?.rest}</TableCell>
+                          <TableCell align="center">
+                            {(row?.weight || "0") + "KG"}
+                          </TableCell>
+                          <TableCell align="center">
+                            <div className="flex space-x-2 justify-center">
+                              <button
+                                className="flex items-center bg-slate-600 text-white px-4 py-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
+                                onClick={() => {
+                                  selectRow(currentTable, row._id || "").then(
+                                    (roww: Row | undefined) => {
+                                      if (roww) {
+                                        setRow(roww);
+                                      }
+                                    }
+                                  );
+                                }}
+                              >
+                                <span className="relative top-0 group-hover:top-[-250%] duration-300">
+                                  EDIT
+                                </span>
+                                <BiEditAlt
+                                  size={17}
+                                  className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
+                                />
+                              </button>
+                              <button
+                                className="flex items-center bg-red-700 text-white p-2 rounded-md duration-150 hover:scale-110 overflow-hidden relative group"
+                                onClick={() => {
+                                  deleteRow(row?._id || "", date || "").then(
+                                    (currentTable) => {
+                                      setCurrentTable(currentTable);
+                                    }
+                                  );
+                                }}
+                              >
+                                <span className="relative top-0 group-hover:top-[-250%] duration-300">
+                                  DELETE
+                                </span>
+                                <RiDeleteBin2Fill
+                                  size={17}
+                                  className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
+                                />
+                              </button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      </IonReorder>
+                    ))}
+                  </IonReorderGroup>
+                </IonList>
+              )} */}
+              </ScrollReveal>
+            </div>
+            <ScrollReveal animationName="fadeIn">
               <form className="flex space-x-2 xs:flex-col lg:flex-row text-center text-white">
                 <div>
                   <label htmlFor="">Exercise name</label>
@@ -288,7 +398,7 @@ const Tables = () => {
                     transition={{ duration: 0.5 }}
                     onClick={(e) => {
                       e.preventDefault();
-                      submitRow(row, date).then((currentTable: Tablee) => {
+                      submitRow(row, date).then((currentTable) => {
                         setCurrentTable(currentTable);
                         setRow({
                           exerciseName: "",
@@ -317,8 +427,8 @@ const Tables = () => {
                     }}
                     transition={{ duration: 0.5 }}
                     onClick={(e) =>
-                      addRow(e, row, date).then((currentTable) => {
-                        setCurrentTable(currentTable);
+                      addRow(e, row, currentTable?._id || "").then((table) => {
+                        setCurrentTable(table);
                         setRow({
                           exerciseName: "",
                           set1: "",
@@ -335,7 +445,7 @@ const Tables = () => {
                   </motion.button>
                 )}
               </form>
-            </ScrollAnimation>
+            </ScrollReveal>
 
             <AnimatePresence>
               {warning && (
@@ -399,7 +509,6 @@ const Tables = () => {
                     currentTable: Tablee | undefined;
                     isTableFound: boolean;
                   }) => {
-                    console.log(data);
                     setCurrentTable(data?.currentTable);
                     setTablesFound(!!data?.isTableFound);
                   },

@@ -546,6 +546,8 @@ input[type="number"] {
   --gray-border: #e8e8ea;
   --gray-dots: #e8e8ea; /** general **/
   --white: #fff;
+
+  --ion-background-color: #221713;
 }
 .toggle--checkbox {
   display: none;
@@ -797,4 +799,8 @@ input[type="number"] {
   html {
     font-size: 0.8rem;
   }
+}
+
+.flexx {
+  display: flex !important;
 }

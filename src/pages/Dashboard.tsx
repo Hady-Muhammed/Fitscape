@@ -4,7 +4,6 @@ import { GiReceiveMoney, GiTakeMyMoney } from "react-icons/gi";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import { GrUserExpert } from "react-icons/gr";
 import { BiLike } from "react-icons/bi";
-import ScrollAnimation from "react-animate-on-scroll";
 import { useSelector } from "react-redux";
 import userr from "../assets/user.jpg";
 import { enviroment } from "../enviroment";
@@ -12,6 +11,7 @@ import { Line } from "react-chartjs-2";
 import Pako from "pako";
 import { Email } from "../types/email";
 import useRest from "../hooks/useRest";
+import ScrollReveal from "../animations/ScrollReveal";
 interface RootState {
   theme: ThemeState;
 }
@@ -108,59 +108,45 @@ const Dashboard = () => {
             {lang === "AR" ? "تحديثات الدفع" : "Payment updates"}
           </span>
           <div className="flex xs:flex-col lg:flex-row gap-4">
-            <ScrollAnimation
-              className="xs:w-full lg:w-1/3"
-              offset={10}
-              animateOnce
-              animateIn="animate__flipInX animate__animated"
-              scrollableParentSelector="#root"
-            >
-              <div className="text-center shadow-xl bg-white text-black p-4 rounded-md space-y-1">
-                <div className="rounded-full text-white bg-black w-fit mx-auto p-3">
-                  <GiReceiveMoney size={35} className="mx-auto" />
+            <div className="xs:w-full lg:w-1/3">
+              <ScrollReveal animationName="flipInX">
+                <div className="text-center shadow-xl bg-white text-black p-4 rounded-md space-y-1">
+                  <div className="rounded-full text-white bg-black w-fit mx-auto p-3">
+                    <GiReceiveMoney size={35} className="mx-auto" />
+                  </div>
+                  <span className="font-extrabold text-3xl block">$1200</span>
+                  <p className="text-black/70">
+                    {lang === "AR" ? "23% هذا الاسبوع" : "23% this week"}
+                  </p>
                 </div>
-                <span className="font-extrabold text-3xl block">$1200</span>
-                <p className="text-black/70">
-                  {lang === "AR" ? "23% هذا الاسبوع" : "23% this week"}
-                </p>
-              </div>
-            </ScrollAnimation>
-            <ScrollAnimation
-              className="xs:w-full lg:w-1/3"
-              offset={10}
-              delay={200}
-              animateOnce
-              animateIn="animate__flipInX animate__animated"
-              scrollableParentSelector="#root"
-            >
-              <div className="text-center shadow-xl bg-white text-black p-4 rounded-md space-y-1">
-                <div className="rounded-full text-yellow-500 bg-black w-fit mx-auto p-3">
-                  <RiMoneyDollarCircleFill size={35} className="mx-auto" />
+              </ScrollReveal>
+            </div>
+            <div className="xs:w-full lg:w-1/3">
+              <ScrollReveal animationName="flipInX">
+                <div className="text-center shadow-xl bg-white text-black p-4 rounded-md space-y-1">
+                  <div className="rounded-full text-yellow-500 bg-black w-fit mx-auto p-3">
+                    <RiMoneyDollarCircleFill size={35} className="mx-auto" />
+                  </div>
+                  <span className="font-extrabold text-3xl block">$2400</span>
+                  <p className="text-black/70">
+                    {lang === "AR" ? "52% هذا الشهر" : "52% this month"}
+                  </p>
                 </div>
-                <span className="font-extrabold text-3xl block">$2400</span>
-                <p className="text-black/70">
-                  {lang === "AR" ? "52% هذا الشهر" : "52% this month"}
-                </p>
-              </div>
-            </ScrollAnimation>
-            <ScrollAnimation
-              className="xs:w-full lg:w-1/3"
-              offset={10}
-              delay={300}
-              animateOnce
-              animateIn="animate__flipInX animate__animated"
-              scrollableParentSelector="#root"
-            >
-              <div className="text-center shadow-xl bg-white text-black p-4 rounded-md space-y-1">
-                <div className="rounded-full text-green-600 bg-black w-fit mx-auto p-3">
-                  <GiTakeMyMoney size={35} className="mx-auto" />
+              </ScrollReveal>
+            </div>
+            <div className="xs:w-full lg:w-1/3">
+              <ScrollReveal animationName="flipInX">
+                <div className="text-center shadow-xl bg-white text-black p-4 rounded-md space-y-1">
+                  <div className="rounded-full text-green-600 bg-black w-fit mx-auto p-3">
+                    <GiTakeMyMoney size={35} className="mx-auto" />
+                  </div>
+                  <span className="font-extrabold text-3xl block">$4800</span>
+                  <p className="text-black/70">
+                    {lang === "AR" ? "32% هذا العام" : "32% this year"}
+                  </p>
                 </div>
-                <span className="font-extrabold text-3xl block">$4800</span>
-                <p className="text-black/70">
-                  {lang === "AR" ? "32% هذا العام" : "32% this year"}
-                </p>
-              </div>
-            </ScrollAnimation>
+              </ScrollReveal>
+            </div>
           </div>
         </div>
         <div
@@ -168,67 +154,56 @@ const Dashboard = () => {
           className="flex xs:flex-col-reverse lg:flex-row mt-12 justify-between"
         >
           <div className="flex xs:flex-row lg:flex-col justify-between xs:w-full lg:w-[33%]">
-            <ScrollAnimation
-              initiallyVisible={window.screen.width >= 1025 ? false : true}
-              delay={600}
+            <div
               className={`shadow-xl flex flex-col justify-center bg-white text-black p-4 rounded-md space-y-1 xs:w-[47%] lg:w-full xs:h-full lg:h-[48%]`}
-              animateIn="animate__animated animate__jackInTheBox"
-              scrollableParentSelector="#root"
             >
-              <h3 className="font-bold flex items-center">
-                <span className="mx-1">
-                  {lang === "AR" ? "العملاء الجدد" : "New clients"}
+              <ScrollReveal animationName="jackInTheBox">
+                <h3 className="font-bold flex items-center">
+                  <span className="mx-1">
+                    {lang === "AR" ? "العملاء الجدد" : "New clients"}
+                  </span>
+                  <GrUserExpert />
+                </h3>
+                <span className="font-extrabold text-5xl text-blue-600">
+                  {user?.length}
                 </span>
-                <GrUserExpert />
-              </h3>
-              <span className="font-extrabold text-5xl text-blue-600">
-                {user?.length}
-              </span>
-            </ScrollAnimation>
-            <ScrollAnimation
-              initiallyVisible={window.screen.width >= 1025 ? false : true}
-              delay={700}
+              </ScrollReveal>
+            </div>
+            <div
               className={`shadow-xl flex flex-col justify-center bg-white text-black p-4 rounded-md space-y-1 xs:w-[47%] lg:w-full xs:h-full lg:h-[48%]`}
-              animateIn="animate__animated animate__jackInTheBox"
-              scrollableParentSelector="#root"
             >
-              <h3 className="font-bold flex items-center">
-                <span className="mx-1">
-                  {lang === "AR" ? "إجمالي الإعجابات" : "Total Likes"}
+              <ScrollReveal animationName="jackInTheBox">
+                <h3 className="font-bold flex items-center">
+                  <span className="mx-1">
+                    {lang === "AR" ? "إجمالي الإعجابات" : "Total Likes"}
+                  </span>
+                  <BiLike />
+                </h3>
+                <span className="font-extrabold text-5xl text-blue-600">
+                  {likes}
                 </span>
-                <BiLike />
-              </h3>
-              <span className="font-extrabold text-5xl text-blue-600">
-                {likes}
-              </span>
-            </ScrollAnimation>
+              </ScrollReveal>
+            </div>
           </div>
-          <ScrollAnimation
-            initiallyVisible={window.screen.width >= 1025 ? false : true}
-            delay={900}
-            className="xs:w-full lg:w-[65%] xs:mb-5 lg:mb-0 h-full overflow-auto shadow-xl bg-white text-black rounded-md"
-            animateIn="animate__animated animate__fadeInRight"
-            scrollableParentSelector="#root"
-          >
-            <div className="flex xs:flex-col sm:flex-row justify-between p-3">
-              <h2 className="font-bold text-xl">
-                {lang === "AR" ? "الربح" : "Revenue"}
-              </h2>
-              <p className="text-black/70">
-                {lang === "AR" ? "اخر سبعه ايام" : "Last 7 days VS prior week"}
-              </p>
-            </div>
-            <div className="p-5">
-              <Line data={chartData} options={chartOptions} />
-            </div>
-          </ScrollAnimation>
+          <div className="xs:w-full lg:w-[65%] xs:mb-5 lg:mb-0 h-full overflow-auto shadow-xl bg-white text-black rounded-md">
+            <ScrollReveal animationName="fadeInRight">
+              <div className="flex xs:flex-col sm:flex-row justify-between p-3">
+                <h2 className="font-bold text-xl">
+                  {lang === "AR" ? "الربح" : "Revenue"}
+                </h2>
+                <p className="text-black/70">
+                  {lang === "AR"
+                    ? "اخر سبعه ايام"
+                    : "Last 7 days VS prior week"}
+                </p>
+              </div>
+              <div className="p-5">
+                <Line data={chartData} options={chartOptions} />
+              </div>
+            </ScrollReveal>
+          </div>
         </div>
-        <ScrollAnimation
-          initiallyVisible={window.screen.width >= 1025 ? false : true}
-          delay={1200}
-          animateIn="animate__animated animate__fadeInUp"
-          scrollableParentSelector="#root"
-        >
+        <ScrollReveal animationName="fadeInUp">
           <div className="flex shadow-xl flex-col justify-between bg-white text-black rounded-md p-5 mt-5">
             <h3
               dir={lang === "AR" ? "rtl" : "ltr"}
@@ -262,7 +237,7 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
-        </ScrollAnimation>
+        </ScrollReveal>
       </div>
     </div>
   );

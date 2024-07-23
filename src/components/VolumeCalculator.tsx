@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import React, { useRef, useState } from "react";
-import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
+import ScrollReveal from "../animations/ScrollReveal";
 
 const VolumeCalculator = () => {
   // States
@@ -23,7 +23,7 @@ const VolumeCalculator = () => {
       className="main-color flex items-center justify-center h-screen flex-col space-y-8"
       id="volume"
     >
-      <ScrollAnimation offset={300} animateIn="animate__fadeInUp">
+      <ScrollReveal animationName="fadeInUp">
         <table>
           <thead>
             <tr>
@@ -61,9 +61,9 @@ const VolumeCalculator = () => {
             </tr>
           </tbody>
         </table>
-      </ScrollAnimation>
+      </ScrollReveal>
       <div>
-        <ScrollAnimation offset={300} delay={300} animateIn="animate__fadeIn">
+        <ScrollReveal animationName="fadeIn">
           <motion.button
             className="text-white border px-4 py-1 text-xl rounded-lg eval italic"
             whileHover={{
@@ -79,7 +79,7 @@ const VolumeCalculator = () => {
           >
             Evaluate
           </motion.button>
-        </ScrollAnimation>
+        </ScrollReveal>
       </div>
       {total && (
         <>

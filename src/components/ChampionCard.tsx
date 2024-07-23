@@ -1,6 +1,6 @@
 import React from "react";
-import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
+import ScrollReveal from "../animations/ScrollReveal";
 
 // Define prop types
 interface ChampionCardProps {
@@ -11,7 +11,7 @@ interface ChampionCardProps {
 
 const ChampionCard: React.FC<ChampionCardProps> = ({ title, img, desc }) => {
   return (
-    <ScrollAnimation offset={500} animateIn="animate__fadeInUp">
+    <ScrollReveal animationName="fadeInUp">
       <div className="text-white text-center space-y-5">
         <img
           className="w-[16rem] h-80 object-cover rounded-xl mx-auto duration-300"
@@ -21,7 +21,7 @@ const ChampionCard: React.FC<ChampionCardProps> = ({ title, img, desc }) => {
         <h2 className="text-3xl font-bold">{title}</h2>
         <p className="">{desc.slice(0, 200) + "..."}</p>
       </div>
-    </ScrollAnimation>
+    </ScrollReveal>
   );
 };
 

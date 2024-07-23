@@ -1,15 +1,5 @@
-import { Route, Routes, useLocation } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
 import { ToastContainer } from "react-toastify";
-import { lazy, Suspense } from "react";
-import Navbar from "./components/Navbar";
-import LogoutBtn from "./components/LogoutBtn";
 import React from "react";
-import Footer from "./components/Footer";
-import { WaveSpinner } from "react-spinners-kit";
-import AdminRoutes from "./guards/AdminRoutes";
-import UserRoutes from "./guards/UserRoutes";
-import LoggedInRoutes from "./guards/LoggedInRoutes";
 import {
   BarElement,
   CategoryScale,
@@ -24,22 +14,13 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/L
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "@ionic/react/css/core.css";
 
-const Home = lazy(() => import("./pages/Home"));
-const Champions = lazy(() => import("./pages/Champions"));
-const Volume = lazy(() => import("./pages/Volume"));
-const Workouts = lazy(() => import("./pages/Workouts"));
-const SignIn = lazy(() => import("./pages/SignIn"));
-const SignUp = lazy(() => import("./pages/SignUp"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
-const Champs = lazy(() => import("./pages/dashboard/Champs"));
-const Exercs = lazy(() => import("./pages/dashboard/Exercs"));
-const Users = lazy(() => import("./pages/dashboard/Users"));
-const Settings = lazy(() => import("./pages/dashboard/Settings"));
-const Account = lazy(() => import("./pages/dashboard/Account"));
-const Contact = lazy(() => import("./pages/Contact"));
-const Edit = lazy(() => import("./pages/dashboard/Edit"));
-const UserAccount = lazy(() => import("./pages/UserAccount"));
-const Page404 = lazy(() => import("./pages/404Page"));
+/* Optional CSS utils that can be commented out */
+import "@ionic/react/css/padding.css";
+import "@ionic/react/css/float-elements.css";
+import "@ionic/react/css/text-alignment.css";
+import "@ionic/react/css/text-transformation.css";
+import "@ionic/react/css/flex-utils.css";
+import "@ionic/react/css/display.css";
 
 Chart.register(
   BarElement,
@@ -48,271 +29,125 @@ Chart.register(
   CategoryScale,
   LinearScale,
   PointElement,
-  LineElement
+  LineElement,
 );
-import { setupIonicReact } from "@ionic/react";
+import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
+import { IonReactRouter } from "@ionic/react-router";
+
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import Home from "./pages/Home";
+import LoggedInRoutes from "./guards/LoggedInRoutes";
+import UserRoutes from "./guards/UserRoutes";
+import Champions from "./pages/Champions";
+import Contact from "./pages/Contact";
+import UserAccount from "./pages/UserAccount";
+import Volume from "./pages/Volume";
+import Workouts from "./pages/Workouts";
+import AdminRoutes from "./guards/AdminRoutes";
+import Dashboard from "./pages/Dashboard";
+import Account from "./pages/dashboard/Account";
+import Champs from "./pages/dashboard/Champs";
+import Edit from "./pages/dashboard/Edit";
+import Exercs from "./pages/dashboard/Exercs";
+import Settings from "./pages/dashboard/Settings";
+import Users from "./pages/dashboard/Users";
+import { Route } from "react-router-dom";
+import _404Page from "./pages/404Page";
+import LogoutBtn from "./components/LogoutBtn";
+import Navbar from "./components/Navbar";
+import { ScrollProvider } from "./context/ScrollProvider";
 
 setupIonicReact();
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function App() {
-  const location = useLocation();
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <LogoutBtn />
-      <Navbar />
-      <AnimatePresence>
-        <Routes location={location} key={location.key}>
-          {/* LoggedIn Guard */}
-          <Route element={<LoggedInRoutes />}>
-            <Route
-              path="/signin"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <SignIn />
-                </Suspense>
-              }
+    <ScrollProvider>
+      <IonApp>
+        <IonReactRouter>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LogoutBtn />
+            <Navbar />
+            {/* <AnimatePresence> */}
+            <IonRouterOutlet animated>
+              {/* LoggedIn Guard */}
+              <LoggedInRoutes
+                Component={SignIn}
+                path={"/signin"}
+              ></LoggedInRoutes>
+              <LoggedInRoutes
+                Component={SignUp}
+                path={"/signup"}
+              ></LoggedInRoutes>
+              {/* User Guard */}
+              <UserRoutes Component={Home} exact path={"/"}></UserRoutes>
+              <UserRoutes Component={Champions} path="/champions"></UserRoutes>
+              <UserRoutes Component={Volume} path="/volume"></UserRoutes>
+              <UserRoutes Component={Workouts} path="/workout"></UserRoutes>
+              <UserRoutes Component={Contact} path="/contact"></UserRoutes>
+              <UserRoutes Component={UserAccount} path="/account"></UserRoutes>
+              {/* Admin Guard */}
+
+              <AdminRoutes
+                Component={Dashboard}
+                path="/dashboard"
+              ></AdminRoutes>
+              <AdminRoutes
+                Component={Champs}
+                path="/dashboard/champions"
+              ></AdminRoutes>
+              <AdminRoutes
+                Component={Exercs}
+                path="/dashboard/exercises"
+              ></AdminRoutes>
+              <AdminRoutes
+                Component={Users}
+                path="/dashboard/users"
+              ></AdminRoutes>
+              <AdminRoutes
+                Component={Settings}
+                path="/dashboard/settings"
+              ></AdminRoutes>
+              <AdminRoutes
+                Component={Account}
+                path="/dashboard/account"
+              ></AdminRoutes>
+              <AdminRoutes
+                Component={Edit}
+                path="/dashboard/edit/:id"
+              ></AdminRoutes>
+              <Route component={_404Page}></Route>
+            </IonRouterOutlet>
+            {/* </AnimatePresence> */}
+            <ToastContainer
+              position="top-left"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
             />
-            <Route
-              path="/signup"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <SignUp />
-                </Suspense>
-              }
-            />
-          </Route>
-          {/* User Guard */}
-          <Route element={<UserRoutes />}>
-            <Route
-              path="/"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <Home />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/champions"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <Champions />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/volume"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <Volume />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/workout"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <Workouts />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/contact"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <Contact />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/account"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <UserAccount />
-                </Suspense>
-              }
-            />
-          </Route>
-          {/* Admin Guard */}
-          <Route element={<AdminRoutes />}>
-            <Route
-              path="/dashboard"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <Dashboard />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/dashboard/champions"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <Champs />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/dashboard/exercises"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <Exercs />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/dashboard/users"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <Users />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/dashboard/settings"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <Settings />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/dashboard/account"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <Account />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/dashboard/edit/:id"
-              element={
-                <Suspense
-                  fallback={
-                    <div className="grid place-items-center h-screen bg-black">
-                      <WaveSpinner size={60} />
-                    </div>
-                  }
-                >
-                  <Edit />
-                </Suspense>
-              }
-            />
-          </Route>
-          <Route
-            path="*"
-            element={
-              <Suspense
-                fallback={
-                  <div className="grid place-items-center h-screen bg-black">
-                    <WaveSpinner size={60} />
-                  </div>
-                }
-              >
-                <Page404 />
-              </Suspense>
-            }
-          />
-        </Routes>
-      </AnimatePresence>
-      <Footer />
-      <ToastContainer
-        position="top-left"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-    </LocalizationProvider>
+          </LocalizationProvider>
+        </IonReactRouter>
+      </IonApp>
+    </ScrollProvider>
   );
 }
+
+// const DashboardRouterOutlet: React.FC = () => (
+//   <IonRouterOutlet>
+//     <Route path="/dashboard" exact={true}>
+//       <DashboardMainPage />
+//     </Route>
+//     <Route path="/dashboard/stats" exact={true}>
+//       <DashboardStatsPage />
+//     </Route>
+//   </IonRouterOutlet>
+// );
 
 export default App;
