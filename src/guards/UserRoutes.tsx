@@ -1,8 +1,13 @@
 import jwtDecode from "jwt-decode";
 import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Redirect, Route, RouteProps } from "react-router-dom";
 
-const UserRoutes = () => {
+interface AdminRoutesProps extends RouteProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Component: any;
+}
+
+const UserRoutes: React.FC<AdminRoutesProps> = ({ Component, ...rest }) => {
   const isUser = () => {
     const token = localStorage.getItem("token") || "";
     if (token) {
@@ -12,7 +17,15 @@ const UserRoutes = () => {
       return false;
     }
   };
-  return isUser() ? <Outlet /> : <Navigate to="/signin" />;
+
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        isUser() ? <Component {...props} /> : <Redirect to="/signin" />
+      }
+    />
+  );
 };
 
 export default UserRoutes;

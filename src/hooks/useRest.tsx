@@ -28,16 +28,15 @@ function useRest() {
   async function sendRequest(url: string, method: string, body?: RequestBody) {
     setLoading(true);
     setError(null);
-    const headers = {
-      "Content-Type": "application/json",
-      ...(!url.includes("auth") && {
-        Authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("token") || ""
-        )}`,
-      }),
-    };
-
     try {
+      const headers = {
+        "Content-Type": "application/json",
+        ...(!url.includes("auth") && {
+          Authorization: `Bearer ${JSON.parse(
+            localStorage.getItem("token") || "",
+          )}`,
+        }),
+      };
       const response = await fetch(url, {
         method,
         headers,
@@ -56,7 +55,7 @@ function useRest() {
     } catch (error) {
       setLoading(false);
       setError(
-        error instanceof Error ? error.message : "Something went wrong!"
+        error instanceof Error ? error.message : "Something went wrong!",
       );
       throw error;
     }

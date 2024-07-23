@@ -1,32 +1,33 @@
 import jwtDecode from "jwt-decode";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { enviroment } from "../enviroment";
-import axios from "axios";
 import { Token } from "../types/token";
 import useRest from "./useRest";
+import { useHistory } from "react-router-dom";
 
 function useUser() {
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
   const { post, get } = useRest();
+  const history = useHistory();
+
   const logout = () => {
     setIsLoading(true);
     localStorage.removeItem("token");
     setTimeout(() => {
       toast.success("Logged out successfully!");
       setIsLoading(false);
-      navigate("/signin");
+      history.push("/signin");
     }, 3000);
   };
 
   const logIn = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    { email, password }: { email: string; password: string }
+    { email, password }: { email: string; password: string },
   ) => {
     e.preventDefault();
     setIsLoading(true);
+
     try {
       const url = enviroment.API_URL + "/api/auth/";
       const res = await post(url, {
@@ -35,12 +36,13 @@ function useUser() {
       });
       setIsLoading(false);
       toast.success(res.message + "!");
+
       localStorage.setItem("token", JSON.stringify(res.token));
       const user = jwtDecode(res.token) as Token;
       setTimeout(() => {
         user.email === "admin@gmail.com" && user.password === "admin"
-          ? navigate("/dashboard")
-          : navigate("/");
+          ? history.push("/dashboard")
+          : history.push("/");
       }, 1000);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -56,6 +58,7 @@ function useUser() {
   const getUser = async () => {
     try {
       const token = localStorage.getItem("token") || "";
+
       const { email } = jwtDecode(token) as Token;
       const res = await get(enviroment.API_URL + `/api/users/${email}`);
       return { name: res.user.name, email: res.user.email };
@@ -74,6 +77,7 @@ function useUser() {
     } else {
       try {
         const token = localStorage.getItem("token") || "";
+
         const user = jwtDecode(token) as Token;
         if (user) {
           await post(enviroment.API_URL + "/api/users/contact", {
@@ -96,7 +100,7 @@ function useUser() {
     try {
       const token = localStorage.getItem("token") || "";
       const { email } = jwtDecode(token) as { email: string };
-      await axios.post(enviroment.API_URL + "/api/users/like", {
+      await post(enviroment.API_URL + "/api/users/like", {
         email,
       });
     } catch (err: unknown) {
@@ -109,15 +113,11 @@ function useUser() {
     }
   };
   const checkLiked = async () => {
-    try {
-      const token = localStorage.getItem("token") || "";
-      const { email } = jwtDecode(token) as { email: string };
-      const res = await get(enviroment.API_URL + `/api/users/isLiked/${email}`);
-      console.log(res);
-      return res?.liked ? true : false;
-    } catch (err) {
-      console.log(err);
-    }
+    const token = localStorage.getItem("token") || "";
+    const { email } = jwtDecode(token) as { email: string };
+    const res = await get(enviroment.API_URL + `/api/users/isLiked/${email}`);
+
+    return res?.liked ? true : false;
   };
 
   return {

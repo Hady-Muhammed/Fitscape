@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Logo from "../components/Logo";
 import { motion } from "framer-motion";
 import Loader from "../components/Loader";
-import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import useUser from "../hooks/useUser";
+import ScrollReveal from "../animations/ScrollReveal";
 
 const Contact = () => {
   // States
@@ -48,10 +48,8 @@ const Contact = () => {
         </motion.div>
       </div>
       <div className="flex justify-center items-center p-12 pt-16">
-        <ScrollAnimation
-          className="bg-white relative rounded-md xs:w-[450px] lg:w-[50%] p-6 contt "
-          animateIn="animate__bounceInLeft"
-        >
+        <div className="bg-white relative rounded-md xs:w-[450px] lg:w-[50%] p-6 contt "></div>
+        <ScrollReveal animationName="bounceInLeft">
           <form className="">
             <div className="p-5 bg-[#795548] text-white text-center rounded-md w-[80%] absolute left-1/2 translate-x-[-50%] top-[-8%] font-mont">
               Get in Touch
@@ -74,7 +72,7 @@ const Contact = () => {
               SEND MESSAGE
             </button>
           </form>
-        </ScrollAnimation>
+        </ScrollReveal>
       </div>
     </>
   );

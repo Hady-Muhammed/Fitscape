@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Token } from "../types/token";
 import { Table } from "../types/table";
 import { Row } from "../types/row";
-import { Workout } from "../types/workout";
 import useRest from "./useRest";
 
 function useTable() {
@@ -19,14 +18,11 @@ function useTable() {
   const addRow = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     row: Row,
-    date: string | Date | undefined
+    id: string,
   ) => {
     e.preventDefault();
     try {
       if (row.exerciseName) {
-        console.log(1);
-        const token = localStorage.getItem("token") || "";
-        const { email } = jwtDecode(token) as { email: string };
         const exercise: Row = {
           exerciseName: row.exerciseName,
           set1: row.set1,
@@ -37,15 +33,13 @@ function useTable() {
           weight: row.weight,
         };
         const res = await post(enviroment.API_URL + `/api/workouts/rows/`, {
-          email,
-          date,
+          id,
           exercise,
         });
-        const currentTable = res.workouts.find((w: Workout) => w.date === date);
+        const currentTable = res;
         setWarning(false);
         return currentTable;
       } else {
-        console.log(2);
         setWarning(true);
       }
     } catch (error) {
@@ -61,8 +55,6 @@ function useTable() {
   const submitRow = async (row: Row, date: Date | string | undefined) => {
     try {
       if (row?.exerciseName) {
-        const token = localStorage.getItem("token") || "";
-        const { email } = jwtDecode(token) as Token;
         const editedExer = {
           exerciseName: row?.exerciseName,
           set1: row?.set1,
@@ -73,12 +65,11 @@ function useTable() {
           weight: row?.weight,
         };
         const res = await put(enviroment.API_URL + `/api/workouts/rows/`, {
-          email,
           date,
           id: row._id,
           editedExer,
         });
-        const currentTable = res.workouts.find((w: Workout) => w.date === date);
+        const currentTable = res;
         setWarning(false);
         setIsEditing(false);
         setEditSuccess(true);
@@ -109,17 +100,16 @@ function useTable() {
         post(enviroment.API_URL + "/api/workouts/", {
           email,
           date,
-        }).then(() => {
-          changeTable(date).then(
+        }).then((id) => {
+          changeWorkout(id).then(
             (
-              data: { currentTable: Table; isTableFound: boolean } | undefined
+              data: { currentTable: Table; isTableFound: boolean } | undefined,
             ) => {
-              console.log(data);
               resolve({
                 currentTable: data?.currentTable,
                 isTableFound: !!data?.isTableFound,
               });
-            }
+            },
           );
           setCreateSuccess(true);
           setTimeout(() => setCreateSuccess(false), 4000);
@@ -135,14 +125,10 @@ function useTable() {
     });
   };
 
-  const changeTable = async (date?: Date | string | undefined) => {
+  const changeWorkout = async (date: string | undefined) => {
     setIsLoading(true);
     try {
-      const token = localStorage.getItem("token") || "";
-      const { email } = jwtDecode(token) as Token;
-      const res = await get(
-        enviroment.API_URL + `/api/workouts?email=${email}&date=${date}`
-      );
+      const res = await get(enviroment.API_URL + `/api/workouts?date=${date}`);
       const isTableFound: boolean = Object.keys(res).length > 0;
       const currentTable: Table = res;
       closeLoader();
@@ -198,7 +184,27 @@ function useTable() {
         date,
         id,
       });
-      return res.workouts.find((w: Workout) => w.date === date);
+      return res;
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        // Handle other types of errors
+        toast.error("An error occurred");
+      }
+    }
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const reorderRows = async (id: string, rows: any) => {
+    try {
+      const res = await put(
+        enviroment.API_URL + `/api/workouts/${id}/reorder`,
+        {
+          rows,
+        },
+      );
+      return res;
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -214,7 +220,8 @@ function useTable() {
     addRow,
     selectRow,
     createNewTable,
-    changeTable,
+    changeWorkout,
+    reorderRows,
     isLoading,
     isEditing,
     warning,

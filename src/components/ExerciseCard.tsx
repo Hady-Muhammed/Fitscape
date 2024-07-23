@@ -1,6 +1,7 @@
-import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
 import React, { FC } from "react";
+import ScrollReveal from "../animations/ScrollReveal";
+
 interface ExerciseCardProps {
   title: string;
   img: string;
@@ -14,7 +15,7 @@ const ExerciseCard: FC<ExerciseCardProps> = ({
   tutorial,
 }) => {
   return (
-    <ScrollAnimation offset={300} animateIn="animate__fadeInUp">
+    <ScrollReveal animationName="fadeInUp">
       <div className="text-white text-center space-y-5">
         <a className="group relative block" href={tutorial} target="blank">
           <img
@@ -30,7 +31,7 @@ const ExerciseCard: FC<ExerciseCardProps> = ({
         <h2 className="text-3xl font-bold">{title}</h2>
         <p className="">{desc.slice(0, 200) + "..."}</p>
       </div>
-    </ScrollAnimation>
+    </ScrollReveal>
   );
 };
 
