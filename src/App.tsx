@@ -1,5 +1,5 @@
 import { ToastContainer } from "react-toastify";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BarElement,
   CategoryScale,
@@ -57,11 +57,28 @@ import _404Page from "./pages/404Page";
 import LogoutBtn from "./components/LogoutBtn";
 import Navbar from "./components/Navbar";
 import { ScrollProvider } from "./context/ScrollProvider";
+import "./i18n"; // Ensure this import is present to initialize i18n
+import { useTranslation } from "react-i18next";
+const useBodyFont = () => {
+  const { i18n } = useTranslation();
+  const language = i18n.language;
+
+  useEffect(() => {
+    // Remove any existing language font classes
+    document.body.classList.remove("font-ar");
+    // Add the appropriate font class based on the language
+    if (language === "ar") {
+      document.body.dir = "rtl";
+      document.body.classList.add("font-ar");
+    }
+  }, [language]);
+};
 
 setupIonicReact();
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function App() {
+  useBodyFont();
   return (
     <ScrollProvider>
       <IonApp>

@@ -1,21 +1,23 @@
 import { motion } from "framer-motion";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import "animate.css/animate.min.css";
 import ScrollReveal from "../animations/ScrollReveal";
+import { useTranslation } from "react-i18next";
 
 const VolumeCalculator = () => {
+  const { t } = useTranslation();
   // States
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [sets, setSets] = useState<any>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [reps, setReps] = useState<any>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [weight, setWeight] = useState<any>();
   const [total, setTotal] = useState<number>();
   // Refs
-  const sets = useRef<HTMLInputElement | null>(null);
-  const reps = useRef<HTMLInputElement | null>(null);
-  const wt = useRef<HTMLInputElement | null>(null);
   // Functions
   const EvaluateVol = () => {
-    const setsValue = parseFloat(sets?.current?.value ?? "0");
-    const repsValue = parseFloat(reps?.current?.value ?? "0");
-    const wtValue = parseFloat(wt?.current?.value ?? "0");
-    setTotal(setsValue * repsValue * wtValue);
+    setTotal(sets * reps * weight);
   };
 
   return (
@@ -27,34 +29,40 @@ const VolumeCalculator = () => {
         <table>
           <thead>
             <tr>
-              <th className="text-xl p-5 text-white">Number of Sets</th>
-              <th className="text-xl p-5 text-white">Number of Reps</th>
-              <th className="text-xl p-5 text-white">Weight Lifted(kg)</th>
+              <th className="text-xl p-5 text-white">
+                {t("Volume.Number of Sets")}
+              </th>
+              <th className="text-xl p-5 text-white">
+                {t("Volume.Number of Reps")}
+              </th>
+              <th className="text-xl p-5 text-white">
+                {t("Tables.Weight Lifted")}(kg)
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td className="p-2">
                 <input
-                  ref={sets}
                   className="font-bold main-color text-white border-b appearance-none mx-auto block rounded-xl p-1 w-[70px] outline-none"
                   type="number"
+                  onChange={(e) => setSets(e.target.value)}
                   required
                 />
               </td>
               <td className="p-2">
                 <input
-                  ref={reps}
                   className="font-bold main-color text-white border-b appearance-none mx-auto block rounded-xl p-1 w-[70px] outline-none"
                   type="number"
+                  onChange={(e) => setReps(e.target.value)}
                   required
                 />
               </td>
               <td className="p-2">
                 <input
-                  ref={wt}
                   className="font-bold main-color text-white border-b appearance-none mx-auto block rounded-xl p-1 w-[70px] outline-none"
                   type="number"
+                  onChange={(e) => setWeight(e.target.value)}
                   required
                 />
               </td>
@@ -77,7 +85,7 @@ const VolumeCalculator = () => {
             transition={{ duration: 0.5 }}
             onClick={EvaluateVol}
           >
-            Evaluate
+            {t("Volume.Evaluate")}
           </motion.button>
         </ScrollReveal>
       </div>
@@ -89,7 +97,7 @@ const VolumeCalculator = () => {
             animate={{ x: 0 }}
             transition={{ type: "spring", stiffness: 100 }}
           >
-            TOTAL = {total}
+            {t("Volume.TOTAL")} = {total}
           </motion.span>
 
           <motion.span
@@ -98,7 +106,7 @@ const VolumeCalculator = () => {
             animate={{ x: 0 }}
             transition={{ delay: 1, type: "spring", stiffness: 100 }}
           >
-            KEEP GOING!
+            {t("Volume.KEEP GOING!")}
           </motion.span>
         </>
       )}

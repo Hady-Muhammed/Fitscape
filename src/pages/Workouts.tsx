@@ -5,8 +5,10 @@ import ScrollArrow from "../components/ScrollArrow";
 import Tables from "../components/Tables";
 import { IonContent, IonPage } from "@ionic/react";
 import Footer from "../components/Footer";
+import { useTranslation } from "react-i18next";
 
 const Workouts = () => {
+  const { t } = useTranslation();
   return (
     <IonPage>
       <IonContent>
@@ -20,14 +22,14 @@ const Workouts = () => {
             exit={{ y: "-100vh", transition: { duration: 0.5 } }}
           >
             <motion.h1
-              className="text-3xl font-bold"
+              className="text-3xl font-bold w-[50rem]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1 }}
             >
-              Anything worth achieving is gonna be hard <br /> , Facing ups and
-              downs is inevitable, BUT this is <br /> what differentiate legends
-              from normals!{" "}
+              {t(
+                "HeroSection.Anything worth achieving is gonna be hard, Facing ups and downs is inevitable, BUT this is what differentiates legends from normals!",
+              )}
             </motion.h1>
             <motion.span
               className="text-xl block italic"
@@ -35,16 +37,14 @@ const Workouts = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1.5 }}
             >
-              "If you fail to PLAN , you're planning to FAIL"
+              {t("HeroSection.If you fail to PLAN , you're planning to FAIL")}
             </motion.span>
           </motion.div>
           <button className="absolute bottom-5 left-1/2 translate-x-[-50%]">
             <ScrollArrow href="tables" />
           </button>
         </section>
-        <div className="flex flex-col gap-4">
-          <Tables />
-        </div>
+        <Tables />
         <Footer />
       </IonContent>
     </IonPage>

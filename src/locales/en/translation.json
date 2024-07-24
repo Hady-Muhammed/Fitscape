@@ -1,0 +1,78 @@
+{
+  "general": {
+    "upload": "upload",
+    "Name": "Name",
+    "Email": "Email",
+    "Password": "Password",
+    "Save Changes": "Save Changes",
+    "Logout": "Logout",
+    "Select Language": "Select Language"
+  },
+  "Navbar": {
+    "Home": "Home",
+    "Champions": "Champions",
+    "Track A Workout": "Track A Workout",
+    "Evalute Volume": "Evalute Volume"
+  },
+  "HeroSection": {
+    "Champions aren't made overnight ,  Putting the hardwork is NOT an option its a MUST": "Champions aren't made overnight ,  Putting the hardwork is NOT an option its a MUST",
+    "Growth is painful": "Growth is painful",
+    "Bodybuilding isn't just a sport where you lift some weights and have muscles .   It's the way to push your limits and learn what displine really is": "Bodybuilding isn't just a sport where you lift some weights and have muscles .   It's the way to push your limits and learn what displine really is",
+    "Winners do what they fear.": "Winners do what they fear.",
+    "Anything worth achieving is gonna be hard, Facing ups and downs is inevitable, BUT this is what differentiates legends from normals!": "Anything worth achieving is gonna be hard, Facing ups and downs is inevitable, BUT this is what differentiates legends from normals!",
+    "If you fail to PLAN , you're planning to FAIL": "If you fail to PLAN , you're planning to FAIL",
+    "Evalute the training volume to see your progress.": "Evalute the training volume to see your progress.",
+    "Victory isn't defined by wins and losses, it's defined by effort.": "Victory isn't defined by wins and losses, it's defined by effort.",
+    "Give us your Feedback , so we can improve and enhance the features of our app!": "Give us your Feedback , so we can improve and enhance the features of our app!",
+    "Strive progress NOT perfection!": "Strive progress NOT perfection!"
+  },
+  "ChampionsSection": {
+    "The Greatest OF ALL Time Classic Physiques!": "The Greatest OF ALL Time Classic Physiques!"
+  },
+  "Tables": {
+    "Select The Workout Day": "Select The Workout Day",
+    "No Workouts Found!": "No Workouts Found!",
+    "Create New Workout": "Create New Workout",
+    "Created Succesfully": "Created Succesfully",
+    "Editted Succesfully": "Editted Succesfully",
+    "Please enter exercise name!": "Please enter exercise name!",
+    "Add Row": "Add Row",
+    "Submit Row": "Submit Row",
+    "Weight Lifted": "Weight Lifted",
+    "Rest Period": "Rest Period",
+    "Exercise Name": "Exercise Name",
+    "Set": "Set",
+    "DELETE": "DELETE",
+    "EDIT": "EDIT",
+    "Actions": "Actions",
+    "Reorder Exercises": "Reorder Exercises"
+  },
+  "Volume": {
+    "Number of Sets": "Number of Sets",
+    "Number of Reps": "Number of Reps",
+    "Evaluate": "Evaluate",
+    "KEEP GOING!": "KEEP GOING!",
+    "TOTAL": "TOTAL"
+  },
+  "Contact": {
+    "Get in Touch": "Get in Touch",
+    "Your Message": "Your Message",
+    "SEND MESSAGE": "SEND MESSAGE"
+  },
+  "Exercises": "Exercises",
+  "Footer": {
+    "Enjoying the app?": "Enjoying the app?",
+    "Like": "Like",
+    "CONTACT US!": "CONTACT US!",
+    "My Account": "My Account",
+    "copyright": "copyright {{year}} | All rights reserved"
+  },
+  "Account": {
+    "Personal Info": "Personal Info",
+    "Workouts Done": "Workouts Done"
+  },
+  "Language": {
+    "English": "English",
+    "Arabic": "Arabic"
+  }
+}
