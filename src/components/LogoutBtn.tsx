@@ -4,8 +4,10 @@ import { useLocation } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import Loader from "./Loader";
 import useUser from "../hooks/useUser";
+import { useTranslation } from "react-i18next";
 
 const LogoutBtn = () => {
+  const { t } = useTranslation();
   // Utilites
   const location = useLocation();
   // States
@@ -24,7 +26,7 @@ const LogoutBtn = () => {
             <ReactTooltip />
             <button
               onClick={logout}
-              data-tip="Logout"
+              data-tip={t("general.Logout")}
               className="fixed z-50 left-5 top-5 bg-white xs:p-1 sm:p-2 rounded-full flex items-center text-xs"
             >
               <AiOutlinePoweroff size={20} />

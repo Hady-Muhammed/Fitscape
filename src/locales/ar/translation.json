@@ -1,0 +1,78 @@
+{
+  "general": {
+    "upload": "رفع",
+    "Name": "الاسم",
+    "Email": "الإيميل",
+    "Password": "الباسورد",
+    "Save Changes": "حفظ التغييرات",
+    "Logout": "تسجيل الخروج",
+    "Select Language": "اختر اللغه"
+  },
+  "Navbar": {
+    "Home": "الصفحه الرئيسيه",
+    "Champions": "الأبطال",
+    "Track A Workout": "تتبع التمرين",
+    "Evalute Volume": "حساب الحمل التدريبي"
+  },
+  "HeroSection": {
+    "Champions aren't made overnight ,  Putting the hardwork is NOT an option its a MUST": "الأبطال لا يُصنعون بين عشية وضحاها، بذل الجهد الشاق ليس خيارًا، إنه واجب",
+    "Growth is painful": "النمو مؤلم",
+    "Bodybuilding isn't just a sport where you lift some weights and have muscles .   It's the way to push your limits and learn what displine really is": "بناء الأجسام ليس مجرد رياضة حيث ترفع بعض الأوزان وتكتسب العضلات. إنه الطريقة لتجاوز حدودك وتعلم ما هو الانضباط حقًا.",
+    "Winners do what they fear.": "الفائزون يفعلون ما يخافون منه.",
+    "Anything worth achieving is gonna be hard, Facing ups and downs is inevitable, BUT this is what differentiates legends from normals!": "أي شيء يستحق تحقيقه سيكون صعبًا، مواجهة الارتفاعات والانخفاضات أمر لا مفر منه، ولكن هذا هو ما يميز الأساطير عن الأشخاص العاديين!",
+    "If you fail to PLAN , you're planning to FAIL": "إذا فشلت في التخطيط، فأنت تخطط للفشل",
+    "Evalute the training volume to see your progress.": "قم بتقييم حجم التدريب لرؤية تقدمك.",
+    "Victory isn't defined by wins and losses, it's defined by effort.": "النصر لا يُعرَف بالانتصارات والهزائم، بل يُعرَف بالجهد.",
+    "Give us your Feedback , so we can improve and enhance the features of our app!": "قدم لنا ملاحظاتك، حتى نتمكن من تحسين وتعزيز ميزات تطبيقنا",
+    "Strive progress NOT perfection!": "!اسعَ للتقدم وليس للكمال"
+  },
+  "ChampionsSection": {
+    "The Greatest OF ALL Time Classic Physiques!": "!أعظم الأجسام الكلاسيكية على مر العصور"
+  },
+  "Tables": {
+    "Select The Workout Day": "اختر يوم التمرين",
+    "No Workouts Found!": "!لم يتم العثور على تمارين",
+    "Create New Workout": "إنشاء تمرين جديد",
+    "Created Succesfully": "تم إنشاؤه بنجاح",
+    "Editted Succesfully": "تم التعديل بنجاح",
+    "Please enter exercise name!": "يرجى إدخال اسم التمرين!",
+    "Add Row": "أضف صفًا",
+    "Submit Row": "تقديم الصف",
+    "Weight Lifted": "الوزن المرفوع",
+    "Rest Period": "فترة الراحة",
+    "Exercise Name": "اسم التمرين",
+    "Set": "مجموعه",
+    "DELETE": "مسح",
+    "EDIT": "تعديل",
+    "Actions": "عمليات",
+    "Reorder Exercises": "ترتيب التمارين"
+  },
+  "Volume": {
+    "Number of Sets": "عدد المجموعات",
+    "Number of Reps": "عدد التكرارات",
+    "Evaluate": "حساب",
+    "KEEP GOING!": "!واصل التقدم",
+    "TOTAL": "المجموع"
+  },
+  "Contact": {
+    "Get in Touch": "تواصل معنا",
+    "Your Message": "...اكتب رسالتك",
+    "SEND MESSAGE": "إرسال"
+  },
+  "Exercises": "التمارين",
+  "Footer": {
+    "Enjoying the app?": "هل تستمتع بالتطبيق؟",
+    "Like": "إعجاب",
+    "CONTACT US!": "!تواصل معنا",
+    "My Account": "حسابي",
+    "copyright": "حقوق الطبع والنشر {{year}} | جميع الحقوق محفوظة"
+  },
+  "Account": {
+    "Personal Info": "البيانات الشخصيه",
+    "Workouts Done": "التمارين المنجزة"
+  },
+  "Language": {
+    "English": "الانجليزيه",
+    "Arabic": "العربيه"
+  }
+}

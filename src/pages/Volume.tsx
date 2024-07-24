@@ -5,8 +5,10 @@ import ScrollArrow from "../components/ScrollArrow";
 import VolumeCalculator from "../components/VolumeCalculator";
 import { IonContent, IonPage } from "@ionic/react";
 import Footer from "../components/Footer";
+import { useTranslation } from "react-i18next";
 
 const Volume = () => {
+  const { t } = useTranslation();
   return (
     <IonPage>
       <IonContent>
@@ -25,7 +27,9 @@ const Volume = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1 }}
             >
-              Evalute the training volume to see your progress.
+              {t(
+                "HeroSection.Evalute the training volume to see your progress.",
+              )}
             </motion.h1>
             <motion.span
               className="text-xl block italic"
@@ -33,8 +37,9 @@ const Volume = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1.5 }}
             >
-              "Victory isn’t defined by wins and losses, it’s defined by effort.
-              "
+              {t(
+                "HeroSection.Victory isn't defined by wins and losses, it's defined by effort.",
+              )}
             </motion.span>
           </motion.div>
           <button className="absolute bottom-5 left-1/2 translate-x-[-50%]">

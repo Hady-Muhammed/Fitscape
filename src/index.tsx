@@ -5,6 +5,7 @@ import App from "./App";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import "./i18n"; // Ensure this import is present to initialize i18n
 
 const rootElement = document.getElementById("root");
 let root;

@@ -9,8 +9,10 @@ import "animate.css/animate.min.css";
 import useUser from "../hooks/useUser";
 import useUtility from "../hooks/useUtility";
 import ScrollReveal from "../animations/ScrollReveal";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
   // States
   const [disabled, setDisabled] = useState(false);
   const [heartColor, setHeartColor] = useState("");
@@ -40,12 +42,12 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="p-20 main-color text-white text-center mt-20 flex flex-col justify-around">
+      <footer className="p-20 main-color text-white text-center flex flex-col justify-around">
         <hr className="w-[80%] my-12 mx-auto" />
         <div className="flex xs:flex-col-reverse items-center sm:flex-row justify-around">
           <div className="flex flex-col xs:mt-12 sm:mt-0">
             <ScrollReveal animationName="slideInLeft">
-              <h3 className="text-3xl font-mont">Enjoying the app?</h3>
+              <h3 className="text-3xl">{t("Footer.Enjoying the app?")}</h3>
             </ScrollReveal>
             <div className="mt-4">
               {/* Start Like */}
@@ -67,7 +69,7 @@ const Footer = () => {
                       }`}
                       htmlFor="checkbox"
                     >
-                      Like
+                      {t("Footer.Like")}
                       <svg
                         id="heart-svg"
                         viewBox="467 392 58 57"
@@ -245,7 +247,7 @@ const Footer = () => {
           <div className="space-y-3">
             <Link
               to={"/"}
-              className="flex items-center justify-center space-x-2 font-mont font-thin mx-auto"
+              className="flex items-center justify-center space-x-2 font-thin mx-auto"
             >
               <SiFitbit size={20} /> <span className="block">fitscape</span>
             </Link>
@@ -255,7 +257,7 @@ const Footer = () => {
                 className="font-bold text-3xl button-89 block"
                 to={"/contact"}
               >
-                CONTACT US!
+                {t("Footer.CONTACT US!")}
               </Link>
             </ScrollReveal>
           </div>
@@ -263,15 +265,15 @@ const Footer = () => {
         <ScrollReveal animationName="fadeIn">
           <Link
             to={"/account"}
-            className="flex items-center justify-center space-x-2 font-mont font-thin mx-auto p-5"
+            className="flex items-center justify-center space-x-2 font-thin mx-auto p-5"
           >
-            -<span className="block ml-1">My Account</span>
+            -<span className="block ml-1">{t("Footer.My Account")}</span>
           </Link>
         </ScrollReveal>
         <hr className="w-[50%] my-12 mx-auto" />
         <ScrollReveal animationName="fadeIn">
-          <p className="font-mont mt-5">
-            Copyrights @{new Date().getFullYear()} | All rights reserved
+          <p className="mt-5">
+            {t("Footer.copyright", { year: new Date().getFullYear() })}
           </p>
         </ScrollReveal>
       </footer>
