@@ -6,8 +6,10 @@ import Loader from "../components/Loader";
 import "react-toastify/dist/ReactToastify.css";
 import useUser from "../hooks/useUser";
 import { IonContent, IonPage } from "@ionic/react";
+import { useTranslation } from "react-i18next";
 
 const SignIn = () => {
+  const { t } = useTranslation();
   // Refs
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
@@ -42,11 +44,11 @@ const SignIn = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.5, delay: 1.6 }}
             >
-              LOGIN
+              {t("general.LOGIN")}
             </motion.h1>
             <form action="" className="space-y-2">
               <motion.div
-                className="flex bg-slate-500 p-2 rounded-sm"
+                className="flex bg-slate-500 p-2 rounded-sm gap-2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.5, delay: 2.2 }}
@@ -54,13 +56,13 @@ const SignIn = () => {
                 <AiOutlineMail size={30} />
                 <input
                   type="email"
-                  placeholder="Email"
-                  className="ml-2 w-full border-none outline-none bg-transparent"
+                  placeholder={t("general.Email")}
+                  className="w-full border-none outline-none bg-transparent"
                   ref={email}
                 />
               </motion.div>
               <motion.div
-                className="flex bg-slate-500 p-2 rounded-sm"
+                className="flex gap-2 bg-slate-500 p-2 rounded-sm"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.5, delay: 2.4 }}
@@ -69,7 +71,7 @@ const SignIn = () => {
                 <input
                   type="password"
                   placeholder="***********"
-                  className="ml-2 w-full border-none outline-none bg-transparent"
+                  className="w-full border-none outline-none bg-transparent"
                   ref={password}
                 />
               </motion.div>
@@ -82,8 +84,7 @@ const SignIn = () => {
                 <input type="checkbox" id="remember" />
                 <span className="checkbox_span"></span>
                 <label className="text-white/70" htmlFor="remember">
-                  {" "}
-                  Remember me
+                  {t("Login.Remember me")}
                 </label>
               </motion.div>
 
@@ -100,7 +101,7 @@ const SignIn = () => {
                 }
               >
                 <div className="btn btn-one text-center p-2">
-                  <p className="relative z-30">LOGIN</p>
+                  <p className="relative z-30">{t("general.LOGIN")}</p>
                 </div>
               </motion.button>
             </form>
@@ -110,9 +111,9 @@ const SignIn = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.5, delay: 3 }}
             >
-              Not a member?{" "}
+              {t("Login.Not a member?")}
               <Link to={"/signup"} className="underline">
-                Sign up now
+                {t("Login.Sign up now")}
               </Link>
             </motion.p>
           </motion.div>

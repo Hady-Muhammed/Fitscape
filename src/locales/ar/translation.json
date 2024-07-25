@@ -6,7 +6,8 @@
     "Password": "الباسورد",
     "Save Changes": "حفظ التغييرات",
     "Logout": "تسجيل الخروج",
-    "Select Language": "اختر اللغه"
+    "Select Language": "اختر اللغه",
+    "LOGIN": "تسجيل الدخول"
   },
   "Navbar": {
     "Home": "الصفحه الرئيسيه",
@@ -70,6 +71,17 @@
   "Account": {
     "Personal Info": "البيانات الشخصيه",
     "Workouts Done": "التمارين المنجزة"
+  },
+  "Login": {
+    "Not a member?": "ليس لديك حساب ؟",
+    "Sign up now": "سجل الان",
+    "Remember me": "تذكرني",
+    "CREATE AN ACCOUNT": "أنشئ حساب",
+    "Want to sign up fill out this form": "تريد التسجيل؟ املأ هذه البيانات",
+    "Have an account?": "لديك حساب بالفعل ؟",
+    "Sign In": "سجل الدخول",
+    "SIGNUP": "انشئ حساب",
+    "I accept all the terms and conditions": "أقبل جميع الشروط والأحكام"
   },
   "Language": {
     "English": "الانجليزيه",

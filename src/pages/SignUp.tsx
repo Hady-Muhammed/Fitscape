@@ -9,8 +9,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../enviroment";
 import { IonContent, IonPage } from "@ionic/react";
+import { useTranslation } from "react-i18next";
 
 const SignUp = () => {
+  const { t } = useTranslation();
   // Utilites
   const history = useHistory();
   // States
@@ -122,7 +124,7 @@ const SignUp = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.5, delay: 1.6 }}
             >
-              CREATE AN ACCOUNT
+              {t("Login.CREATE AN ACCOUNT")}
             </motion.h1>
             <motion.p
               className="text-white/50 text-xs"
@@ -130,12 +132,11 @@ const SignUp = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.5, delay: 1.6 }}
             >
-              Want to sign up fill out this form
+              {t("Login.Want to sign up fill out this form")}
             </motion.p>
-            {/* target="cont" method="POST" action="/api/users" */}
             <form className="space-y-2">
               <motion.div
-                className="flex bg-slate-500 p-2 rounded-sm"
+                className="flex bg-slate-500 p-2 rounded-sm gap-2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.5, delay: 2 }}
@@ -143,9 +144,9 @@ const SignUp = () => {
                 <AiOutlineUser size={30} />
                 <input
                   type="text"
-                  placeholder="Name"
+                  placeholder={t("general.Name")}
                   name="name"
-                  className="ml-2 w-full border-none outline-none bg-transparent"
+                  className="w-full border-none outline-none bg-transparent"
                   required
                   ref={name}
                 />
@@ -156,7 +157,7 @@ const SignUp = () => {
                 </div>
               )}
               <motion.div
-                className="flex bg-slate-500 p-2 rounded-sm"
+                className="flex bg-slate-500 p-2 rounded-sm gap-2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.5, delay: 2.2 }}
@@ -164,9 +165,9 @@ const SignUp = () => {
                 <AiOutlineMail size={30} />
                 <input
                   type="email"
-                  placeholder="Email"
+                  placeholder={t("general.Email")}
                   name="email"
-                  className="ml-2 w-full border-none outline-none bg-transparent"
+                  className="w-full border-none outline-none bg-transparent"
                   pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,4}"
                   title="johndoe@xxxx.com"
                   required
@@ -174,7 +175,7 @@ const SignUp = () => {
                 />
               </motion.div>
               <motion.div
-                className="flex bg-slate-500 p-2 rounded-sm"
+                className="flex bg-slate-500 p-2 rounded-sm gap-2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.5, delay: 2.4 }}
@@ -184,7 +185,7 @@ const SignUp = () => {
                   type="password"
                   placeholder="***********"
                   name="password"
-                  className="ml-2 w-full border-none outline-none bg-transparent"
+                  className="w-full border-none outline-none bg-transparent"
                   required
                   ref={password}
                 />
@@ -208,7 +209,7 @@ const SignUp = () => {
                 />
                 <span className="checkbox_span"></span>
                 <label className="text-white/70 select-none" htmlFor="remember">
-                  I accept all the terms and conditions
+                  {t("Login.I accept all the terms and conditions")}
                 </label>
               </motion.div>
               {errorTerms && (
@@ -225,7 +226,7 @@ const SignUp = () => {
                 type="submit"
               >
                 <div className="btn btn-one text-center p-2">
-                  <p className="relative z-30">SIGNUP</p>
+                  <p className="relative z-30">{t("Login.SIGNUP")}</p>
                 </div>
               </motion.button>
             </form>
@@ -235,9 +236,9 @@ const SignUp = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.5, delay: 3 }}
             >
-              Have an account?{" "}
+              {t("Login.Have an account?")}
               <Link to={"/signin"} className="underline">
-                Sign In
+                {t("Login.Sign In")}
               </Link>
             </motion.p>
           </motion.div>
