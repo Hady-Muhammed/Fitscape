@@ -24,12 +24,12 @@ const Navbar = () => {
       }
     };
   }
-  if (location.pathname === "/signin" || location.pathname === "/signup")
-    return null;
   // Effects
   useEffect(() => {
     handleNavColor();
   }, []);
+  if (location.pathname === "/signin" || location.pathname === "/signup")
+    return null;
   return (
     <>
       <motion.button
