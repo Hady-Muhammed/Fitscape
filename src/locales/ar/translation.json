@@ -86,5 +86,13 @@
   "Language": {
     "English": "الانجليزيه",
     "Arabic": "العربيه"
+  },
+
+  "TabBar": {
+    "Profile": "حسابي",
+    "Workouts": "تماريني",
+    "Champions": "الأبطال",
+    "Home": "الصفحه الرئيسيه",
+    "Volume": "الحمل التدريبي"
   }
 }

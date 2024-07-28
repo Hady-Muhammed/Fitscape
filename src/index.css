@@ -14,6 +14,7 @@ body {
 /* Arabic Font Class */
 .font-ar {
   --ion-font-family: "Zain", sans-serif !important;
+  font-family: "Zain", sans-serif !important;
 }
 
 html {
@@ -29,6 +30,24 @@ html {
   .main-color {
     @apply bg-[#221713];
   }
+}
+
+.tab-bar {
+  --background: #221713 !important;
+  --color-selected: white !important;
+  padding: 1rem 0;
+  border-top: 1px solid white;
+  --ion-color-base: transparent !important;
+  --ion-color-base-rgb: var(--ion-color-dark-rgb, 34, 36, 40) !important;
+  --ion-color-contrast: var(--ion-color-dark-contrast, #fff) !important;
+  --ion-color-contrast-rgb: var(
+    --ion-color-dark-contrast-rgb,
+    255,
+    255,
+    255
+  ) !important;
+  --ion-color-shade: var(--ion-color-dark-shade, #1e2023) !important;
+  --ion-color-tint: var(--ion-color-dark-tint, #383a3e) !important;
 }
 
 li:hover,

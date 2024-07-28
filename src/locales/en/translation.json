@@ -74,5 +74,12 @@
   "Language": {
     "English": "English",
     "Arabic": "Arabic"
+  },
+  "TabBar": {
+    "Profile": "Profile",
+    "Workouts": "Workouts",
+    "Champions": "Champions",
+    "Home": "Home",
+    "Volume": "Volume"
   }
 }
