@@ -36,7 +36,6 @@ import { IonReactRouter } from "@ionic/react-router";
 
 import LogoutBtn from "./components/LogoutBtn";
 import Navbar from "./components/Navbar";
-import { ScrollProvider } from "./context/ScrollProvider";
 import "./i18n"; // Ensure this import is present to initialize i18n
 import { useTranslation } from "react-i18next";
 import TabBar from "./components/TabBar";
@@ -63,32 +62,30 @@ function App() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   useBodyFont();
   return (
-    <ScrollProvider>
-      <IonApp>
-        <IonReactRouter>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <LogoutBtn />
-            {!isPlatform("hybrid") && <Navbar />}
-            {/* <AnimatePresence> */}
+    <IonApp>
+      <IonReactRouter>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <LogoutBtn />
+          {!isPlatform("hybrid") && <Navbar />}
+          {/* <AnimatePresence> */}
 
-            <TabBar />
-            {/* </AnimatePresence> */}
-            <ToastContainer
-              position="top-left"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-            />
-          </LocalizationProvider>
-        </IonReactRouter>
-      </IonApp>
-    </ScrollProvider>
+          <TabBar />
+          {/* </AnimatePresence> */}
+          <ToastContainer
+            position="top-left"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+        </LocalizationProvider>
+      </IonReactRouter>
+    </IonApp>
   );
 }
 

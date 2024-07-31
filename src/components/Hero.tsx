@@ -2,11 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import Logo from "./Logo";
 import ScrollArrow from "./ScrollArrow";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 const Hero = () => {
-  // Utilites
-  const { t } = useTranslation();
   return (
     <main className="bg-cover flex justify-center items-center relative">
       {/* Overlay Screen */}

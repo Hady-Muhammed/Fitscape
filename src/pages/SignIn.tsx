@@ -6,10 +6,9 @@ import Loader from "../components/Loader";
 import "react-toastify/dist/ReactToastify.css";
 import useUser from "../hooks/useUser";
 import { IonContent, IonPage } from "@ionic/react";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 const SignIn = () => {
-  const { t } = useTranslation();
   // Refs
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);

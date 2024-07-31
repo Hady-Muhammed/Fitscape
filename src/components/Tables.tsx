@@ -19,12 +19,11 @@ import {
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import ScrollReveal from "../animations/ScrollReveal";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 let date: string | Date | undefined = undefined;
 
 const Tables = () => {
-  const { t } = useTranslation();
   // Refs
   const [row, setRow] = useState<Row>({
     set1: "",

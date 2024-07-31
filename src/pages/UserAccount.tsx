@@ -15,11 +15,10 @@ import useRest from "../hooks/useRest";
 import ScrollReveal from "../animations/ScrollReveal";
 import { IonContent, IonPage } from "@ionic/react";
 import Footer from "../components/Footer";
-import { useTranslation } from "react-i18next";
 import LanguagePicker from "../components/LanguagePicker";
+import { t } from "i18next";
 
 const UserAccount = () => {
-  const { t } = useTranslation();
   // States
   const [workoutsDone, setWorkoutsDone] = useState(0);
   const [avatar, setAvatar] = useState("");

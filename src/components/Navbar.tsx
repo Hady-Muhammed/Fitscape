@@ -4,11 +4,9 @@ import { IoMdClose } from "react-icons/io";
 import { GiMuscleUp } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import useUtility from "../hooks/useUtility";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 const Navbar = () => {
-  // Utilites
-  const { t } = useTranslation();
   // States
   const [open, setOpen] = useState(true);
   const [navColor, setNavColor] = useState(false);

@@ -5,10 +5,9 @@ import ScrollArrow from "../components/ScrollArrow";
 import VolumeCalculator from "../components/VolumeCalculator";
 import { IonContent, IonPage } from "@ionic/react";
 import Footer from "../components/Footer";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 const Volume = () => {
-  const { t } = useTranslation();
   return (
     <IonPage>
       <IonContent>

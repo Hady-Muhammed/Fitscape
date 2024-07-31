@@ -9,10 +9,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../enviroment";
 import { IonContent, IonPage } from "@ionic/react";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 const SignUp = () => {
-  const { t } = useTranslation();
   // Utilites
   const history = useHistory();
   // States

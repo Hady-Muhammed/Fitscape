@@ -5,10 +5,9 @@ import ChampionSection from "../components/ChampionSection";
 import ScrollArrow from "../components/ScrollArrow";
 import { IonContent, IonPage } from "@ionic/react";
 import Footer from "../components/Footer";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 const Champions = () => {
-  const { t } = useTranslation();
   return (
     <IonPage>
       <IonContent>

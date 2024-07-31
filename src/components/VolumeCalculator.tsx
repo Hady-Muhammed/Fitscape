@@ -2,10 +2,9 @@ import { motion } from "framer-motion";
 import React, { useState } from "react";
 import "animate.css/animate.min.css";
 import ScrollReveal from "../animations/ScrollReveal";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 const VolumeCalculator = () => {
-  const { t } = useTranslation();
   // States
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [sets, setSets] = useState<any>();

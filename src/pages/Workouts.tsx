@@ -5,10 +5,9 @@ import ScrollArrow from "../components/ScrollArrow";
 import Tables from "../components/Tables";
 import { IonContent, IonPage } from "@ionic/react";
 import Footer from "../components/Footer";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 const Workouts = () => {
-  const { t } = useTranslation();
   return (
     <IonPage>
       <IonContent>

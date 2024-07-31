@@ -4,10 +4,9 @@ import { useLocation } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import Loader from "./Loader";
 import useUser from "../hooks/useUser";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 const LogoutBtn = () => {
-  const { t } = useTranslation();
   // Utilites
   const location = useLocation();
   // States

@@ -4,9 +4,9 @@ import ChampionCard from "./ChampionCard";
 import { Champion } from "../types/champion";
 import useChampion from "../hooks/useChampion";
 import { champions as fakeChampions } from "../championsData";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
+
 const ChampionSection = () => {
-  const { t } = useTranslation();
   const { getAllChampions } = useChampion();
   const [champions, setChampions] = useState<Champion[]>([]);
   useEffect(() => {

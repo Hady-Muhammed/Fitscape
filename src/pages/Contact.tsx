@@ -8,10 +8,9 @@ import useUser from "../hooks/useUser";
 import ScrollReveal from "../animations/ScrollReveal";
 import { IonContent, IonPage } from "@ionic/react";
 import Footer from "../components/Footer";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 const Contact = () => {
-  const { t } = useTranslation();
   // States
   const [message, setMessage] = useState("");
   // Functions
@@ -40,7 +39,7 @@ const Contact = () => {
               transition={{ duration: 1, delay: 1 }}
             >
               {t(
-                "HeroSection.Give us your Feedback , so we can improve and enhance the features of our app!"
+                "HeroSection.Give us your Feedback , so we can improve and enhance the features of our app!",
               )}
             </motion.h1>
             <motion.span

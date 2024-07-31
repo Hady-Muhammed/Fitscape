@@ -9,10 +9,9 @@ import "animate.css/animate.min.css";
 import useUser from "../hooks/useUser";
 import useUtility from "../hooks/useUtility";
 import ScrollReveal from "../animations/ScrollReveal";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 const Footer = () => {
-  const { t } = useTranslation();
   // States
   const [disabled, setDisabled] = useState(false);
   const [heartColor, setHeartColor] = useState("");

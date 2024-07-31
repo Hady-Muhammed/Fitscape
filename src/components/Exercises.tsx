@@ -1,11 +1,9 @@
 import React from "react";
 import { exercises } from "../exercisesData";
 import ExerciseCard from "./ExerciseCard";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 const Exercises = () => {
-  // Utilites
-  const { t } = useTranslation();
   return (
     <section className="xs:p-6 md:p-16 main-color" id="exercises">
       <h2 className="text-5xl text-white font-semibold4 text-center xs:px-0 xs:py-6  md:p-12">
