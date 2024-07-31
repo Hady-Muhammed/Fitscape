@@ -40,7 +40,7 @@ const Contact = () => {
               transition={{ duration: 1, delay: 1 }}
             >
               {t(
-                "HeroSection.Give us your Feedback , so we can improve and enhance the features of our app!",
+                "HeroSection.Give us your Feedback , so we can improve and enhance the features of our app!"
               )}
             </motion.h1>
             <motion.span
@@ -53,7 +53,7 @@ const Contact = () => {
             </motion.span>
           </motion.div>
         </div>
-        <div className="flex justify-center items-center p-12 pt-16">
+        <div className="flex justify-center items-center p-12 main-color pt-16">
           <ScrollReveal animationName="bounceInLeft">
             <div className="bg-white relative rounded-md xs:w-[300px] sm:w-[550px] p-6 contt ">
               <form className="">
