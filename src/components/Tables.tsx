@@ -128,102 +128,122 @@ const Tables = () => {
                   <ReactTooltip />
                 </div>
               </div>
-              <ScrollReveal animationName="fadeIn">
-                <IonList style={{ paddingTop: 0 }} className="w-full">
-                  <IonItem style={{ "--background": "white" }}>
-                    <IonLabel class="text-center">
-                      {t("Tables.Exercise Name")}
-                    </IonLabel>
-                    <IonLabel class="text-center">
-                      {t("Tables.Set")}(1)
-                    </IonLabel>
-                    <IonLabel class="text-center">
-                      {t("Tables.Set")}(2)
-                    </IonLabel>
-                    <IonLabel class="text-center">
-                      {t("Tables.Set")}(3)
-                    </IonLabel>
-                    <IonLabel class="text-center">
-                      {t("Tables.Set")}(4)
-                    </IonLabel>
-                    <IonLabel class="text-center">
-                      {t("Tables.Rest Period")}
-                    </IonLabel>
-                    <IonLabel class="text-center">
-                      {t("Tables.Weight Lifted")}
-                    </IonLabel>
-                    <IonLabel class="text-center">
-                      {t("Tables.Actions")}
-                    </IonLabel>
-                  </IonItem>
-                  <IonReorderGroup
-                    disabled={!isUserReordering}
-                    onIonItemReorder={handleReorder}
+              <ScrollReveal animationName="fadeInUp">
+                <div className="max-w-full overflow-x-auto">
+                  <IonList
+                    style={{ paddingTop: 0 }}
+                    className="table min-w-[1000px] lg:min-w-full overflow-auto"
                   >
-                    {currentTable?.rows?.map((row, index) => (
-                      <IonReorder key={index}>
-                        <IonItem style={{ "--background": "white" }}>
-                          <IonLabel className="text-3xlxl font-bold">
-                            {row.exerciseName}
-                          </IonLabel>
-                          <IonLabel class="text-center">{row.set1}</IonLabel>
-                          <IonLabel class="text-center">{row.set2}</IonLabel>
-                          <IonLabel class="text-center">{row.set3}</IonLabel>
-                          <IonLabel class="text-center">{row.set4}</IonLabel>
-                          <IonLabel class="text-center">{row.rest}</IonLabel>
-                          <IonLabel class="text-center">
-                            {row.weight} KG
-                          </IonLabel>
-                          {/* <IonLabel class="text-center"> */}
-                          <div className="flex space-x-2 justify-center">
-                            <button
-                              className={`flex items-center bg-slate-600 text-white px-4 py-2 rounded-md duration-150 opacity-50  overflow-hidden relative ${!isUserReordering && "opacity-100 group hover:scale-110"}`}
-                              onClick={() => {
-                                selectRow(currentTable, row._id || "").then(
-                                  (roww: Row | undefined) => {
-                                    if (roww) {
-                                      setRow(roww);
-                                    }
-                                  },
-                                );
-                              }}
-                            >
-                              <span className="relative top-0 group-hover:top-[-250%] duration-300">
-                                {t("Tables.EDIT")}
-                              </span>
-                              <BiEditAlt
-                                size={17}
-                                className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
-                              />
-                            </button>
-                            <button
-                              className={`flex items-center bg-red-700 text-white p-2 rounded-md duration-150 opacity-50  overflow-hidden relative ${!isUserReordering && "opacity-100 group hover:scale-110"}`}
-                              onClick={() => {
-                                deleteRow(row?._id || "", date || "").then(
-                                  (currentTable) => {
-                                    setCurrentTable(currentTable);
-                                  },
-                                );
-                              }}
-                            >
-                              <span className="relative top-0 group-hover:top-[-250%] duration-300">
-                                {t("Tables.DELETE")}
-                              </span>
-                              <RiDeleteBin2Fill
-                                size={17}
-                                className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
-                              />
-                            </button>
-                          </div>
-                          {/* </IonLabel> */}
-                          <IonReorder slot="end" />
-                        </IonItem>
-                      </IonReorder>
-                    ))}
-                  </IonReorderGroup>
-                </IonList>
+                    <IonItem
+                      className="table-header-group"
+                      style={{ "--background": "white" }}
+                    >
+                      <IonLabel class="text-center table-cell">
+                        {t("Tables.Exercise Name")}
+                      </IonLabel>
+                      <IonLabel class="text-center table-cell">
+                        {t("Tables.Set")}(1)
+                      </IonLabel>
+                      <IonLabel class="text-center table-cell">
+                        {t("Tables.Set")}(2)
+                      </IonLabel>
+                      <IonLabel class="text-center table-cell">
+                        {t("Tables.Set")}(3)
+                      </IonLabel>
+                      <IonLabel class="text-center table-cell">
+                        {t("Tables.Set")}(4)
+                      </IonLabel>
+                      <IonLabel class="text-center table-cell">
+                        {t("Tables.Rest Period")}
+                      </IonLabel>
+                      <IonLabel class="text-center table-cell">
+                        {t("Tables.Weight Lifted")}
+                      </IonLabel>
+                      <IonLabel class="text-center table-cell">
+                        {t("Tables.Actions")}
+                      </IonLabel>
+                    </IonItem>
+                    <IonReorderGroup
+                      disabled={!isUserReordering}
+                      onIonItemReorder={handleReorder}
+                      className="table-row-group"
+                    >
+                      {currentTable?.rows?.map((row, index) => (
+                        <IonReorder className="table-row" key={index}>
+                          <IonItem style={{ "--background": "white" }}>
+                            <IonLabel className="text-3xlxl font-bold">
+                              {row.exerciseName}
+                            </IonLabel>
+                            <IonLabel class="text-center table-cell">
+                              {row.set1}
+                            </IonLabel>
+                            <IonLabel class="text-center table-cell">
+                              {row.set2}
+                            </IonLabel>
+                            <IonLabel class="text-center table-cell">
+                              {row.set3}
+                            </IonLabel>
+                            <IonLabel class="text-center table-cell">
+                              {row.set4}
+                            </IonLabel>
+                            <IonLabel class="text-center table-cell">
+                              {row.rest}
+                            </IonLabel>
+                            <IonLabel class="text-center table-cell">
+                              {row.weight} KG
+                            </IonLabel>
+                            <IonLabel class="text-center table-cell">
+                              <div className="flex space-x-2 justify-center">
+                                <button
+                                  className={`flex items-center bg-slate-600 text-white px-4 py-2 rounded-md duration-150 opacity-50  overflow-hidden relative ${!isUserReordering && "opacity-100 group hover:scale-110"}`}
+                                  onClick={() => {
+                                    selectRow(currentTable, row._id || "").then(
+                                      (roww: Row | undefined) => {
+                                        if (roww) {
+                                          setRow(roww);
+                                        }
+                                      },
+                                    );
+                                  }}
+                                >
+                                  <span className="relative top-0 group-hover:top-[-250%] duration-300">
+                                    {t("Tables.EDIT")}
+                                  </span>
+                                  <BiEditAlt
+                                    size={17}
+                                    className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
+                                  />
+                                </button>
+                                <button
+                                  className={`flex items-center bg-red-700 text-white p-2 rounded-md duration-150 opacity-50  overflow-hidden relative ${!isUserReordering && "opacity-100 group hover:scale-110"}`}
+                                  onClick={() => {
+                                    deleteRow(row?._id || "", date || "").then(
+                                      (currentTable) => {
+                                        setCurrentTable(currentTable);
+                                      },
+                                    );
+                                  }}
+                                >
+                                  <span className="relative top-0 group-hover:top-[-250%] duration-300">
+                                    {t("Tables.DELETE")}
+                                  </span>
+                                  <RiDeleteBin2Fill
+                                    size={17}
+                                    className="absolute left-[50%] translate-x-[-50%] top-[250%] translate-y-[-50%] group-hover:top-[50%] duration-300"
+                                  />
+                                </button>
+                              </div>
+                            </IonLabel>
+                            <IonReorder slot="end" />
+                          </IonItem>
+                        </IonReorder>
+                      ))}
+                    </IonReorderGroup>
+                  </IonList>
+                </div>
               </ScrollReveal>
             </div>
+
             <ScrollReveal animationName="fadeIn">
               <form className="flex space-x-2 xs:flex-col lg:flex-row text-center text-white">
                 <div>
