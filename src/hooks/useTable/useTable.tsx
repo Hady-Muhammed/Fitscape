@@ -1,11 +1,11 @@
 import jwtDecode from "jwt-decode";
 import { toast } from "react-toastify";
-import { enviroment } from "../enviroment";
+import { enviroment } from "../../enviroment";
 import { useState } from "react";
-import { Token } from "../types/token";
-import { Table } from "../types/table";
-import { Row } from "../types/row";
-import useRest from "./useRest";
+import { Token } from "../../types/token";
+import { Table } from "../../types/table";
+import { Row } from "../../types/row";
+import useRest from "../useRest/useRest";
 
 function useTable() {
   const [isLoading, setIsLoading] = useState(false);

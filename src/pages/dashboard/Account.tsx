@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { enviroment } from "../../enviroment";
 import { Token } from "../../types/token";
 import DashbNav, { RootState } from "../../components/DashbNav";
-import useRest from "../../hooks/useRest";
 import ScrollReveal from "../../animations/ScrollReveal";
+import useRest from "../../hooks/useRest/useRest";
 
 const Account = () => {
   // Global States

@@ -4,24 +4,45 @@ on:
     types:
       - opened
   workflow_dispatch:
-  
+
 jobs:
   update-description:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
+
       - name: Set PR Description
         run: |
-           BRANCH_NAME=$(jq -r '.pull_request.head.ref' "${GITHUB_EVENT_PATH}")
-           echo "Branch name is $BRANCH_NAME"
-           # Extract the existing PR description
-           EXISTING_DESCRIPTION=$(jq -r '.pull_request.body' "${GITHUB_EVENT_PATH}")
-           # Prepend the task link to the existing description
-           DESCRIPTION=$(jq -n --arg branch "$BRANCH_NAME" --arg existingDescription "$EXISTING_DESCRIPTION" '{"body": "[task](https://fitscape.atlassian.net/browse/\($branch))\n\n\($existingDescription)"}')
-           jq -n "$DESCRIPTION" > pr_description.json
-           jq -c '. + {"body": (.body | rtrimstr("\n"))}' pr_description.json > new_description.json
-           curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Content-Type: application/json" -d @new_description.json "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}"
-       
-      
+          BRANCH_NAME=$(jq -r '.pull_request.head.ref' "${GITHUB_EVENT_PATH}")
+          echo "Branch name is $BRANCH_NAME"
+          # Extract the existing PR description
+          EXISTING_DESCRIPTION=$(jq -r '.pull_request.body' "${GITHUB_EVENT_PATH}")
+          # Prepend the task link to the existing description
+          DESCRIPTION=$(jq -n --arg branch "$BRANCH_NAME" --arg existingDescription "$EXISTING_DESCRIPTION" '{"body": "[task](https://fitscape.atlassian.net/browse/\($branch))\n\n\($existingDescription)"}')
+          jq -n "$DESCRIPTION" > pr_description.json
+          jq -c '. + {"body": (.body | rtrimstr("\n"))}' pr_description.json > new_description.json
+          curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Content-Type: application/json" -d @new_description.json "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}"
+  run-tests:
+    runs-on: ubuntu-latest
+    needs: update-description # This ensures that the update-description job runs first
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Build project
+        run: npm run build

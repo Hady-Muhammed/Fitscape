@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { GiMuscleUp } from "react-icons/gi";
 import { Link } from "react-router-dom";
-import useUtility from "../hooks/useUtility";
+import useUtility from "../hooks/useUtility/useUtility";
 import { t } from "i18next";
 
 const Navbar = () => {

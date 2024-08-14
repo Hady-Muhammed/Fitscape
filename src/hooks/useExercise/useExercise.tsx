@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
-import { enviroment } from "../enviroment";
-import useRest from "./useRest";
+import { enviroment } from "../../enviroment";
+import useRest from "../useRest/useRest";
 
 function useExercise() {
   const { get } = useRest();

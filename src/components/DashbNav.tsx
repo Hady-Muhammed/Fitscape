@@ -8,7 +8,7 @@ import { Link, useLocation } from "react-router-dom";
 import Loader from "./Loader";
 import { useSelector } from "react-redux";
 import { MdManageAccounts } from "react-icons/md";
-import useUser from "../hooks/useUser";
+import useUser from "../hooks/useUser/useUser";
 export interface RootState {
   theme: ThemeState;
 }

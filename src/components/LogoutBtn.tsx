@@ -3,8 +3,8 @@ import { AiOutlinePoweroff } from "react-icons/ai";
 import { useLocation } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import Loader from "./Loader";
-import useUser from "../hooks/useUser";
 import { t } from "i18next";
+import useUser from "../hooks/useUser/useUser";
 
 const LogoutBtn = () => {
   // Utilites

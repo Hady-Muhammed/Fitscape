@@ -7,7 +7,7 @@ import { CgCloseO } from "react-icons/cg";
 
 import { Row } from "../types/row";
 import { Table as Tablee } from "../types/table";
-import useTable from "../hooks/useTable";
+import useTable from "../hooks/useTable/useTable";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import {
   IonReorderGroup,

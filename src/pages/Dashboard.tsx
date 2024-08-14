@@ -10,8 +10,8 @@ import { enviroment } from "../enviroment";
 import { Line } from "react-chartjs-2";
 import Pako from "pako";
 import { Email } from "../types/email";
-import useRest from "../hooks/useRest";
 import ScrollReveal from "../animations/ScrollReveal";
+import useRest from "../hooks/useRest/useRest";
 interface RootState {
   theme: ThemeState;
 }

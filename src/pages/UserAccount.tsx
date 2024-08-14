@@ -10,13 +10,13 @@ import { toast } from "react-toastify";
 import { enviroment } from "../enviroment";
 import Pako, { Data } from "pako";
 import { Token } from "../types/token";
-import useUser from "../hooks/useUser";
-import useRest from "../hooks/useRest";
 import ScrollReveal from "../animations/ScrollReveal";
 import { IonContent, IonPage } from "@ionic/react";
 import Footer from "../components/Footer";
 import LanguagePicker from "../components/LanguagePicker";
 import { t } from "i18next";
+import useUser from "../hooks/useUser/useUser";
+import useRest from "../hooks/useRest/useRest";
 
 const UserAccount = () => {
   // States

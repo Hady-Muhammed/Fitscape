@@ -1,10 +1,10 @@
 import jwtDecode from "jwt-decode";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { enviroment } from "../enviroment";
-import { Token } from "../types/token";
-import useRest from "./useRest";
 import { useHistory } from "react-router-dom";
+import useRest from "../useRest/useRest";
+import { Token } from "../../types/token";
+import { enviroment } from "../../enviroment";
 
 function useUser() {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,11 +39,11 @@ function useUser() {
 
       localStorage.setItem("token", JSON.stringify(res.token));
       const user = jwtDecode(res.token) as Token;
-      setTimeout(() => {
-        user.email === "admin@gmail.com" && user.password === "admin"
-          ? history.push("/dashboard")
-          : history.push("/");
-      }, 1000);
+      // setTimeout(() => {
+      user.email === "admin@gmail.com" && user.password === "admin"
+        ? history.push("/dashboard")
+        : history.push("/");
+      // }, 1000);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       if (err?.status === 401) {

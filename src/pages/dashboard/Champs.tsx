@@ -9,10 +9,10 @@ import "animate.css/animate.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../../enviroment";
 import { Champion } from "../../types/champion";
-import useRest from "../../hooks/useRest";
 import { useHistory } from "react-router-dom";
 import ScrollReveal from "../../animations/ScrollReveal";
 import DashbNav from "../../components/DashbNav";
+import useRest from "../../hooks/useRest/useRest";
 interface RootState {
   theme: ThemeState;
 }

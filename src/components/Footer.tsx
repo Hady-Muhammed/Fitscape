@@ -6,10 +6,10 @@ import { RiFacebookCircleLine } from "react-icons/ri";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FiInstagram } from "react-icons/fi";
 import "animate.css/animate.min.css";
-import useUser from "../hooks/useUser";
-import useUtility from "../hooks/useUtility";
+import useUtility from "../hooks/useUtility/useUtility";
 import ScrollReveal from "../animations/ScrollReveal";
 import { t } from "i18next";
+import useUser from "../hooks/useUser/useUser";
 
 const Footer = () => {
   // States

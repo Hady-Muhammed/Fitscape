@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { RequestBody } from "../types/request-body";
+import { RequestBody } from "../../types/request-body";
 
 function useRest() {
   const [loading, setLoading] = useState(false);

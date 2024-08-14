@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import ChampionCard from "./ChampionCard";
 import { Champion } from "../types/champion";
-import useChampion from "../hooks/useChampion";
+import useChampion from "../hooks/useChampion/useChampion";
 import { champions as fakeChampions } from "../championsData";
 import { t } from "i18next";
 

@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
-import { enviroment as env } from "../enviroment";
-import useRest from "./useRest";
+import { enviroment as env } from "../../enviroment";
+import useRest from "../useRest/useRest";
 
 function useChampion() {
   const { get } = useRest();

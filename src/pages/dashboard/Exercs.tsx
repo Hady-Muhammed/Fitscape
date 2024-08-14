@@ -9,9 +9,9 @@ import "animate.css/animate.min.css";
 import { enviroment } from "../../enviroment";
 import { Exercise } from "../../types/exercise";
 import DashbNav, { RootState } from "../../components/DashbNav";
-import useRest from "../../hooks/useRest";
 import { useHistory } from "react-router-dom";
 import ScrollReveal from "../../animations/ScrollReveal";
+import useRest from "../../hooks/useRest/useRest";
 
 const Exercs = () => {
   // Utilites

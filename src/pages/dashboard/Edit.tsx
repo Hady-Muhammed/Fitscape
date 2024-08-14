@@ -7,8 +7,8 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { enviroment } from "../../enviroment";
-import useRest from "../../hooks/useRest";
 import DashbNav from "../../components/DashbNav";
+import useRest from "../../hooks/useRest/useRest";
 interface RootState {
   theme: ThemeState;
 }

@@ -18,8 +18,8 @@ import { enviroment } from "../../enviroment";
 import Pako from "pako";
 import { Account } from "../../types/account";
 import DashbNav, { RootState } from "../../components/DashbNav";
-import useRest from "../../hooks/useRest";
 import ScrollReveal from "../../animations/ScrollReveal";
+import useRest from "../../hooks/useRest/useRest";
 
 const Users = () => {
   // Global States

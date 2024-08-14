@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 import Loader from "../components/Loader";
 import "animate.css/animate.min.css";
 import "react-toastify/dist/ReactToastify.css";
-import useUser from "../hooks/useUser";
 import ScrollReveal from "../animations/ScrollReveal";
 import { IonContent, IonPage } from "@ionic/react";
 import Footer from "../components/Footer";
 import { t } from "i18next";
+import useUser from "../hooks/useUser/useUser";
 
 const Contact = () => {
   // States
