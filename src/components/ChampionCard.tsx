@@ -24,5 +24,4 @@ const ChampionCard: React.FC<ChampionCardProps> = ({ title, img, desc }) => {
     </ScrollReveal>
   );
 };
-
 export default ChampionCard;
