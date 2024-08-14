@@ -34,5 +34,4 @@ const ExerciseCard: FC<ExerciseCardProps> = ({
     </ScrollReveal>
   );
 };
-
 export default ExerciseCard;
