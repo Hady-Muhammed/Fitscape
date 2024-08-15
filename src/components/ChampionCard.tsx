@@ -8,7 +8,6 @@ interface ChampionCardProps {
   img: string;
   desc: string;
 }
-
 const ChampionCard: React.FC<ChampionCardProps> = ({ title, img, desc }) => {
   return (
     <ScrollReveal animationName="fadeInUp">
