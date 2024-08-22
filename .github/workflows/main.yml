@@ -55,8 +55,17 @@ jobs:
       - name: Get changed files
         id: get-changed-files
         run: |
+          # Fetch all branches and tags
+          git fetch --prune --unshallow
+
+          # Get the base branch from the pull request
+          base_branch="${{ github.event.pull_request.base.ref }}"
+
+          # Ensure the base branch exists
+          git checkout $base_branch || { echo "Base branch $base_branch not found"; exit 1; }
+
           # Get the list of changed files from the PR
-          files=$(git diff --name-only origin/master...HEAD | grep -E '\.(js|ts|jsx|tsx)$')
+          files=$(git diff --name-only $base_branch...HEAD | grep -E '\.(js|ts|jsx|tsx)$')
           echo "Changed files: $files"
           echo "::set-output name=files::$files"
 
