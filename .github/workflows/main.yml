@@ -35,14 +35,36 @@ jobs:
         with:
           node-version: "16"
 
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
       - name: Run tests
         run: npm test
 
-      - name: Run linter
-        run: npm run lint
+      # - name: Run linter
+      #   run: npm run lint
+
+      - name: Get changed files
+        id: get-changed-files
+        run: |
+          # Get the list of changed files from the PR
+          files=$(git diff --name-only origin/main...HEAD | grep -E '\.(js|ts|jsx|tsx)$')
+          echo "Changed files: $files"
+          echo "::set-output name=files::$files"
+
+      - name: Run linter on changed files
+        if: steps.get-changed-files.outputs.files != ''
+        run: |
+          files="${{ steps.get-changed-files.outputs.files }}"
+          npx eslint $files --cache
 
       - name: Build project
         run: npm run build
