@@ -100,8 +100,9 @@ function useTable() {
         post(enviroment.API_URL + "/api/workouts/", {
           email,
           date,
-        }).then((id) => {
-          changeWorkout(id).then(
+        }).then((workout) => {
+          console.log(workout);
+          changeWorkout(workout?.createdAt).then(
             (
               data: { currentTable: Table; isTableFound: boolean } | undefined,
             ) => {
@@ -134,12 +135,7 @@ function useTable() {
       closeLoader();
       return { currentTable, isTableFound };
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        // Handle other types of errors
-        toast.error("An error occurred");
-      }
+      // Handle other types of errors
     }
     closeLoader();
   };

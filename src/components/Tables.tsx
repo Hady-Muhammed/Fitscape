@@ -80,12 +80,14 @@ const Tables = () => {
             className="bg-white rounded-lg xs:w-full sm:w-1/4"
             onChange={(e) => {
               date = e?.format("MM/DD/YYYY");
-              changeWorkout(e?.format("MM/DD/YYYY")).then(
+              changeWorkout(date).then(
                 (
                   data:
                     | { currentTable: Tablee; isTableFound: boolean }
                     | undefined,
                 ) => {
+                  console.log(data);
+                  console.log(date);
                   setCurrentTable(data?.currentTable);
                   setTablesFound(!!data?.isTableFound);
                 },
