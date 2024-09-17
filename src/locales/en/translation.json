@@ -7,7 +7,9 @@
     "Save Changes": "Save Changes",
     "Logout": "Logout",
     "Select Language": "Select Language",
-    "LOGIN": "LOGIN"
+    "LOGIN": "LOGIN",
+    "Logged out successfully!": "Logged out successfully!",
+    "Logged in successfully!": "Logged in successfully!"
   },
   "Navbar": {
     "Home": "Home",

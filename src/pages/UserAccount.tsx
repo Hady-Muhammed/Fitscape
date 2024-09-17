@@ -145,8 +145,8 @@ const UserAccount = () => {
                 </div>
               </div>
               <div className="text-black mt-14 font-bold flex flex-col items-center">
-                <div className="flex items-center">
-                  <p className="mr-1">{t("Account.Workouts Done")}</p>
+                <div className="flex gap-1 items-center">
+                  <p>{t("Account.Workouts Done")}</p>
                   <BsCheckCircleFill className="text-green-600" />
                 </div>
                 <span className="block italic text-xl font-mont">

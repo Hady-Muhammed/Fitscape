@@ -110,7 +110,7 @@ const Tables = () => {
         ) : tablesFound ? (
           <>
             <div className="bg-white w-full">
-              <div className="flex justify-center pt-4 pr-4 gap-5">
+              <div className="flex justify-center pt-4 px-4 gap-5">
                 <p className="text-center block py-2 font-bold border-b w-full">
                   {date instanceof Date ? date.toISOString() : date}
                 </p>
@@ -143,16 +143,16 @@ const Tables = () => {
                         {t("Tables.Exercise Name")}
                       </IonLabel>
                       <IonLabel class="text-center table-cell">
-                        {t("Tables.Set")}(1)
+                        {t("Tables.Set")} (1)
                       </IonLabel>
                       <IonLabel class="text-center table-cell">
-                        {t("Tables.Set")}(2)
+                        {t("Tables.Set")} (2)
                       </IonLabel>
                       <IonLabel class="text-center table-cell">
-                        {t("Tables.Set")}(3)
+                        {t("Tables.Set")} (3)
                       </IonLabel>
                       <IonLabel class="text-center table-cell">
-                        {t("Tables.Set")}(4)
+                        {t("Tables.Set")} (4)
                       </IonLabel>
                       <IonLabel class="text-center table-cell">
                         {t("Tables.Rest Period")}
@@ -172,7 +172,7 @@ const Tables = () => {
                       {currentTable?.rows?.map((row, index) => (
                         <IonReorder className="table-row" key={index}>
                           <IonItem style={{ "--background": "white" }}>
-                            <IonLabel className="text-3xlxl font-bold">
+                            <IonLabel className="text-3xlxl font-bold text-center">
                               {row.exerciseName}
                             </IonLabel>
                             <IonLabel class="text-center table-cell">
@@ -194,7 +194,7 @@ const Tables = () => {
                               {row.weight} KG
                             </IonLabel>
                             <IonLabel class="text-center table-cell">
-                              <div className="flex space-x-2 justify-center">
+                              <div className="flex gap-2 justify-center">
                                 <button
                                   className={`flex items-center bg-slate-600 text-white px-4 py-2 rounded-md duration-150 opacity-50  overflow-hidden relative ${!isUserReordering && "opacity-100 group hover:scale-110"}`}
                                   onClick={() => {
@@ -262,7 +262,7 @@ const Tables = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="">{t("Tables.Set")}(1)</label>
+                  <label htmlFor="">{t("Tables.Set")} (1)</label>
                   <input
                     onChange={({ target }) =>
                       setRow((oldRow: Row) => ({
@@ -276,7 +276,7 @@ const Tables = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="">{t("Tables.Set")}(2)</label>
+                  <label htmlFor="">{t("Tables.Set")} (2)</label>
                   <input
                     onChange={({ target }) =>
                       setRow((oldRow: Row) => ({
@@ -290,7 +290,7 @@ const Tables = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="">{t("Tables.Set")}(3)</label>
+                  <label htmlFor="">{t("Tables.Set")} (3)</label>
                   <input
                     onChange={({ target }) =>
                       setRow((oldRow: Row) => ({
@@ -304,7 +304,7 @@ const Tables = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="">{t("Tables.Set")}(4)</label>
+                  <label htmlFor="">{t("Tables.Set")} (4)</label>
                   <input
                     onChange={({ target }) =>
                       setRow((oldRow: Row) => ({

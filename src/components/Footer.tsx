@@ -33,6 +33,7 @@ const Footer = () => {
       });
     } else {
       setHeartColor("red");
+      setDisabled(true);
       setVisible(true);
     }
   }, []);

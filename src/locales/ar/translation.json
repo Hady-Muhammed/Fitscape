@@ -7,7 +7,9 @@
     "Save Changes": "حفظ التغييرات",
     "Logout": "تسجيل الخروج",
     "Select Language": "اختر اللغه",
-    "LOGIN": "تسجيل الدخول"
+    "LOGIN": "تسجيل الدخول",
+    "Logged in successfully!": "!تم تسجيل الدخول",
+    "Logged out successfully!": "!تم تسجيل الخروج"
   },
   "Navbar": {
     "Home": "الصفحه الرئيسيه",

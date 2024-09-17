@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import useRest from "../useRest/useRest";
 import { Token } from "../../types/token";
 import { enviroment } from "../../enviroment";
+import { t } from "i18next";
 
 function useUser() {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +16,7 @@ function useUser() {
     setIsLoading(true);
     localStorage.removeItem("token");
     setTimeout(() => {
-      toast.success("Logged out successfully!");
+      toast.success(t("general.Logged out successfully!"));
       setIsLoading(false);
       history.push("/signin");
     }, 3000);
@@ -35,7 +36,7 @@ function useUser() {
         password,
       });
       setIsLoading(false);
-      toast.success(res.message + "!");
+      toast.success(t(`general.${res.message + "!"}`));
 
       localStorage.setItem("token", JSON.stringify(res.token));
       const user = jwtDecode(res.token) as Token;
