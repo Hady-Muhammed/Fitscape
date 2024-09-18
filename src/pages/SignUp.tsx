@@ -1,102 +1,59 @@
-import React, { MouseEventHandler, useState } from "react";
+import React from "react";
 import { AiOutlineMail, AiOutlineLock, AiOutlineUser } from "react-icons/ai";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import Loader from "../components/Loader";
-import axios from "axios";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { enviroment } from "../enviroment";
 import { IonContent, IonPage } from "@ionic/react";
 import { t } from "i18next";
+import { useGoogleLogin } from "@react-oauth/google";
+import useRest from "../hooks/useRest/useRest";
+import useUser from "../hooks/useUser/useUser";
 
 const SignUp = () => {
   // Utilites
-  const history = useHistory();
-  // States
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorName, setErrorName] = useState("");
-  const [errorPass, setErrorPass] = useState("");
-  const [errorTerms, setErrorTerms] = useState("");
+  const { get } = useRest();
+  const { signUp, isLoading, errorName, errorPass, errorTerms } = useUser();
   // Refs
   const name = useRef<HTMLInputElement>(null);
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
   const acceptTerms = useRef<HTMLInputElement>(null);
   // Functions
-  const createUser: MouseEventHandler<HTMLButtonElement> = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      setErrorName("");
-      setErrorTerms("");
-      setErrorPass("");
-      const url = enviroment.API_URL + "/api/users/";
-      const res = await axios.post(
-        url,
-        JSON.stringify({
-          name: name?.current?.value,
-          email: email?.current?.value,
-          password: password?.current?.value,
-          acceptTerms: acceptTerms?.current?.checked,
-          liked: false,
-          avatar: "default",
-          createdAt: new Date().toLocaleDateString().toString(),
-          workouts: [],
-        }),
-        { headers: { "Content-Type": "application/json" } },
+
+  const signUpWithGoogle = useGoogleLogin({
+    onSuccess: async (res) => {
+      const googleUserData = await get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          Authorization: `Bearer ${res.access_token}`,
+        },
       );
-      if (res.data.message === "That user already exists") {
-        setIsLoading(false);
-        toast.error("User already exists!");
-      } else if (res.data.message === "User created successfully") {
-        setIsLoading(false);
-        toast.success("User created successfully!");
-        setTimeout(() => {
-          history.push("/signin");
-        }, 3000);
-      }
-    } catch (err) {
-      const error = err as {
-        response?: { data?: string | { message: string } } | undefined;
-      };
-      if (
-        error?.response?.data ===
-        '"name" length must be at least 5 characters long'
-      ) {
-        setIsLoading(false);
-        setErrorName("Must be at least 5 characters!");
-      } else if (
-        error.response?.data ===
-        '"password" length must be at least 5 characters long'
-      ) {
-        setIsLoading(false);
-        setErrorPass("Must be at least 5 characters!");
-      } else if (error.response?.data === '"acceptTerms" must be [true]') {
-        setIsLoading(false);
-        setErrorTerms("Must be checked!");
-      } else if (
-        typeof error.response?.data === "object" && // Check if data is an object
-        "message" in error.response.data && // Check if data has a message property
-        error.response?.data?.message === "That user already exists!"
-      ) {
-        setTimeout(() => {
-          let msg: string | undefined;
-          if (
-            typeof error.response?.data === "object" &&
-            "message" in error.response.data
-          ) {
-            msg = error.response.data.message;
-          } else {
-            msg = undefined;
-          }
-          setIsLoading(false);
-          toast.error(msg);
-        }, 1500);
-      }
-    }
-  };
+      console.log(googleUserData);
+      signUp({
+        name: googleUserData.name,
+        email: googleUserData.email,
+        avatar: googleUserData.picture,
+        thirdPartyAuthentication: "Google",
+      });
+    },
+  });
+
+  function initiateGoogleThirdParty(): void {
+    signUpWithGoogle();
+  }
+
+  function signUpNormally(e: { preventDefault: () => void }): void {
+    e.preventDefault();
+    signUp({
+      name,
+      email,
+      password,
+      acceptTerms,
+    });
+  }
+
   return (
     <IonPage>
       <IonContent>
@@ -111,7 +68,7 @@ const SignUp = () => {
             </div>
           )}
           <motion.div
-            className="text-white relative z-10 bg-black/80 xs:p-10 sm:p-14 max-w-1/3 h-fit space-y-6 rounded-md border shadow-2xl"
+            className="text-white relative z-10 bg-black/80 xs:p-10 sm:p-10 max-w-1/3 h-fit space-y-6 rounded-md border shadow-2xl"
             initial={{ y: "-80vh", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
@@ -121,7 +78,7 @@ const SignUp = () => {
               className="font-bold text-2xl text-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1.5, delay: 1.6 }}
+              transition={{ duration: 1, delay: 1.6 }}
             >
               {t("Login.CREATE AN ACCOUNT")}
             </motion.h1>
@@ -129,7 +86,7 @@ const SignUp = () => {
               className="text-white/50 text-xs"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1.5, delay: 1.6 }}
+              transition={{ duration: 1, delay: 1.6 }}
             >
               {t("Login.Want to sign up fill out this form")}
             </motion.p>
@@ -138,7 +95,7 @@ const SignUp = () => {
                 className="flex bg-slate-500 p-2 rounded-sm gap-2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 1.5, delay: 2 }}
+                transition={{ duration: 1, delay: 2 }}
               >
                 <AiOutlineUser size={30} />
                 <input
@@ -159,7 +116,7 @@ const SignUp = () => {
                 className="flex bg-slate-500 p-2 rounded-sm gap-2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 1.5, delay: 2.2 }}
+                transition={{ duration: 1, delay: 2.2 }}
               >
                 <AiOutlineMail size={30} />
                 <input
@@ -177,7 +134,7 @@ const SignUp = () => {
                 className="flex bg-slate-500 p-2 rounded-sm gap-2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 1.5, delay: 2.4 }}
+                transition={{ duration: 1, delay: 2.4 }}
               >
                 <AiOutlineLock size={30} />
                 <input
@@ -198,7 +155,7 @@ const SignUp = () => {
                 className="checkbox"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 1.5, delay: 2.6 }}
+                transition={{ duration: 1, delay: 2.6 }}
               >
                 <input
                   type="checkbox"
@@ -220,8 +177,8 @@ const SignUp = () => {
                 className="w-full"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 1.5, delay: 2.8 }}
-                onClick={createUser}
+                transition={{ duration: 1, delay: 2.8 }}
+                onClick={signUpNormally}
                 type="submit"
               >
                 <div className="btn btn-one text-center p-2">
@@ -229,13 +186,40 @@ const SignUp = () => {
                 </div>
               </motion.button>
             </form>
+            {/* Continue with */}
+            <div>
+              <motion.h4
+                className="text-center mb-4 text-white/70"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 3 }}
+              >
+                {t("Login.Or sign up with")}
+              </motion.h4>
+              <div className="flex flex-col gap-4">
+                <motion.button
+                  onClick={initiateGoogleThirdParty}
+                  className="bg-white text-black flex justify-center items-center gap-4 p-2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 1, delay: 3.2 }}
+                >
+                  <img
+                    className="w-6 h-6"
+                    src="https://id-frontend.prod-east.frontend.public.atl-paas.net/assets/google-logo.5867462c.svg"
+                    alt=""
+                  />
+                  <span>Google</span>
+                </motion.button>
+              </div>
+            </div>
             <motion.p
               className="mt-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1.5, delay: 3 }}
+              transition={{ duration: 1, delay: 3 }}
             >
-              {t("Login.Have an account?")}
+              {t("Login.Have an account?")}{" "}
               <Link to={"/signin"} className="underline">
                 {t("Login.Sign In")}
               </Link>

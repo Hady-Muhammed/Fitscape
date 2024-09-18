@@ -7,6 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { IonContent, IonPage } from "@ionic/react";
 import { t } from "i18next";
 import useUser from "../hooks/useUser/useUser";
+import { useGoogleLogin } from "@react-oauth/google";
+import useRest from "../hooks/useRest/useRest";
 
 const SignIn = () => {
   // Refs
@@ -15,6 +17,33 @@ const SignIn = () => {
   // States
   // Functions
   const { logIn, isLoading } = useUser();
+  const { get } = useRest();
+  function initiateGoogleThirdParty(): void {
+    signInWithGoogle();
+  }
+
+  const signInWithGoogle = useGoogleLogin({
+    onSuccess: async (res) => {
+      const googleUserData = await get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          Authorization: `Bearer ${res.access_token}`,
+        },
+      );
+      logIn({
+        email: googleUserData.email,
+        thirdPartyAuthentication: "Google",
+      });
+    },
+  });
+
+  function signInNormally(e: { preventDefault: () => void }) {
+    e.preventDefault();
+    logIn({
+      email: email?.current?.value || "",
+      password: password?.current?.value || "",
+    });
+  }
 
   return (
     <IonPage>
@@ -31,7 +60,7 @@ const SignIn = () => {
           )}
 
           <motion.div
-            className="text-white relative z-10 bg-black/80 xs:p-10 sm:p-20 max-w-1/3 h-fit space-y-6 rounded-md border shadow-2xl"
+            className="text-white relative z-10 bg-black/80 xs:p-10  w-1/4 h-fit space-y-6 rounded-md border shadow-2xl"
             initial={{ y: "-80vh", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
@@ -92,17 +121,40 @@ const SignIn = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.5, delay: 2.8 }}
-                onClick={(e) =>
-                  logIn(e, {
-                    email: email?.current?.value || "",
-                    password: password?.current?.value || "",
-                  })
-                }
+                onClick={signInNormally}
               >
                 <div className="btn btn-one text-center p-2">
                   <p className="relative z-30">{t("general.LOGIN")}</p>
                 </div>
               </motion.button>
+              {/* Continue with */}
+              <div>
+                <motion.h4
+                  className="text-center mb-4 text-white/70"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 1, delay: 3 }}
+                >
+                  {t("Login.Or continue with")}
+                </motion.h4>
+                <div className="flex flex-col gap-4">
+                  <motion.button
+                    className="bg-white text-black flex justify-center items-center gap-4 p-2"
+                    onClick={initiateGoogleThirdParty}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    type="button"
+                    transition={{ duration: 1, delay: 3.2 }}
+                  >
+                    <img
+                      className="w-6 h-6"
+                      src="https://id-frontend.prod-east.frontend.public.atl-paas.net/assets/google-logo.5867462c.svg"
+                      alt=""
+                    />
+                    <span>Google</span>
+                  </motion.button>
+                </div>
+              </div>
             </form>
             <motion.p
               className="mt-6"
@@ -110,7 +162,7 @@ const SignIn = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.5, delay: 3 }}
             >
-              {t("Login.Not a member?")}
+              {t("Login.Not a member?")}{" "}
               <Link to={"/signup"} className="underline">
                 {t("Login.Sign up now")}
               </Link>

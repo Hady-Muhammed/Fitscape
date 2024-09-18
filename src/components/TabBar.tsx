@@ -35,7 +35,7 @@ const TabBar = () => {
   const location = useLocation();
   return (
     <IonTabs>
-      <IonRouterOutlet animated>
+      <IonRouterOutlet>
         {/* LoggedIn Guard */}
         <LoggedInRoutes Component={SignIn} path={"/signin"}></LoggedInRoutes>
         <LoggedInRoutes Component={SignUp} path={"/signup"}></LoggedInRoutes>
