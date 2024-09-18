@@ -5,8 +5,8 @@ function useRest() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function get(url: string) {
-    return await sendRequest(url, "GET");
+  async function get(url: string, headers?: object) {
+    return await sendRequest(url, "GET", undefined, headers);
   }
 
   async function post(url: string, body: RequestBody) {
@@ -25,24 +25,30 @@ function useRest() {
     return await sendRequest(url, "PATCH", body);
   }
 
-  async function sendRequest(url: string, method: string, body?: RequestBody) {
+  async function sendRequest(
+    url: string,
+    method: string,
+    body?: RequestBody,
+    externalHeaders?: object,
+  ) {
     setLoading(true);
     setError(null);
     try {
       const headers = {
         "Content-Type": "application/json",
         ...(!url.includes("auth") && {
-          Authorization: `Bearer ${JSON.parse(
-            localStorage.getItem("token") || "",
-          )}`,
+          Authorization: `Bearer ${
+            localStorage.getItem("token") &&
+            JSON.parse(localStorage.getItem("token") || "")
+          }`,
         }),
+        ...externalHeaders,
       };
       const response = await fetch(url, {
         method,
         headers,
         ...(body && { body: JSON.stringify(body) }),
       });
-
       const responseData = await response.json();
       if (!response.ok) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -52,7 +58,8 @@ function useRest() {
       }
       setLoading(false);
       return responseData;
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       setLoading(false);
       setError(
         error instanceof Error ? error.message : "Something went wrong!",

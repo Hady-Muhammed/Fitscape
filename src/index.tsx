@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import "./i18n"; // Ensure this import is present to initialize i18n
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const rootElement = document.getElementById("root");
 let root;
@@ -19,7 +20,9 @@ if (rootElement) {
 root?.render(
   <Provider store={store}>
     <React.StrictMode>
-      <App />
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID || ""}>
+        <App />
+      </GoogleOAuthProvider>
     </React.StrictMode>
   </Provider>,
 );

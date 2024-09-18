@@ -1,10 +1,7 @@
 function useUtility() {
   const scrollToTop = () => {
-    if (window.scrollY)
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+    const page = document.querySelector("ion-content");
+    page?.scrollToTop(0);
   };
   return { scrollToTop };
 }

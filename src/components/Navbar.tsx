@@ -31,8 +31,8 @@ const Navbar = () => {
   useEffect(() => {
     // Update currentPath to trigger a rerender when the route changes
     const route = location.pathname;
-    setHideNavBar(route === "/signin" || route === "signup");
-    setOpen(true);
+    setHideNavBar(route === "/signin" || route === "/signup");
+    scrollToTop();
   }, [location]);
   return (
     !hideNavBar && (
@@ -104,7 +104,7 @@ const Navbar = () => {
             >
               <Link
                 onClick={() => {
-                  setOpen((prev) => !prev);
+                  setOpen(false);
                   scrollToTop();
                 }}
                 to="/champions"
