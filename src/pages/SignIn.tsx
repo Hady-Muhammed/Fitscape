@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import "react-toastify/dist/ReactToastify.css";
-import { IonContent, IonPage } from "@ionic/react";
+import { IonContent, IonPage, isPlatform } from "@ionic/react";
 import { t } from "i18next";
 import useUser from "../hooks/useUser/useUser";
 import { useGoogleLogin } from "@react-oauth/google";
 import useRest from "../hooks/useRest/useRest";
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 
 const SignIn = () => {
   // Refs
@@ -18,12 +19,19 @@ const SignIn = () => {
   // Functions
   const { logIn, isLoading } = useUser();
   const { get } = useRest();
-  function initiateGoogleThirdParty(): void {
-    signInWithGoogle();
+  async function initiateGoogleThirdParty() {
+    if (isPlatform("hybrid")) {
+      console.log("test");
+      const user = await GoogleAuth.signIn();
+      console.log("User info:", user);
+    } else {
+      signInWithGoogle();
+    }
   }
 
   const signInWithGoogle = useGoogleLogin({
     onSuccess: async (res) => {
+      console.log("tst");
       const googleUserData = await get(
         "https://www.googleapis.com/oauth2/v3/userinfo",
         {
@@ -60,7 +68,7 @@ const SignIn = () => {
           )}
 
           <motion.div
-            className="text-white relative z-10 bg-black/80 xs:p-10  w-1/4 h-fit space-y-6 rounded-md border shadow-2xl"
+            className="text-white relative z-10 bg-black/80 xs:p-10  xs:w-full md:w-1/2 lg:w-1/4 h-fit space-y-6 rounded-md border shadow-2xl"
             initial={{ y: "-80vh", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
