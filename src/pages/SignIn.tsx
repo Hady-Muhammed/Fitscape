@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import "react-toastify/dist/ReactToastify.css";
-import { IonContent, IonPage, isPlatform } from "@ionic/react";
+import { IonContent, IonPage } from "@ionic/react";
 import { t } from "i18next";
 import useUser from "../hooks/useUser/useUser";
 import { useGoogleLogin } from "@react-oauth/google";
 import useRest from "../hooks/useRest/useRest";
-import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
+// import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 
 const SignIn = () => {
   // Refs
@@ -20,13 +20,13 @@ const SignIn = () => {
   const { logIn, isLoading } = useUser();
   const { get } = useRest();
   async function initiateGoogleThirdParty() {
-    if (isPlatform("hybrid")) {
-      console.log("test");
-      const user = await GoogleAuth.signIn();
-      console.log("User info:", user);
-    } else {
-      signInWithGoogle();
-    }
+    // if (isPlatform("hybrid")) {
+    //   console.log("test");
+    //   const user = await GoogleAuth.signIn();
+    //   console.log("User info:", user);
+    // } else {
+    signInWithGoogle();
+    // }
   }
 
   const signInWithGoogle = useGoogleLogin({
@@ -36,7 +36,7 @@ const SignIn = () => {
         "https://www.googleapis.com/oauth2/v3/userinfo",
         {
           Authorization: `Bearer ${res.access_token}`,
-        },
+        }
       );
       logIn({
         email: googleUserData.email,
