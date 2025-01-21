@@ -68,7 +68,7 @@ const SignUp = () => {
             </div>
           )}
           <motion.div
-            className="text-white relative z-10 bg-black/80 xs:p-10 sm:p-10 max-w-1/3 h-fit space-y-6 rounded-md border shadow-2xl"
+            className="text-white relative z-10 bg-black/80 xs:p-10 sm:p-10 xs:w-full md:w-1/2 lg:w-1/4 h-fit space-y-6 rounded-md border shadow-2xl"
             initial={{ y: "-80vh", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}

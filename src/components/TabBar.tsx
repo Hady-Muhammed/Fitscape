@@ -73,7 +73,7 @@ const TabBar = () => {
         style={
           !isPlatform("hybrid") ||
           location.pathname === "/signin" ||
-          location.pathname === "signup"
+          location.pathname === "/signup"
             ? { display: "none" }
             : {}
         }
